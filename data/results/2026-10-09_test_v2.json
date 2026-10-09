@@ -1,0 +1,395 @@
+{
+  "set": "test_v2",
+  "date": "2026-10-09",
+  "app": {
+    "n": 81,
+    "scam": 41,
+    "legit": 40,
+    "flaggedIsSuspiciousOrScam": {
+      "tp": 40,
+      "fp": 3,
+      "tn": 37,
+      "fn": 1,
+      "precision": 0.9302325581395349,
+      "recall": 0.975609756097561,
+      "f1": 0.9523809523809524,
+      "falseAlarmRate": 0.075
+    },
+    "scamOnly": {
+      "tp": 26,
+      "fp": 0,
+      "tn": 40,
+      "fn": 15,
+      "precision": 1,
+      "recall": 0.6341463414634146,
+      "f1": 0.7761194029850745,
+      "falseAlarmRate": 0
+    },
+    "confusion": {
+      "scam": {
+        "scam": 26,
+        "suspicious": 14,
+        "low_risk": 1
+      },
+      "legit": {
+        "scam": 0,
+        "suspicious": 3,
+        "low_risk": 37
+      }
+    },
+    "perCategory": {
+      "account_threat_link": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "credential_request": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "prize_raffle_ayuda": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "government_impersonation": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "parcel_fee": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "job_loan_investment": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "emergency_relative": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "remote_access_apk": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "qr_phishing": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "marketplace_scam": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 3
+      },
+      "other_scam": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "otp": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "transaction_receipt": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 1
+      },
+      "telco_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "delivery_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "bill_reminder": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "gov_announcement": {
+        "label": "legit",
+        "n": 6,
+        "flagged": 2
+      },
+      "personal_chat": {
+        "label": "legit",
+        "n": 8,
+        "flagged": 0
+      },
+      "marketplace_legit": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "promo": {
+        "label": "legit",
+        "n": 8,
+        "flagged": 0
+      }
+    },
+    "latencyMs": {
+      "rulesMedian": 0.04210000000000491,
+      "rulesMax": 0.8197000000000116,
+      "mlMedian": 0.1851000000000056,
+      "mlMax": 0.970799999999997
+    },
+    "missedScams": [
+      {
+        "id": "tv2-s037",
+        "score": 14,
+        "text": "Hi! I'm interested in the bike. I'll pay via bank transfer and my courier will pick it up. Please click this link to confirm pickup and receive the payment: seller-payout-confirm.example"
+      }
+    ],
+    "falseAlarms": [
+      {
+        "id": "tv2-l004",
+        "verdict": "suspicious",
+        "score": 36,
+        "flags": [],
+        "text": "You have received P2,500.00 from JUAN DE** C. on 10-09-2026 03:14PM. Ref. No. 4011 238 776. -GCash"
+      },
+      {
+        "id": "tv2-l017",
+        "verdict": "suspicious",
+        "score": 39,
+        "flags": [
+          "fee_request",
+          "combo_gov_action",
+          "gov_agency"
+        ],
+        "text": "SSS: Paalala, ang deadline ng contribution para sa Setyembre ay sa Oct 31. Magbayad sa My.SSS o sa accredited payment centers."
+      },
+      {
+        "id": "tv2-l020",
+        "verdict": "suspicious",
+        "score": 33,
+        "flags": [
+          "gov_agency"
+        ],
+        "text": "DOH: Libreng flu vaccine para sa seniors sa barangay health center ngayong Sabado, 8AM hanggang 12NN."
+      }
+    ]
+  },
+  "rulesOnly": {
+    "n": 81,
+    "scam": 41,
+    "legit": 40,
+    "flaggedIsSuspiciousOrScam": {
+      "tp": 31,
+      "fp": 1,
+      "tn": 39,
+      "fn": 10,
+      "precision": 0.96875,
+      "recall": 0.7560975609756098,
+      "f1": 0.8493150684931506,
+      "falseAlarmRate": 0.025
+    },
+    "scamOnly": {
+      "tp": 22,
+      "fp": 0,
+      "tn": 40,
+      "fn": 19,
+      "precision": 1,
+      "recall": 0.5365853658536586,
+      "f1": 0.6984126984126985,
+      "falseAlarmRate": 0
+    },
+    "confusion": {
+      "scam": {
+        "scam": 22,
+        "suspicious": 9,
+        "low_risk": 10
+      },
+      "legit": {
+        "scam": 0,
+        "suspicious": 1,
+        "low_risk": 39
+      }
+    },
+    "perCategory": {
+      "account_threat_link": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "credential_request": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "prize_raffle_ayuda": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "government_impersonation": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "parcel_fee": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "job_loan_investment": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 2
+      },
+      "emergency_relative": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 1
+      },
+      "remote_access_apk": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "qr_phishing": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 2
+      },
+      "marketplace_scam": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 1
+      },
+      "other_scam": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 3
+      },
+      "otp": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "transaction_receipt": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "telco_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "delivery_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "bill_reminder": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "gov_announcement": {
+        "label": "legit",
+        "n": 6,
+        "flagged": 1
+      },
+      "personal_chat": {
+        "label": "legit",
+        "n": 8,
+        "flagged": 0
+      },
+      "marketplace_legit": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "promo": {
+        "label": "legit",
+        "n": 8,
+        "flagged": 0
+      }
+    },
+    "latencyMs": {
+      "rulesMedian": 0.02590000000003556,
+      "rulesMax": 0.3509999999999991,
+      "mlMedian": null,
+      "mlMax": null
+    },
+    "missedScams": [
+      {
+        "id": "tv2-s008",
+        "score": 15,
+        "text": "Hi! Hiring kami ng online assistant. Like at follow lang ng YouTube channels, P150 kada task. Para sa mas malaking commission, mag-deposit ng P500 sa unang VIP task."
+      },
+      {
+        "id": "tv2-s010",
+        "score": 15,
+        "text": "Sali ka na sa investment group namin! 2% daily na tubo, guaranteed. Mag-invest ng P5,000 at kikita ka ng P10,000 sa loob ng 10 araw. Limited slots lang."
+      },
+      {
+        "id": "tv2-s011",
+        "score": 20,
+        "text": "Nay, si Mark po ito, nasira ang phone ko kaya bago kong number. Naaksidente po ako at nasa ospital ngayon. Pakipadala po ng P6,000 sa GCash na ito, wag niyo munang sabihin kay Tatay."
+      },
+      {
+        "id": "tv2-s014",
+        "score": 25,
+        "text": "Hi seller, kukunin ko na po yung cabinet, full price. Na-send ko na sa GCash pero sobra ng P2,000. Paki-refund na lang po sa ibang number ko, 09XX-XXX-XXXX. Eto po ang receipt."
+      },
+      {
+        "id": "tv2-s027",
+        "score": 15,
+        "text": "Part-time job: earn P3,000/day rating hotels from home. No experience needed. Message our HR on Telegram to start, starter deposit P300 only."
+      },
+      {
+        "id": "tv2-s031",
+        "score": 20,
+        "text": "Tita, si Bea po ito. Emergency po, nakakulong si Kuya sa presinto, kailangan ng P10,000 pampiyansa. Huwag nyo pong ipaalam kay Lola please."
+      },
+      {
+        "id": "tv2-s035",
+        "score": 8,
+        "text": "Bagong payment QR na po ito ng tindahan, yung luma ay sira na. I-scan para makabayad: https://qrph-pay-store.example/p/22931"
+      },
+      {
+        "id": "tv2-s037",
+        "score": 13,
+        "text": "Hi! I'm interested in the bike. I'll pay via bank transfer and my courier will pick it up. Please click this link to confirm pickup and receive the payment: seller-payout-confirm.example"
+      },
+      {
+        "id": "tv2-s039",
+        "score": 25,
+        "text": "Pakibayaran mo muna ang P250 na shipping sa rider namin bago namin ipadala ang bayad sa iyo. Ito ang numero niya: 09XX-XXX-XXXX."
+      },
+      {
+        "id": "tv2-s041",
+        "score": 23,
+        "text": "Your Facebook account will be deleted for violating community standards. Appeal within 24 hours at meta-appeal-center.example"
+      }
+    ],
+    "falseAlarms": [
+      {
+        "id": "tv2-l017",
+        "verdict": "suspicious",
+        "score": 55,
+        "flags": [
+          "fee_request",
+          "combo_gov_action",
+          "gov_agency"
+        ],
+        "text": "SSS: Paalala, ang deadline ng contribution para sa Setyembre ay sa Oct 31. Magbayad sa My.SSS o sa accredited payment centers."
+      }
+    ]
+  }
+}

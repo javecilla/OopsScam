@@ -51,17 +51,20 @@ TODO: add the architecture diagram.
 
 - React Native, Expo, TypeScript, Expo Router
 - Prettier, ESLint, eslint-config-expo
-- llama.rn (llama.cpp for React Native)
+- llama.rn 0.12.9 (llama.cpp for React Native), with its Expo config plugin
+- expo-file-system (locates the model file in the app's files folder)
 - ML Kit text recognition and barcode scanning (bundled models) through TODO: module names
-- expo-share-intent (or expo-sharing)
-- scikit-learn (training only), Jest
+- expo-share-intent (Android share menu, text)
+- expo-clipboard (Paste button; reads the clipboard only when tapped)
+- scikit-learn, pandas, NumPy, SciPy (training on a laptop only; not in the app)
+- Jest with jest-expo (unit tests)
 - TODO: anything else added during the build
 
 **Datasets** (full details and licenses in `data/sources.md`)
 
-- PH Spam + Marketing SMS (Scott Lee Chua), CC BY 4.0, credited
-- UCI SMS Spam Collection, CC BY 4.0, credited
-- Team-written Taglish messages
+- PH Spam + Marketing SMS (Scott Lee Chua), CC BY 4.0, credited (used only if downloaded into `data/raw/ph_spam/`; the current `assets/classifier.json` was trained without it)
+- UCI SMS Spam Collection (Almeida & Hidalgo), CC BY 4.0, credited
+- Team-written Taglish messages (`data/train/team_written.csv`, fictional, AI-assisted)
 - TODO: any others, with confirmed licenses
 
 **APIs and cloud services:** none used by the app. TODO: confirm.
@@ -69,6 +72,9 @@ TODO: add the architecture diagram.
 **Existing code and assets:** TODO: list anything reused, or write "none".
 
 **AI development tools:** TODO: list the tools used (for example Devin, Claude, others) and what they were used for.
+
+- Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the training scripts (`training/`), their unit tests, and the synthetic training messages in `data/train/team_written.csv`.
+- Evaluation and training data: part of the evaluation data (dev, test_v2, adversarial and LLM check sets, scam-pattern examples and brand-domain checks) was generated with an AI tool (Claude Code) and reviewed by the team. Details and counts: `data/sources.md`.
 
 ## Build and install
 
@@ -80,15 +86,27 @@ npx expo prebuild --platform android
 npx expo run:android
 ```
 
+Copy the model onto the phone (debug/development build installed first; the app reads `/data/data/com.oopsscam.app/files/Qwen_Qwen3-0.6B-Q4_K_M.gguf`):
+
+```
+bash scripts/push-model.sh models/Qwen_Qwen3-0.6B-Q4_K_M.gguf
+```
+
+Without the model file the app still works and shows template explanations ("Templates only" in the status strip).
+
 TODO: confirm these commands on a clean machine, then add:
 
-- how to copy the model file onto the phone (exact `adb` command and path)
 - how to build the release APK, and where to download it (release link)
 - how to build the demo variant without the INTERNET permission
 
 ## Evaluation
 
-Run: TODO exact command.
+Run (Node 22.15+ or 24, from the repo root; results go to `data/results/`):
+
+```
+node --import ./scripts/ts-hooks.mjs scripts/evaluate.ts
+python scripts/check_leakage.py
+```
 
 The test set (`data/test`) has TODO messages (about half scam, half legitimate, including hard cases such as genuine OTP texts). It was written and frozen before any tuning. It is small and partly team-written, so these numbers are a smoke check, not a benchmark.
 
