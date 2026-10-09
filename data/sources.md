@@ -7,7 +7,7 @@ Only datasets with confirmed licenses are used (SRS C-9). No real person's priva
 | Dataset | License | Where | Used for |
 | --- | --- | --- | --- |
 | UCI SMS Spam Collection (Almeida & Hidalgo, 2011), https://doi.org/10.24432/C5CC84 | CC BY 4.0 | `data/raw/uci/` via `training/fetch_uci.py` | Classifier training (English baseline). `spam` -> scam, `ham` -> legit |
-| PH Spam + Marketing SMS (Scott Lee Chua, Kaggle) | CC BY 4.0 | `data/raw/ph_spam/*.csv`, manual download (Kaggle login) | Classifier training if present (not downloaded yet). `spam` -> scam, `ham`/`marketing` -> legit |
+| PH Spam + Marketing SMS (Scott Lee Chua, 2022-2026), https://github.com/scottleechua/data/tree/main/spam-and-marketing-sms | CC BY 4.0 | `data/raw/ph_spam/` via `training/fetch_ph_spam.py` | Classifier training (PH SMS with timestamps & categories). `spam` -> scam, `ads`/`notifs`/`gov`/`otp` -> legit |
 
 Not used until a license is confirmed: Mishra and Soni SMS Phishing, Smishtank, Kaggle "Tagalog-SMS" (onzero0), Kaggle "Philippine Spam/Scam SMS" (bwandowando). Do not use: TrainingDataPro Spam Text Messages (CC BY-NC-ND 4.0).
 
