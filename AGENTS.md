@@ -20,7 +20,7 @@ Read these first, in order: `docs/HANDOFF.md`, `docs/Scam Guardian — Product R
 4. **Never say a message is "safe".** MUST use "Low risk" or "no red flags found", with a disclaimer that safety is not guaranteed.
 5. **Pure TypeScript for core analysis (`src/core/`).** Rules, link checks, scoring, and fusion MUST live in pure TypeScript with no React Native imports so Node can run it for tests and evaluation scripts.
 6. **No fake benchmarks.** Report only measured numbers. Never tune on the frozen test set (`data/test`); tune on `data/dev`.
-7. **Privacy and provenance:** NEVER put real people's messages in repo or test data. Credit all datasets and record licenses in `data/sources.md`.
+7. **Privacy and provenance:** Real people's messages may enter the repo ONLY as an already-public dataset whose license allows redistribution, kept unmodified in `data/raw/<dataset>/` and disclosed in `README.md` and `data/sources.md` (source link, license, credit). NEVER add any other real person's messages (from team members' phones, chats, screenshots or scraped sources). Data we write ourselves (`data/train`, `data/dev`, `data/test_v2`, etc.) MUST stay fictional. Public datasets are used for training and the held-out real-message check in `training/train.py`, never inside `data/test_v2`.
 8. **Disclose everything in README:** Models, libraries, datasets, existing code, and which parts were written with AI tools.
 9. **Fresh code only.** Nothing from older projects. Anything reused must be disclosed.
 10. **Native modules require dev builds:** Expo Go cannot run our native modules (`llama.rn`, `ML Kit`). A development build MUST be used once native modules are integrated.

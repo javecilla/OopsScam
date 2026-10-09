@@ -1,10 +1,10 @@
 # OopsScam
 
-An Android app that checks suspicious texts, links, screenshots and QR codes **on the phone itself**, and explains the result in simple Taglish. No message ever leaves the device, and the demo build has no internet permission.
+An Android app that checks suspicious texts, links, screenshots and QR codes **on the phone itself**, and explains the result in simple Taglish. All analysis runs on the device, and the release APK has no internet permission, so no message ever leaves the phone.
 
 Built for the AppBuildersPH Hackathon 2026 (theme: Local AI).
 
-> Status: skeleton. Every item marked TODO must be filled in or removed before submission (deadline 10:00 AM, Oct 10, 2026).
+> Status at submission: built — text and link checking (rules, ML classifier, local LLM explanation), share menu, paste, screenshot checking (on-device OCR) and QR checking. The release APK bundles the model and has no internet permission. Items marked TODO are for the team to fill in.
 
 ## The problem
 
@@ -12,14 +12,14 @@ Araw-araw nakakatanggap tayo ng pekeng GCash o bank alert, SMS phishing, at mga 
 
 ## Why does this product benefit from running AI locally?
 
-Scam messages contain OTPs, account numbers and personal details, so uploading them to a cloud checker defeats the purpose. Running the models on the user's own phone keeps that data private, works when mobile data or signal is unavailable, gives instant verdicts and avoids per-message costs. The only network use is an optional download of updated scam patterns (off by default), and no message ever leaves the device.
+Scam messages contain OTPs, account numbers and personal details, so uploading them to a cloud checker defeats the purpose. Running the models on the user's own phone keeps that data private, works when mobile data or signal is unavailable, gives instant verdicts and avoids per-message costs. The app makes no network requests; every model runs on the phone.
 
 ## What it does
 
 - Paste or share a message (from SMS, Messenger, Viber and more) and get a verdict: **Scam**, **Suspicious** or **Low risk**, with a 0 to 100 score.
 - See the red flags highlighted in the message, a short Taglish reason and what to do next.
-- Check a screenshot (on-device OCR) or scan a QR code.
 - Never says a message is "safe". It flags risk; it does not guarantee anything.
+- Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks.
 
 TODO: add 3 screenshots.
 
@@ -27,25 +27,33 @@ TODO: add 3 screenshots.
 
 Three layers run on the phone. The verdict appears after the first two, and the explanation follows.
 
-1. **Rules** (TypeScript): red-flag patterns in English, Tagalog and Taglish, plus link checks (shorteners, lookalike domains, brand-versus-link mismatches).
-2. **ML classifier**: character and word TF-IDF with logistic regression, trained on a laptop and run on the phone from an exported weights file.
-3. **Local LLM**: a small quantized model through llama.rn writes the Taglish explanation. It cannot lower a verdict, so a scam message cannot talk its way to "safe". Template explanations are the fallback.
+```
+message ──> 1. Rules (red flags, link checks) ──┐
+        └─> 2. ML classifier (scam probability) ─┴─> fusion ──> verdict + score (under 1 s)
+                                                                    │
+                                     3. Local LLM (Qwen3 0.6B) ─────┴─> Taglish reason + next steps
+                                        (template text if the model is missing, slow or wrong)
+```
 
-TODO: add the architecture diagram.
+1. **Rules** (TypeScript): red-flag patterns in English, Tagalog and Taglish, plus link checks (shorteners, lookalike domains, brand-versus-link mismatches).
+2. **ML classifier**: character and word TF-IDF with logistic regression, trained on a laptop on public Philippine SMS datasets plus our own examples, and run on the phone from an exported weights file.
+3. **Local LLM**: Qwen3 0.6B through llama.rn writes the Taglish explanation. It is pretrained and not fine-tuned by us. It cannot lower a verdict, so a scam message cannot talk its way to "safe"; it may only raise Low risk to Suspicious at 80% confidence or more. Template explanations are the fallback.
 
 ## What runs locally and what needs internet
 
 | Function                                                | Runs locally | Needs internet                         |
 | ------------------------------------------------------- | ------------ | -------------------------------------- |
 | Rules, ML classifier, OCR, QR scanning, LLM explanation | Yes          | No                                     |
-| Installing the app and putting model files on the phone | No           | Yes, once, or copy files from a laptop |
-| Optional scam-pattern update (off by default)           | No           | Yes; downloads a list, uploads nothing |
+| Installing the app (the model is inside the APK)        | No           | Yes, once, or copy the APK from a laptop |
 
-## Technology and credits (fill in completely)
+The release APK declares no INTERNET or ACCESS_NETWORK_STATE permission (`blockedPermissions` in `app.json`), so Android itself blocks network access; judges can confirm this in the app info screen. Only debug builds talk to the Metro development server on the laptop.
+
+## Technology and credits
 
 **Models**
 
-- TODO: Qwen3 0.6B, `bartowski/Qwen_Qwen3-0.6B-GGUF`, `Qwen_Qwen3-0.6B-Q4_K_M.gguf`. License: TODO (confirm on the model card).
+- Qwen3 0.6B by the Qwen team (Alibaba Cloud), Apache 2.0 license (https://huggingface.co/Qwen/Qwen3-0.6B). We use the 4-bit quantized file `Qwen_Qwen3-0.6B-Q4_K_M.gguf` from `bartowski/Qwen_Qwen3-0.6B-GGUF`. Not fine-tuned.
+- Our own scam classifier (`assets/classifier.json`), trained by us with `training/train.py` on the datasets below.
 
 **Frameworks and libraries**
 
@@ -58,26 +66,35 @@ TODO: add the architecture diagram.
 - Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
 - expo-share-intent (Android share menu, text and images)
 - expo-clipboard (Paste button; reads the clipboard only when tapped)
-- scikit-learn, pandas, NumPy, SciPy (training on a laptop only; not in the app)
+- scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
+- Pillow and qrcode (laptop scripts that generate test images; not in the app)
 - Jest with jest-expo (unit tests)
-- TODO: anything else added during the build
 
-**Datasets** (full details and licenses in `data/sources.md`)
+**Datasets** (full details, licenses and counts in `data/sources.md`)
 
-- PH Spam + Marketing SMS (Scott Lee Chua), CC BY 4.0, credited (used only if downloaded into `data/raw/ph_spam/`; the current `assets/classifier.json` was trained without it)
-- UCI SMS Spam Collection (Almeida & Hidalgo), CC BY 4.0, credited
-- Team-written Taglish messages (`data/train/team_written.csv`, fictional, AI-assisted)
-- TODO: any others, with confirmed licenses
+- PH Spam + Marketing SMS (Scott Lee Chua, Kaggle), CC BY 4.0, credited
+- Tagalog-SMS (onzero0, Kaggle), CC0 public domain
+- SMS Phishing Dataset for Machine Learning and Pattern Recognition (Mishra & Soni, Mendeley Data), CC BY 4.0, credited
+- UCI SMS Spam Collection (Almeida & Hidalgo), CC BY 4.0, credited (used in early training only)
+- Our own fictional messages for training and evaluation (`data/train`, `data/dev`, `data/test_v2`, `data/adversarial`, `data/llm_eval`), written with an AI tool
 
-**APIs and cloud services:** none used by the app. TODO: confirm.
+The three public datasets above contain real messages published by their authors. They are included unmodified in `data/raw/` under their own licenses (credits in `data/raw/README.md`), so anyone can retrain the classifier from a fresh clone with `python training/train.py`. Personal names are replaced with NAME in memory before training. They are not covered by this repo's MIT license.
 
-**Existing code and assets:** TODO: list anything reused, or write "none".
+**APIs and cloud services:** none. The app makes no network requests and uses no cloud AI API. Web search was used during development only, to research scam advisories and check brand domains (`data/patterns/ph_scam_patterns.md`, `data/TODO-verify-domains.md`).
 
-**AI development tools:** TODO: list the tools used (for example Devin, Claude, others) and what they were used for.
+**Existing code and assets:**
 
-- Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the training scripts (`training/`), their unit tests, and the synthetic training messages in `data/train/team_written.csv`.
+- No code from earlier projects. The app started from the Expo project template (`create-expo-app`) on Oct 9, 2026.
+- Open-source libraries and the Qwen3 model listed above.
+- Fonts in `assets/fonts`: DM Sans and Poppins, both under the SIL Open Font License 1.1 (license files included).
+- TODO: confirm the source of the app icon, splash and favicon images in `assets/images` and `assets/favicons` (Expo template defaults or made by the team).
+
+**AI development tools:**
+
+- Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the Home and Result screens and app wiring, the training, evaluation and data scripts (`training/`, `scripts/`), their unit tests, and the data documentation.
 - Codex (OpenAI): implemented the phase 3 screenshot and QR input screens, the bundled OCR Expo module, image cleanup, and native integration.
-- Evaluation and training data: part of the evaluation data (dev, test_v2, adversarial and LLM check sets, scam-pattern examples and brand-domain checks) was generated with an AI tool (Claude Code) and reviewed by the team. Details and counts: `data/sources.md`.
+- Evaluation and training data: all of our own messages (training examples, dev, test_v2, adversarial and LLM check sets, scam-pattern examples) were generated with Claude Code. TODO: team review of this data before submission.
+- TODO: add any other AI tools the team used (for example Devin) and what they were used for.
 
 ## Build and install
 
@@ -96,6 +113,8 @@ Without the model file the app still works and shows template explanations ("Tem
 
 The Windows SDK/Java setup and standalone release-build command are in [the build handoff](handoff/oopsscam-handoff-2026-10-10-build.md). `app.json` blocks INTERNET, ACCESS_NETWORK_STATE and RECORD_AUDIO on every prebuild. Debug builds need Metro; use `android/app/build/outputs/apk/release/app-release.apk` for offline testing and distribution. Fresh-clone verification remains pending.
 
+TODO: confirm the build on a clean machine and add the release APK download link.
+
 ## Evaluation
 
 Run (Node 22.15+ or 24, from the repo root; results go to `data/results/`):
@@ -105,27 +124,34 @@ node --import ./scripts/ts-hooks.mjs scripts/evaluate.ts test_v2
 python scripts/check_leakage.py
 ```
 
-The frozen test set is `data/test_v2/test_v2.csv`: 81 messages (41 scam, 40 legitimate). Its hash is recorded in `data/test_v2.FROZEN.md`; the original `data/test` directory was never created. Results and laptop-only latency measurements are saved in [the evaluation report](data/results/2026-10-09_test_v2.md). This small, AI-written set is a smoke check, not a benchmark.
+All numbers below were measured with the app's own analysis code (rules + classifier) on Oct 10, 2026. "Flagged" means a verdict of Suspicious or Scam.
 
-| Metric                              | Result (measured) |
-| ----------------------------------- | ----------------- |
-| Scams flagged (recall)              | 97.6%             |
-| Legitimate messages wrongly flagged | 7.5%              |
-| Verdict time (demo phone)           | TODO              |
-| Explanation time (demo phone)       | TODO              |
+| Test set | Messages | Scams flagged (recall) | Legitimate messages wrongly flagged |
+| --- | --- | --- | --- |
+| `data/test_v2`: held out and frozen (SHA-256 in `data/test_v2.FROZEN.md`), AI-written | 81 (41 scam, 40 legit) | 97.6% | 7.5% |
+| Real Philippine SMS: 20% of the public datasets, scored by a model trained without them (the shipped model was then retrained on all data) | 868 (255 scam, 613 legit) | 94.1% | 6.0% |
+| Prompt-injection scams (`data/adversarial`) | 12 scam | 91.7% | n/a |
+
+Limits of these numbers: the sets are small. test_v2 was written by an AI tool, not by real scammers. The real held-out messages come from the same inboxes as the training data, so that result is somewhat optimistic. Details: `data/results/2026-10-10_test_v2.md`, `data/results/2026-10-10_real_ph_heldout.md`.
+
+| Speed | Result (measured) |
+| --- | --- |
+| Rules + classifier, per message, on a laptop | under 2 ms (median about 0.3 ms) |
+| Verdict time on the demo phone | TODO: measure |
+| Explanation time on the demo phone | TODO: measure |
 
 ## Limitations
 
 - Not 100% accurate; it gives a risk level only.
 - It cannot prove a sender or payment is real.
-- Android restricts SMS and call-audio access, so input is paste, share or screenshot.
+- Android restricts SMS and call-audio access, so input is paste, share, a screenshot or a QR code.
 - Small local models write weaker Taglish than large cloud models.
 - Android only.
 
 ## Team
 
-TODO: names exactly as listed on the official AppBuildersPH website.
+TODO: confirm names exactly as listed on the official AppBuildersPH website: Jerome Avecilla, Gwyn Barte, Johnrey Gabon, Raizel Sablan.
 
 ## License
 
-TODO: choose a license for our code and keep third-party licenses and credits above.
+Our code is released under the MIT License (see `LICENSE`). Third-party models, libraries, fonts and datasets keep their own licenses, listed above.

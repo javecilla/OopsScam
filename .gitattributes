@@ -1,4 +1,6 @@
 *.gguf filter=lfs diff=lfs merge=lfs -text
- Keep data files byte-identical on every OS so frozen-set hashes stay valid.
+# Keep data files byte-identical on every OS so frozen-set hashes stay valid.
 data/**/*.csv text eol=lf
 data/**/*.jsonl text eol=lf
+# Public datasets: store byte-for-byte as downloaded.
+data/raw/** -text
