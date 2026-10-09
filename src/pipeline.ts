@@ -39,6 +39,7 @@ export function preloadLlm(): void {
 
 const LLM_LABEL: Record<LlmStatus, string> = {
   not_loaded: 'LLM not loaded',
+  copying_model: 'Copying model… (first launch)',
   loading: 'LLM loading…',
   ready: 'LLM: Qwen3 0.6B',
   missing_model: 'Templates only (no model file)',

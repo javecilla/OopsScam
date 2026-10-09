@@ -1,6 +1,7 @@
 // React Native adapter for llama.rn (FR-LM-01). Not imported by Jest or the Node eval script.
-// The GGUF file is copied into the app's files folder with adb; it is not in the APK or the repo.
+// The GGUF file is bundled in android/app/src/main/assets/ and copied to document dir on first launch.
 
+import * as FileSystem from 'expo-file-system/legacy';
 import { File, Paths } from 'expo-file-system';
 import { initLlama, type LlamaContext } from 'llama.rn';
 
@@ -9,7 +10,13 @@ import { LLM_MODEL_FILENAME } from '@/config';
 import type { LlmEngine } from './explain';
 import type { ChatMessage } from './prompt';
 
-export type LlmStatus = 'not_loaded' | 'loading' | 'ready' | 'missing_model' | 'failed';
+export type LlmStatus =
+  | 'not_loaded'
+  | 'copying_model'
+  | 'loading'
+  | 'ready'
+  | 'missing_model'
+  | 'failed';
 
 // FR-LM-03: greedy decoding, capped output, thinking off.
 const COMPLETION_PARAMS = {
@@ -50,12 +57,41 @@ export function modelFile(): File {
   return new File(Paths.document, LLM_MODEL_FILENAME);
 }
 
+/**
+ * Copies the bundled GGUF from the APK's assets to the app's document directory
+ * on first launch. No-op if the file already exists.
+ */
+async function ensureModelCopied(): Promise<boolean> {
+  const dest = (Paths.document.uri ?? Paths.document.uri) + LLM_MODEL_FILENAME;
+  const info = await FileSystem.getInfoAsync(dest);
+  if (info.exists) return true;
+
+  status = 'copying_model';
+  try {
+    // asset:/// maps to android/app/src/main/assets/ on Android
+    await FileSystem.copyAsync({
+      from: `asset:///${LLM_MODEL_FILENAME}`,
+      to: dest,
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function loadContext(): Promise<LlamaContext | null> {
+  const copied = await ensureModelCopied();
+  if (!copied) {
+    status = 'missing_model';
+    return null;
+  }
+
   const file = modelFile();
   if (!file.exists) {
     status = 'missing_model';
     return null;
   }
+
   status = 'loading';
   try {
     const context = await initLlama({ model: file.uri, n_ctx: 2048, n_gpu_layers: 0 });
