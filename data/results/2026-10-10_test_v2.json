@@ -3,6 +3,7 @@
   "date": "2026-10-10",
   "app": {
     "n": 81,
+    "emailRouted": 0,
     "scam": 41,
     "legit": 40,
     "flaggedIsSuspiciousOrScam": {
@@ -140,10 +141,10 @@
       }
     },
     "latencyMs": {
-      "rulesMedian": 0.06770000000000209,
-      "rulesMax": 0.22970000000000823,
-      "mlMedian": 0.24799999999999045,
-      "mlMax": 1.233300000000014
+      "rulesMedian": 0.0438000000000045,
+      "rulesMax": 5.3382000000000005,
+      "mlMedian": 0.12930000000000064,
+      "mlMax": 2.6230999999999938
     },
     "missedScams": [
       {
@@ -186,6 +187,7 @@
   },
   "rulesOnly": {
     "n": 81,
+    "emailRouted": 0,
     "scam": 41,
     "legit": 40,
     "flaggedIsSuspiciousOrScam": {
@@ -323,8 +325,8 @@
       }
     },
     "latencyMs": {
-      "rulesMedian": 0.02950000000001296,
-      "rulesMax": 0.30410000000000537,
+      "rulesMedian": 0.020700000000005048,
+      "rulesMax": 0.25320000000000675,
       "mlMedian": null,
       "mlMax": null
     },

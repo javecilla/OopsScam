@@ -1,6 +1,6 @@
 import { requireNativeModule } from 'expo';
 import { Camera } from 'expo-camera';
-import { File, Paths } from 'expo-file-system';
+import { Directory, File, Paths } from 'expo-file-system';
 
 interface VisionModule {
   pickImage(): Promise<string | null>;
@@ -56,6 +56,26 @@ export async function decodeQrImage(uri: string): Promise<string> {
 export function deleteTemporaryImage(uri: string): void {
   validateImageUri(uri);
   if (!uri.startsWith('file://')) return;
+  const segments = decodeURIComponent(uri).split('/');
+  if (segments.some((segment) => segment === '..' || segment === '.')) return;
   const file = new File(uri);
-  if (file.uri.startsWith(Paths.cache.uri) && file.exists) file.delete();
+  const cacheRoot = Paths.cache.uri.replace(/\/+$/, '') + '/';
+  if (file.uri.startsWith(cacheRoot) && file.exists) file.delete();
+}
+
+// Only our native picker's named files belong to us; other cached files are untouched.
+export function cleanupAbandonedImages(): void {
+  try {
+    for (const entry of new Directory(Paths.cache).list()) {
+      if (entry instanceof File && /^oopsscam-picked-.*\.image$/.test(entry.name)) {
+        try {
+          entry.delete();
+        } catch {
+          /* A later startup can retry an owned file. */
+        }
+      }
+    }
+  } catch {
+    /* An unavailable cache must not prevent text checks. */
+  }
 }

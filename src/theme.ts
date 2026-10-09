@@ -1,27 +1,33 @@
 export const colors = {
-  background: '#FFFFFF',
-  text: '#1A1A1A',
-  primary: '#1E5EFF',
-  border: '#D0D5DD',
-  muted: '#5F6B7A',
-  surface: '#F4F6F8',
-  highlight: '#FFE08A',
-  // Verdict colors, used by the Result screen.
-  scam: '#C62828',
-  suspicious: '#B26A00',
-  lowRisk: '#2E7D32',
+  background: '#F8FAF8',
+  surface: '#FFFFFF',
+  text: '#2B2F2C',
+  muted: '#555C57',
+  primary: '#D21F3C',
+  onPrimary: '#FFFFFF',
+  ink: '#111111',
+  frame: '#2B2F2C',
+  onFrame: '#FFFFFF',
+  frameMuted: '#BAC0B9',
+  border: '#747B75',
+  softBorder: '#DADFDA',
+  highlight: '#FFEBEB',
+  scam: '#D21F3C',
+  suspicious: '#C8B46A',
+  lowRisk: '#2B2F2C',
+  lowRiskMuted: '#8E928C',
 } as const;
-
-export const spacing = {
-  xs: 4,
-  sm: 8,
-  md: 16,
-  lg: 24,
+export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 } as const;
+export const fontSize = { small: 14, body: 16, section: 20, headline: 28, verdict: 32 } as const;
+export const shape = { control: 8, panel: 12 } as const;
+export const fonts = {
+  regular: 'Poppins-Regular',
+  medium: 'Poppins-Medium',
+  semibold: 'Poppins-SemiBold',
+  bold: 'Poppins-Bold',
 } as const;
-
-export const fontSize = {
-  // SRS 4.1 minimum body size.
-  body: 16,
-  small: 13,
-  verdict: 40,
+export const brutalist = {
+  borderWidth: 2,
+  borderColor: colors.ink,
+  offset: 3,
 } as const;

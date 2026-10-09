@@ -39,6 +39,42 @@ export async function runExplanation(text: string, result: AnalysisResult): Prom
   return explain({ message: text, flags: result.flags, verdict: result.verdict }, engine);
 }
 
+let generationInFlight = false;
+
+// Keep ownership until the native completion actually settles, including after its timeout.
+export async function runReadyExplanation(
+  text: string,
+  result: AnalysisResult,
+  timeoutMs: number,
+): Promise<ExplainOutput | null> {
+  if (getLlmStatus() !== 'ready' || generationInFlight) return null;
+  generationInFlight = true;
+  let started = false;
+  try {
+    const engine = await getLlmEngine();
+    if (!engine) return null;
+    return await explain(
+      { message: text, flags: result.flags, verdict: result.verdict },
+      {
+        ...engine,
+        complete: async (messages) => {
+          started = true;
+          try {
+            return await engine.complete(messages);
+          } finally {
+            generationInFlight = false;
+          }
+        },
+      },
+      timeoutMs,
+    );
+  } catch {
+    return null;
+  } finally {
+    if (!started) generationInFlight = false;
+  }
+}
+
 // Start loading the model early so the first explanation is faster.
 export function preloadLlm(): void {
   getLlmEngine().catch(() => {});

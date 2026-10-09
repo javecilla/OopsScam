@@ -14,11 +14,22 @@ type StatusStripProps = {
 export function StatusStrip({ llmLabel, classifierLabel, timings, note }: StatusStripProps) {
   return (
     <View style={styles.strip} accessibilityRole="summary">
-      <Text style={styles.text}>
+      <Text role="label" style={styles.title}>
+        All analysis runs locally on your phone
+      </Text>
+      <Text role="label" style={styles.text}>
         Offline-ready · {llmLabel} · {classifierLabel}
       </Text>
-      {timings ? <Text style={styles.text}>{timings}</Text> : null}
-      {note ? <Text style={styles.text}>{note}</Text> : null}
+      {timings ? (
+        <Text role="label" style={styles.text}>
+          {timings}
+        </Text>
+      ) : null}
+      {note ? (
+        <Text role="label" style={styles.text}>
+          {note}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -28,10 +39,12 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.border,
     paddingTop: spacing.sm,
+    marginTop: spacing.md,
     gap: spacing.xs,
   },
   text: {
     fontSize: fontSize.small,
     color: colors.muted,
   },
+  title: { color: colors.text },
 });

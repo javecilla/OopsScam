@@ -1,23 +1,54 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, FlatList, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/Button';
+import { Heading } from '@/components/Heading';
+import { ScanFrame } from '@/components/ScanFrame';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import type { Verdict } from '@/core/types';
-import { clearScanHistory, getRecentScans, getScanStats, type ScanRecord } from '@/storage/history';
-import { colors, fontSize, spacing } from '@/theme';
+import {
+  clearScanHistory,
+  getRecentScans,
+  getScanStats,
+  type ScanRecord,
+} from '@/storage/history';
+import { brutalist, colors, fonts, fontSize, shape, spacing } from '@/theme';
 
-const VERDICT_BADGE: Record<Verdict, { label: string; color: string }> = {
-  scam: { label: 'SCAM', color: colors.scam },
-  suspicious: { label: 'SUSPICIOUS', color: colors.suspicious },
-  low_risk: { label: 'LOW RISK', color: colors.lowRisk },
+const VERDICT_BADGE: Record<
+  Verdict,
+  { label: string; background: string; foreground: string; border: string }
+> = {
+  scam: {
+    label: 'SCAM',
+    background: colors.highlight,
+    foreground: colors.scam,
+    border: colors.scam,
+  },
+  suspicious: {
+    label: 'SUSPICIOUS',
+    background: colors.suspicious,
+    foreground: colors.text,
+    border: colors.suspicious,
+  },
+  low_risk: {
+    label: 'LOW RISK',
+    background: colors.frame,
+    foreground: colors.onFrame,
+    border: colors.frame,
+  },
+};
+
+const TYPE_LABELS: Record<'text' | 'image' | 'qr', string> = {
+  text: 'Text Message',
+  image: 'Screenshot',
+  qr: 'QR Code',
 };
 
 function formatDate(timestamp: number): string {
   const d = new Date(timestamp);
-  return d.toLocaleDateString('tl-PH', {
+  return d.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
@@ -60,12 +91,12 @@ export default function HistoryScreen() {
 
   const handleClear = () => {
     Alert.alert(
-      'Burahin ang Kasaysayan',
-      'Sigurado ka bang nais mong burahin ang lahat ng naitalang scan sa phone?',
+      'Clear Scan History',
+      'Are you sure you want to delete all saved scan records from your phone? This cannot be undone.',
       [
-        { text: 'Kanselahin', style: 'cancel' },
+        { text: 'Cancel', style: 'cancel' },
         {
-          text: 'Burahin',
+          text: 'Delete All',
           style: 'destructive',
           onPress: async () => {
             setLoading(true);
@@ -75,8 +106,8 @@ export default function HistoryScreen() {
             } catch {
               setLoadError(true);
               Alert.alert(
-                'Hindi natapos ang pagbura',
-                'Hindi natapos ang database cleanup. Subukang burahin muli ang kasaysayan.',
+                'Could Not Clear History',
+                'Failed to clear database records. Please try again.',
               );
             } finally {
               setLoading(false);
@@ -89,45 +120,20 @@ export default function HistoryScreen() {
 
   return (
     <Screen>
-      {!loadError ? (
-        <View style={styles.header}>
-          <View style={styles.statsCard}>
-            <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{stats.total}</Text>
-              <Text style={styles.statLabel}>Total</Text>
-            </View>
-            <View style={styles.statBox}>
-              <Text style={[styles.statNumber, { color: colors.scam }]}>{stats.scamCount}</Text>
-              <Text style={styles.statLabel}>Scam</Text>
-            </View>
-            <View style={styles.statBox}>
-              <Text style={[styles.statNumber, { color: colors.suspicious }]}>
-                {stats.suspiciousCount}
-              </Text>
-              <Text style={styles.statLabel}>Suspicious</Text>
-            </View>
-            <View style={styles.statBox}>
-              <Text style={[styles.statNumber, { color: colors.lowRisk }]}>
-                {stats.lowRiskCount}
-              </Text>
-              <Text style={styles.statLabel}>Low risk</Text>
-            </View>
-          </View>
-        </View>
-      ) : null}
-
       {loadError ? (
         <View
           style={styles.emptyContainer}
           accessibilityLiveRegion="polite"
           testID="history-load-error"
         >
-          <Text style={styles.emptyTitle}>Hindi mabuksan ang kasaysayan</Text>
+          <Text role="section" style={styles.emptyTitle}>
+            Could Not Load History
+          </Text>
           <Text style={styles.emptySubtitle}>
-            Hindi nabasa ang lokal na database. Subukang muli.
+            The local database could not be read. Please tap retry to try again.
           </Text>
           <Button
-            title="Subukang muli"
+            title="Try Again"
             onPress={() => void loadData()}
             testID="history-retry"
             disabled={loading}
@@ -139,71 +145,174 @@ export default function HistoryScreen() {
         data={loadError ? [] : scans}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContent}
+        keyboardShouldPersistTaps="handled"
+        ListHeaderComponent={
+          !loadError ? (
+            <View style={styles.header}>
+              <Heading
+                title="Scan History"
+                description="Past scan records are saved offline on your phone. Only scan verdict, score, input type, and flag count are retained for your privacy."
+              />
+
+              <ScanFrame>
+                <View style={styles.statsCard} accessibilityRole="summary">
+                  <View style={styles.statBox}>
+                    <Text role="section" style={styles.statNumber}>
+                      {stats.total}
+                    </Text>
+                    <Text role="label" style={styles.statLabel}>
+                      Total
+                    </Text>
+                  </View>
+
+                  <View style={styles.statBox}>
+                    <Text role="section" style={[styles.statNumber, { color: colors.scam }]}>
+                      {stats.scamCount}
+                    </Text>
+                    <Text role="label" style={styles.statLabel}>
+                      Scam
+                    </Text>
+                  </View>
+
+                  <View style={styles.statBox}>
+                    <Text role="section" style={[styles.statNumber, { color: colors.suspicious }]}>
+                      {stats.suspiciousCount}
+                    </Text>
+                    <Text role="label" style={styles.statLabel}>
+                      Suspicious
+                    </Text>
+                  </View>
+
+                  <View style={styles.statBox}>
+                    <Text role="section" style={[styles.statNumber, { color: colors.frame }]}>
+                      {stats.lowRiskCount}
+                    </Text>
+                    <Text role="label" style={styles.statLabel}>
+                      Low risk
+                    </Text>
+                  </View>
+                </View>
+              </ScanFrame>
+            </View>
+          ) : null
+        }
         ListEmptyComponent={
-          loading || loadError ? null : (
+          loadError ? null : loading ? (
             <View style={styles.emptyContainer}>
-              <Text style={styles.emptyTitle}>Wala pang naitalang scan</Text>
-              <Text style={styles.emptySubtitle}>
-                Oras, verdict, score, uri ng input, at bilang ng red flags lang ang itinatala. Hindi
-                sine-save ang message, larawan, o detalye ng red flags.
+              <ActivityIndicator color={colors.primary} />
+              <Text role="label" style={styles.muted}>
+                Loading scan history…
               </Text>
+            </View>
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Text role="section" style={styles.emptyTitle}>
+                No Scans Recorded Yet
+              </Text>
+              <Text style={styles.emptySubtitle}>
+                Messages, screenshots, and QR codes you check will be safely listed here.
+              </Text>
+              <View style={styles.emptyButtonWrapper}>
+                <Button
+                  title="Check a Message Now"
+                  onPress={() => router.dismissTo('/')}
+                  testID="empty-start-check"
+                />
+              </View>
             </View>
           )
         }
         renderItem={({ item }) => {
-          const badge = VERDICT_BADGE[item.verdict];
+          const badge = VERDICT_BADGE[item.verdict] ?? VERDICT_BADGE.low_risk;
+          const typeLabel = TYPE_LABELS[item.input_type] ?? 'Text Message';
+
           return (
-            <View style={styles.itemCard}>
+            <View style={styles.itemCard} testID={`history-item-${item.id}`}>
               <View style={styles.itemHeader}>
-                <View style={[styles.badge, { backgroundColor: badge.color }]}>
-                  <Text style={styles.badgeText}>{badge.label}</Text>
+                <View
+                  style={[
+                    styles.badge,
+                    { backgroundColor: badge.background, borderColor: badge.border },
+                  ]}
+                >
+                  <Text
+                    role="label"
+                    style={[styles.badgeText, { color: badge.foreground }]}
+                  >
+                    {badge.label}
+                  </Text>
                 </View>
-                <Text style={styles.typeTag}>[{item.input_type.toUpperCase()}]</Text>
-                <Text style={styles.dateText}>{formatDate(item.timestamp)}</Text>
+
+                <View style={styles.typeTag}>
+                  <Text role="label" style={styles.typeText}>
+                    {typeLabel}
+                  </Text>
+                </View>
+
+                <Text role="label" style={styles.dateText}>
+                  {formatDate(item.timestamp)}
+                </Text>
               </View>
 
-              <Text style={styles.scoreText}>Score: {item.score}/100</Text>
+              <Text role="label" style={styles.scoreText}>
+                Risk score: {item.score}/100
+              </Text>
 
-              <Text style={styles.flagsText}>Red flags: {item.flag_count}</Text>
+              <Text role="label" style={styles.flagsText}>
+                Red flags detected: {item.flag_count}
+              </Text>
             </View>
           );
         }}
+        ListFooterComponent={
+          <View style={styles.footer}>
+            {scans.length > 0 ? (
+              <Button
+                title="Clear Scan History"
+                variant="secondary"
+                onPress={handleClear}
+                testID="clear-history"
+                disabled={loading}
+              />
+            ) : null}
+            <Button
+              title="Back to Home"
+              variant="secondary"
+              onPress={() => (router.canGoBack() ? router.back() : router.dismissTo('/'))}
+              testID="back-home"
+            />
+          </View>
+        }
       />
-
-      <View style={styles.footer}>
-        {scans.length > 0 || loadError ? (
-          <Button
-            title="Burahin ang Kasaysayan"
-            variant="secondary"
-            onPress={handleClear}
-            disabled={loading}
-          />
-        ) : null}
-        <Button title="Bumalik sa Home" variant="secondary" onPress={() => router.back()} />
-      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
+    gap: spacing.md,
     marginBottom: spacing.md,
   },
   statsCard: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     backgroundColor: colors.surface,
     paddingVertical: spacing.md,
-    borderRadius: spacing.sm,
-    borderWidth: 1,
-    borderColor: colors.border,
+    paddingHorizontal: spacing.sm,
+    borderRadius: shape.panel,
+    borderWidth: brutalist.borderWidth,
+    borderColor: brutalist.borderColor,
+    borderRightWidth: brutalist.borderWidth + brutalist.offset,
+    borderBottomWidth: brutalist.borderWidth + brutalist.offset,
   },
   statBox: {
+    flex: 1,
     alignItems: 'center',
+    gap: spacing.xs,
   },
   statNumber: {
     fontSize: 22,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
     color: colors.text,
   },
   statLabel: {
@@ -211,31 +320,45 @@ const styles = StyleSheet.create({
     color: colors.muted,
   },
   listContent: {
-    gap: spacing.sm,
-    paddingBottom: spacing.md,
+    gap: spacing.md,
+    paddingBottom: spacing.xl,
   },
   emptyContainer: {
     alignItems: 'center',
-    paddingVertical: spacing.lg * 2,
-    gap: spacing.xs,
+    paddingVertical: spacing.xl * 1.5,
+    paddingHorizontal: spacing.md,
+    gap: spacing.sm,
+    backgroundColor: colors.surface,
+    borderRadius: shape.panel,
+    borderWidth: brutalist.borderWidth,
+    borderColor: brutalist.borderColor,
+    borderRightWidth: brutalist.borderWidth + brutalist.offset,
+    borderBottomWidth: brutalist.borderWidth + brutalist.offset,
+    marginVertical: spacing.md,
   },
   emptyTitle: {
-    fontWeight: '700',
-    fontSize: fontSize.body,
+    fontFamily: fonts.bold,
+    fontSize: fontSize.section,
+    color: colors.text,
   },
   emptySubtitle: {
     color: colors.muted,
     textAlign: 'center',
-    fontSize: fontSize.small,
-    paddingHorizontal: spacing.md,
+    fontSize: fontSize.body,
+  },
+  emptyButtonWrapper: {
+    marginTop: spacing.md,
+    width: '100%',
   },
   itemCard: {
     backgroundColor: colors.surface,
-    borderRadius: spacing.sm,
+    borderRadius: shape.panel,
     padding: spacing.md,
-    gap: spacing.xs,
-    borderWidth: 1,
-    borderColor: colors.border,
+    gap: spacing.sm,
+    borderWidth: brutalist.borderWidth,
+    borderColor: brutalist.borderColor,
+    borderRightWidth: brutalist.borderWidth + brutalist.offset,
+    borderBottomWidth: brutalist.borderWidth + brutalist.offset,
   },
   itemHeader: {
     flexDirection: 'row',
@@ -243,19 +366,26 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   badge: {
-    borderRadius: spacing.xs,
+    borderRadius: shape.control,
     paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
+    paddingVertical: 3,
+    borderWidth: 1,
   },
   badgeText: {
-    color: colors.background,
-    fontWeight: '700',
+    fontFamily: fonts.bold,
     fontSize: fontSize.small,
   },
   typeTag: {
-    fontSize: fontSize.small,
+    backgroundColor: colors.background,
+    borderRadius: shape.control,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderColor: colors.softBorder,
+  },
+  typeText: {
     color: colors.muted,
-    fontWeight: '600',
+    fontSize: fontSize.small,
   },
   dateText: {
     fontSize: fontSize.small,
@@ -263,9 +393,9 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   scoreText: {
-    fontWeight: '600',
+    fontFamily: fonts.semibold,
     fontSize: fontSize.small,
-    marginTop: 2,
+    color: colors.text,
   },
   flagsText: {
     fontSize: fontSize.small,
@@ -273,6 +403,9 @@ const styles = StyleSheet.create({
   },
   footer: {
     gap: spacing.sm,
-    paddingTop: spacing.sm,
+    marginTop: spacing.md,
+  },
+  muted: {
+    color: colors.muted,
   },
 });
