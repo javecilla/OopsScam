@@ -1,36 +1,12 @@
-# CODEOWNERS
-# Defines who is responsible for reviewing changes to specific parts of the codebase.
-# Replace the usernames below with actual GitHub usernames.
-#
-# Format: <file pattern>  <owner(s)>
-# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+CODEOWNERS
 
-# --- Global fallback ---
-# All team members are required reviewers for any file not matched below.
-*  @jerome-avecilla @gwyn-barte @johnrey-gabon @raizel-sablan
+This is a team repository. No single member owns any part of this codebase exclusively.
 
-# --- AI / ML layer ---
-# Jerome owns the ML classifier, LLM integration, and fusion engine.
-/src/ml/        @jerome-avecilla
-/src/llm/       @jerome-avecilla
-/src/fusion/    @jerome-avecilla
-/ml/            @jerome-avecilla
+All members share responsibility for reviewing and maintaining the entire project.
 
-# --- Rules engine ---
-# Johnrey owns the heuristic rules and scoring logic.
-/src/rules/     @johnrey-gabon
+Replace the usernames below with actual GitHub usernames.
 
-# --- Vision / OCR / QR ---
-# Raizel owns the camera, OCR, and QR scanning modules.
-/src/vision/    @raizel-sablan
-
-# --- UI / UX ---
-# Gwyn owns all screens, components, and styles.
-/src/ui/        @gwyn-barte
-/src/screens/   @gwyn-barte
-/src/components/ @gwyn-barte
-
-# --- Project configuration and docs ---
-# All members review changes to root-level config and documentation.
-/*.md           @jerome-avecilla @gwyn-barte @johnrey-gabon @raizel-sablan
-/docs/          @jerome-avecilla @gwyn-barte @johnrey-gabon @raizel-sablan
+- Jerome Avecilla: @javecilla
+- Gwyn Barte: @dairymilkyway
+- Johnrey Gabon: @Lunacs
+- Raizel Sablan: @Zelracha
