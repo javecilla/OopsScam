@@ -140,10 +140,10 @@
       }
     },
     "latencyMs": {
-      "rulesMedian": 0.04210000000000491,
-      "rulesMax": 0.8197000000000116,
-      "mlMedian": 0.1851000000000056,
-      "mlMax": 0.970799999999997
+      "rulesMedian": 0.18779999999998154,
+      "rulesMax": 17.684900000000027,
+      "mlMedian": 0.5831000000000017,
+      "mlMax": 11.565699999999993
     },
     "missedScams": [
       {
@@ -321,8 +321,8 @@
       }
     },
     "latencyMs": {
-      "rulesMedian": 0.02590000000003556,
-      "rulesMax": 0.3509999999999991,
+      "rulesMedian": 0.04529999999999745,
+      "rulesMax": 0.7060999999999922,
       "mlMedian": null,
       "mlMax": null
     },

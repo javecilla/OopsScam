@@ -11,6 +11,7 @@ import { Text } from '@/components/Text';
 import { MAX_INPUT_CHARS } from '@/config';
 import { statusLabels } from '@/pipeline';
 import { colors, fontSize, spacing } from '@/theme';
+import { pickImage } from '@/vision/images';
 
 // FR-IN-04: fictional samples, one scam and one genuine OTP.
 const SAMPLES = [
@@ -33,6 +34,7 @@ export default function HomeScreen() {
   const [text, setText] = useState('');
   const [notice, setNotice] = useState<string | null>(null);
   const [labels, setLabels] = useState(statusLabels);
+  const [picking, setPicking] = useState(false);
 
   // Keep the status strip current while the model loads in the background.
   useEffect(() => {
@@ -63,6 +65,12 @@ export default function HomeScreen() {
   // FR-IN-03 / USE-02: shared text opens here and goes straight to the result.
   useEffect(() => {
     if (!hasShareIntent) return;
+    const image = shareIntent.files?.find((file) => file.mimeType?.startsWith('image/'));
+    if (image) {
+      resetShareIntent();
+      router.push({ pathname: '/screenshot', params: { uri: image.path } });
+      return;
+    }
     const shared = shareIntent.text ?? shareIntent.webUrl ?? '';
     resetShareIntent();
     if (!shared.trim()) return;
@@ -80,6 +88,21 @@ export default function HomeScreen() {
     else setNotice('Walang laman ang clipboard.');
   };
 
+  const pickScreenshot = async (): Promise<void> => {
+    setPicking(true);
+    setNotice(null);
+    try {
+      const uri = await pickImage();
+      if (uri !== null) router.push({ pathname: '/screenshot', params: { uri } });
+    } catch (error) {
+      setNotice(
+        `Hindi makapili ng screenshot: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    } finally {
+      setPicking(false);
+    }
+  };
+
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
@@ -89,6 +112,7 @@ export default function HomeScreen() {
         </Text>
 
         <TextInput
+          testID="message-input"
           style={styles.input}
           value={text}
           onChangeText={load}
@@ -106,12 +130,26 @@ export default function HomeScreen() {
 
         <View style={styles.row}>
           <View style={styles.flex}>
-            <Button title="Paste" variant="secondary" onPress={paste} />
+            <Button title="Paste" variant="secondary" onPress={paste} testID="paste-message" />
           </View>
           <View style={styles.flex}>
-            <Button title="I-check" onPress={() => check(text)} />
+            <Button title="I-check" onPress={() => check(text)} testID="analyze-message" />
           </View>
         </View>
+
+        <Button
+          title={picking ? 'Binubuksan ang gallery…' : 'Pumili ng screenshot'}
+          variant="secondary"
+          onPress={pickScreenshot}
+          testID="pick-screenshot"
+          disabled={picking}
+        />
+        <Button
+          title="I-check ang QR"
+          variant="secondary"
+          onPress={() => router.push('/qr')}
+          testID="open-qr"
+        />
 
         <Text style={styles.section}>Subukan ang sample</Text>
         {SAMPLES.map((s) => (
