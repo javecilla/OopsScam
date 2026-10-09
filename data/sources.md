@@ -20,6 +20,8 @@ Not used until a license is confirmed: Smishtank, Kaggle "Philippine Spam/Scam S
 
 ## Our own data (license: original, same as the repo)
 
+The Qwen fine-tuning pipeline in `training/qwen/` reads explicit canonical paths and keeps derived data local in gitignored `training/qwen/artifacts/`. Its label policy distinguishes unsolicited `spam` (Suspicious) from explicit `smishing`/`scam` (Scam) and `ham`/legitimate source categories (Low risk, not a safety guarantee). It excludes missing/redacted/blank content, quarantines contradictory normalized labels, and splits message families before selecting a balanced training subset. The generated manifest records source hashes, exclusions, split hashes and limitations. Source files stay unchanged, and `data/test_v2` remains frozen and outside training/tuning. This trains classification only; the datasets do not provide human-authored Taglish explanation targets. AI-written synthetic rows still need team review.
+
 Every message is fictional: invented codes, amounts and reference numbers, "Juan Dela Cruz"-style names, `09XX-XXX-XXXX` numbers, and fake links only on reserved domains (`.example`). Exception: the older `team_written.csv` rows use made-up domains with real-world endings such as `.xyz` and real shortener hosts; they are training data only.
 
 | File | Split | Rows (scam / legit) | Written by |

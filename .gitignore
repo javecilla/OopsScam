@@ -49,4 +49,8 @@ example
 data/raw/uci/
 data/raw/realcheck/
 training/.venv/
+training/.qwen-venv/
+training/.gguf-venv/
+training/qwen/artifacts/
+training/qwen/llama.cpp/
 __pycache__/
