@@ -150,6 +150,12 @@ export default function HomeScreen() {
           onPress={() => router.push('/qr')}
           testID="open-qr"
         />
+        <Button
+          title="Tingnan ang Scan History"
+          variant="secondary"
+          onPress={() => router.push('/history' as any)}
+          testID="open-history"
+        />
 
         <Text style={styles.section}>Subukan ang sample</Text>
         {SAMPLES.map((s) => (

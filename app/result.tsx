@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/Button';
@@ -11,6 +11,7 @@ import { highlightParts } from '@/core/highlight';
 import type { Verdict } from '@/core/types';
 import type { ExplainOutput } from '@/llm/explain';
 import { formatTimings, runAnalysis, runExplanation, statusLabels } from '@/pipeline';
+import { saveScanRecord } from '@/storage/history';
 import { colors, fontSize, spacing } from '@/theme';
 
 // FR-UI-02: the verdict is always a word, never color alone. Never "safe" (AGENTS rule 4).
@@ -22,12 +23,21 @@ const VERDICT_UI: Record<Verdict, { word: string; tl: string; color: string }> =
 
 export default function ResultScreen() {
   const router = useRouter();
-  const { text = '', truncated } = useLocalSearchParams<{ text: string; truncated?: string }>();
+  const {
+    text = '',
+    truncated,
+    inputType = 'text',
+  } = useLocalSearchParams<{
+    text: string;
+    truncated?: string;
+    inputType?: 'text' | 'image' | 'qr';
+  }>();
 
   // FR-FU-04: verdict and score right away, without the LLM.
   const result = useMemo(() => runAnalysis(text), [text]);
   const [done, setDone] = useState<{ text: string; out: ExplainOutput } | null>(null);
   const [labels, setLabels] = useState(statusLabels);
+  const savedRef = useRef(false);
 
   // FR-UI-04: then the explanation, when ready (LLM or template fallback).
   useEffect(() => {
@@ -36,11 +46,31 @@ export default function ResultScreen() {
       if (!active) return;
       setDone({ text, out });
       setLabels(statusLabels());
+      if (!savedRef.current && text.trim()) {
+        savedRef.current = true;
+        void saveScanRecord({
+          rawText: text,
+          verdict: out.verdict ?? result.verdict,
+          score: result.score,
+          flags: result.flags,
+          inputType: (inputType as 'text' | 'image' | 'qr') || 'text',
+        });
+      }
     });
     return () => {
       active = false;
+      if (!savedRef.current && text.trim()) {
+        savedRef.current = true;
+        void saveScanRecord({
+          rawText: text,
+          verdict: result.verdict,
+          score: result.score,
+          flags: result.flags,
+          inputType: (inputType as 'text' | 'image' | 'qr') || 'text',
+        });
+      }
     };
-  }, [text, result]);
+  }, [text, result, inputType]);
 
   // Only show an explanation that belongs to the message on screen.
   const explained = done?.text === text ? done.out : null;

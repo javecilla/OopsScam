@@ -66,6 +66,7 @@ The release APK declares no INTERNET or ACCESS_NETWORK_STATE permission (`blocke
 - Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
 - expo-share-intent (Android share menu, text and images)
 - expo-clipboard (Paste button; reads the clipboard only when tapped)
+- expo-sqlite (on-device SQLite database for local scan history)
 - scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
 - Pillow and qrcode (laptop scripts that generate test images; not in the app)
 - Jest with jest-expo (unit tests)
