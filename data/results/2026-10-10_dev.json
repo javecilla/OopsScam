@@ -1,0 +1,350 @@
+{
+  "set": "dev",
+  "date": "2026-10-10",
+  "app": {
+    "n": 92,
+    "scam": 47,
+    "legit": 45,
+    "flaggedIsSuspiciousOrScam": {
+      "tp": 47,
+      "fp": 1,
+      "tn": 44,
+      "fn": 0,
+      "precision": 0.9791666666666666,
+      "recall": 1,
+      "f1": 0.9894736842105264,
+      "falseAlarmRate": 0.022222222222222223
+    },
+    "scamOnly": {
+      "tp": 33,
+      "fp": 0,
+      "tn": 45,
+      "fn": 14,
+      "precision": 1,
+      "recall": 0.7021276595744681,
+      "f1": 0.825,
+      "falseAlarmRate": 0
+    },
+    "confusion": {
+      "scam": {
+        "scam": 33,
+        "suspicious": 14,
+        "low_risk": 0
+      },
+      "legit": {
+        "scam": 0,
+        "suspicious": 1,
+        "low_risk": 44
+      }
+    },
+    "perCategory": {
+      "account_threat_link": {
+        "label": "scam",
+        "n": 6,
+        "flagged": 6
+      },
+      "credential_request": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "prize_raffle_ayuda": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "government_impersonation": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "parcel_fee": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "job_loan_investment": {
+        "label": "scam",
+        "n": 6,
+        "flagged": 6
+      },
+      "emergency_relative": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "remote_access_apk": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "qr_phishing": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 2
+      },
+      "marketplace_scam": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "other_scam": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "otp": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "transaction_receipt": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "telco_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "delivery_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "bill_reminder": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "gov_announcement": {
+        "label": "legit",
+        "n": 7,
+        "flagged": 0
+      },
+      "personal_chat": {
+        "label": "legit",
+        "n": 10,
+        "flagged": 0
+      },
+      "marketplace_legit": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "promo": {
+        "label": "legit",
+        "n": 10,
+        "flagged": 1
+      }
+    },
+    "latencyMs": {
+      "rulesMedian": 0.034100000000009345,
+      "rulesMax": 6.675600000000003,
+      "mlMedian": 0.10870000000001312,
+      "mlMax": 1.137900000000002
+    },
+    "missedScams": [],
+    "falseAlarms": [
+      {
+        "id": "dev-l045",
+        "verdict": "suspicious",
+        "score": 35,
+        "flags": [
+          "urgency",
+          "parcel_topic"
+        ],
+        "text": "Grab: Free delivery on GrabFood orders above P300 today only."
+      }
+    ]
+  },
+  "rulesOnly": {
+    "n": 92,
+    "scam": 47,
+    "legit": 45,
+    "flaggedIsSuspiciousOrScam": {
+      "tp": 39,
+      "fp": 0,
+      "tn": 45,
+      "fn": 8,
+      "precision": 1,
+      "recall": 0.8297872340425532,
+      "f1": 0.9069767441860465,
+      "falseAlarmRate": 0
+    },
+    "scamOnly": {
+      "tp": 21,
+      "fp": 0,
+      "tn": 45,
+      "fn": 26,
+      "precision": 1,
+      "recall": 0.44680851063829785,
+      "f1": 0.6176470588235294,
+      "falseAlarmRate": 0
+    },
+    "confusion": {
+      "scam": {
+        "scam": 21,
+        "suspicious": 18,
+        "low_risk": 8
+      },
+      "legit": {
+        "scam": 0,
+        "suspicious": 0,
+        "low_risk": 45
+      }
+    },
+    "perCategory": {
+      "account_threat_link": {
+        "label": "scam",
+        "n": 6,
+        "flagged": 6
+      },
+      "credential_request": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 3
+      },
+      "prize_raffle_ayuda": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "government_impersonation": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 5
+      },
+      "parcel_fee": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 4
+      },
+      "job_loan_investment": {
+        "label": "scam",
+        "n": 6,
+        "flagged": 3
+      },
+      "emergency_relative": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 2
+      },
+      "remote_access_apk": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "qr_phishing": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 2
+      },
+      "marketplace_scam": {
+        "label": "scam",
+        "n": 5,
+        "flagged": 3
+      },
+      "other_scam": {
+        "label": "scam",
+        "n": 4,
+        "flagged": 3
+      },
+      "otp": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "transaction_receipt": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "telco_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "delivery_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "bill_reminder": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "gov_announcement": {
+        "label": "legit",
+        "n": 7,
+        "flagged": 0
+      },
+      "personal_chat": {
+        "label": "legit",
+        "n": 10,
+        "flagged": 0
+      },
+      "marketplace_legit": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "promo": {
+        "label": "legit",
+        "n": 10,
+        "flagged": 0
+      }
+    },
+    "latencyMs": {
+      "rulesMedian": 0.02039999999999509,
+      "rulesMax": 0.3657999999999788,
+      "mlMedian": null,
+      "mlMax": null
+    },
+    "missedScams": [
+      {
+        "id": "dev-s008",
+        "score": 0,
+        "text": "Earn P2,000 a day by liking videos! Easy online tasks, paid instantly via GCash. To unlock higher-paying tasks, top up P1,000 to your task account."
+      },
+      {
+        "id": "dev-s010",
+        "score": 15,
+        "text": "Join our crypto trading club: guaranteed 30% weekly returns, no risk. Invest P10,000 now and withdraw P13,000 next week. Message us on Telegram."
+      },
+      {
+        "id": "dev-s014",
+        "score": 25,
+        "text": "Hi, I'll buy your phone for P2,000 above your price. My cousin will pick it up. I already paid, check this screenshot. Please send back the extra P2,000 to my other GCash."
+      },
+      {
+        "id": "dev-s027",
+        "score": 0,
+        "text": "Ma'am, para ma-verify ang padala, pakibigay po ang MPIN ninyo. Mabilis lang po ito."
+      },
+      {
+        "id": "dev-s031",
+        "score": 15,
+        "text": "WFH job: P1,200 per hour reviewing hotel bookings. Pay P400 for your starter kit to begin."
+      },
+      {
+        "id": "dev-s037",
+        "score": 20,
+        "text": "Lola, si Paolo po ito. Naaksidente po ako sa motor. Pakisend po ng P4,000 sa GCash ng kaibigan ko, wag nyo na pong sabihin kay Mama."
+      },
+      {
+        "id": "dev-s045",
+        "score": 25,
+        "text": "Ma'am, na-overpay po ako ng P1,500. Paki-refund na lang po sa GCash ng asawa ko, ito po ang screenshot ng bayad."
+      },
+      {
+        "id": "dev-s046",
+        "score": 8,
+        "text": "Your Facebook page violated our policies and will be removed. Appeal now at fb-page-appeal.example"
+      }
+    ],
+    "falseAlarms": []
+  }
+}

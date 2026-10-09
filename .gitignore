@@ -42,7 +42,9 @@ example
 /ios
 /android
 
-# training (public datasets are downloaded locally, never committed)
-data/raw/
+# training: public datasets in data/raw/<name>/ are committed (licenses in data/sources.md),
+# except UCI (re-downloaded by training/fetch_uci.py) and scratch subsets
+data/raw/uci/
+data/raw/realcheck/
 training/.venv/
 __pycache__/

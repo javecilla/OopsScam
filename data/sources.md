@@ -1,15 +1,22 @@
 # Data sources and licenses
 
-Only datasets with confirmed licenses are used (SRS C-9). No real person's private messages are committed to this repo (AGENTS rule 7): public datasets are downloaded into `data/raw/` (gitignored) and merged in memory by `training/train.py`.
+Only datasets with confirmed licenses are used (SRS C-9). Per AGENTS rule 7, real messages enter the repo only as already-public datasets whose license allows redistribution: PH Spam + Marketing SMS, Tagalog-SMS and Mishra & Soni are committed unmodified in `data/raw/` (credits in `data/raw/README.md`). UCI is not committed; download it with `training/fetch_uci.py`.
 
 ## Datasets
 
 | Dataset | License | Where | Used for |
 | --- | --- | --- | --- |
-| UCI SMS Spam Collection (Almeida & Hidalgo, 2011), https://doi.org/10.24432/C5CC84 | CC BY 4.0 | `data/raw/uci/` via `training/fetch_uci.py` | Classifier training (English baseline). `spam` -> scam, `ham` -> legit |
-| PH Spam + Marketing SMS (Scott Lee Chua, Kaggle) | CC BY 4.0 | `data/raw/ph_spam/*.csv`, manual download (Kaggle login) | Classifier training if present (not downloaded yet). `spam` -> scam, `ham`/`marketing` -> legit |
+| UCI SMS Spam Collection (Almeida & Hidalgo, 2011), https://doi.org/10.24432/C5CC84 | CC BY 4.0 | `data/raw/uci/` via `training/fetch_uci.py` | Used for training until 2026-10-09; dropped since (see below) |
+| PH Spam + Marketing SMS (Scott Lee Chua, Kaggle) | CC BY 4.0 | `data/raw/ph_spam/*.csv` (committed) | Classifier training since 2026-10-10. Labels `spam` -> scam; `ads`, `notifs`, `OTP`, `gov` -> legit. 6,887 of 8,895 rows have text replaced by `<REDACTED>` by the dataset author and are dropped, plus 2 malformed rows; 1,670 unique rows remain (734 scam). |
 
-Not used until a license is confirmed: Mishra and Soni SMS Phishing, Smishtank, Kaggle "Tagalog-SMS" (onzero0), Kaggle "Philippine Spam/Scam SMS" (bwandowando). Do not use: TrainingDataPro Spam Text Messages (CC BY-NC-ND 4.0).
+| Tagalog-SMS (onzero0, Kaggle), https://www.kaggle.com/datasets/onzero0/tagalog-sms | CC0: Public Domain (Kaggle metadata, checked 2026-10-10) | `data/raw/tagalog_sms/tagalog-sms.xlsx` (committed) | Classifier training since 2026-10-10. One person's own received SMS; `spam` -> scam, `ads`/`notifs`/`otp`/`gov` -> legit. Names are scrubbed in memory before training (`scrub_names` in `training/train.py`) |
+| SMS Phishing Dataset for Machine Learning and Pattern Recognition (Mishra & Soni, 2022), https://doi.org/10.17632/f45bkkt8pr.1 | CC BY 4.0 (Mendeley Data page, checked 2026-10-10) | `data/raw/mishra_soni/Dataset_5971.csv` (committed) | Classifier training since 2026-10-10. `ham` -> legit, `spam`/`smishing` -> scam. Messages were collected from images on the internet (per the authors) |
+
+UCI SMS Spam Collection is no longer used for training (since 2026-10-10): models trained with it flagged 58.7% of real Philippine legit texts (`data/results/2026-10-10_real_ph_heldout.md`). `training/fetch_uci.py` and `INCLUDE_UCI` in `train.py` remain for comparison.
+
+These public datasets are committed unmodified in `data/raw/` (decided by the team on 2026-10-10). Personal names are replaced with NAME in memory before training, and a check confirmed no scrubbed name appears in the word vocabulary of `assets/classifier.json`.
+
+Not used until a license is confirmed: Smishtank, Kaggle "Philippine Spam/Scam SMS" (bwandowando). Do not use: TrainingDataPro Spam Text Messages (CC BY-NC-ND 4.0).
 
 ## Our own data (license: original, same as the repo)
 
