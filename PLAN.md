@@ -1,7 +1,36 @@
 # PLAN.md: development plan
 
 Build window: **2:30 PM Oct 9 to 10:00 AM Oct 10, 2026** (about 19.5 hours). Demo Day is Oct 10 at Cyberzone, SM Makati.
-Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks finish.
+Source of truth for scope and design: `docs/OopsScam — Product Requirements Document.md`. Update this file as tasks finish.
+
+## Current task: Qwen scam/phishing classification
+
+**Current step:** Qwen LoRA fine-tuning. The app is at Phase 3 validation, moving into Phase 4 polish. The requested Qwen classification change is not implemented. The shipped architecture still uses rules + ML for verdicts and pretrained Qwen for explanations.
+
+Audit details and remaining requirement gaps: [requirements audit](docs/REQUIREMENTS-AUDIT.md). Update the checklist below as work is verified; a downloaded model, successful conversion, or passing ML evaluation does not prove Qwen was fine-tuned.
+
+- [x] Inspect the pulled `main` at `c20120a` and preserve the team's dataset and training changes.
+- [x] Identify which model was trained: `training/train.py` exports the TF-IDF/logistic-regression classifier; it does not train Qwen.
+- [x] Check the requirements in all 12 `docs/*.md` files, plus SRS, PLAN, AGENTS, README and handoffs; record conflicts and unverified acceptance criteria.
+- [x] Verify the pulled code: typecheck, lint and all 127 existing tests pass. No automated phone testing was run.
+- [x] Inspect the canonical dataset schemas, labels and placeholders; distinguish spam labels from explicit smishing labels.
+- [x] Identify evaluation contamination: the exported classifier is refitted on dev and real validation rows; the real-message report evaluates a separate model.
+- [x] Record this tracking checklist and the requirements audit.
+- [x] Prepare source-based Qwen targets: spam → Suspicious, explicit smishing/scam → Scam, ham/legit → Low risk; exclude 6,910 PH placeholders, quarantine 42 conflicting groups, and deduplicate. Raw files are unchanged. Human review of AI-written rows remains pending.
+- [x] Reserve separate data by normalized message family: 7,467 train candidates, 1,000 tuning, 973 validation. No message family crosses splits or overlaps existing evaluation cases; the frozen `data/test_v2` hash is unchanged. Near-duplicate leakage beyond this family normalization is not certified.
+- [x] Obtain approval for the new Qwen training dependencies, as required by AGENTS.md. Approved by the user; dependencies are declared separately in `training/qwen/requirements.txt`.
+- [x] Set up `training/.qwen-venv` and measure actual CPU training: median 2.86 seconds per update over seven post-warmup samples; about 2.66 GB process memory. Estimated two-epoch training time is 2.3 hours, excluding evaluation/conversion. Dependency check passes; versions are recorded in `training/qwen/environment.lock.txt`.
+- [ ] Fine-tune `Qwen/Qwen3-0.6B` on the prepared classification data; save the adapter, dataset hashes, configuration and actual training logs.
+- [ ] Evaluate Qwen classification before and after fine-tuning on validation data; report failures and measured precision, recall and false alarms. Existing ML results do not measure Qwen.
+- [ ] Merge the trained adapter, convert the trained checkpoint to GGUF, quantize to Q4_K_M and verify classification after quantization.
+- [ ] Make validated Qwen inference determine the production classification, retain rule safeguards, and show an explicit error if classification fails. Remove ML verdict dependence from the production path.
+- [ ] Update the affected product requirements, SRS, AGENTS and README to describe the resulting Qwen architecture and measured latency accurately.
+- [ ] Run the relevant code checks, rebuild the release APK and provide steps for the user's manual phone tests.
+- [ ] Confirm offline operation, actual Qwen-generated classifications and explanations, and manual phone acceptance before declaring the change complete.
+
+**Not done:** Qwen fine-tuning, a custom trained GGUF, Qwen classification in the app, or full requirements acceptance. No commit or push is authorized for this new work.
+
+Training uses 1,468 balanced examples drawn only from the training split (444 Scam, 512 Suspicious, 512 Low risk), including all three canonical public datasets and both synthetic files. It updates a 327,680-parameter LoRA adapter on Qwen's last eight attention layers, then merges it into Qwen for GGUF export; it does not retrain the separate ML classifier. The 96-message base-Qwen tuning smoke check measured 35.4% three-class accuracy and 93.8% false alarms. This is tuning evidence, not phone performance or a general benchmark. Artifacts and detailed logs are local in gitignored `training/qwen/artifacts/`.
 
 ## Assumptions (confirm and edit)
 

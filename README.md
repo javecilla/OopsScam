@@ -58,7 +58,10 @@ TODO: add the architecture diagram.
 - Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
 - expo-share-intent (Android share menu, text and images)
 - expo-clipboard (Paste button; reads the clipboard only when tapped)
-- scikit-learn, pandas, NumPy, SciPy (training on a laptop only; not in the app)
+- scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
+- PyTorch, Transformers, PEFT, Safetensors, Hugging Face Hub, psutil and Requests (`training/qwen/requirements.txt`): approved laptop-only Qwen fine-tuning tooling. Training and validation are in progress; these packages are not app dependencies.
+- llama.cpp build b11429, commit `d81235049384534c167caea52b85a694f6103d14`: laptop-only GGUF conversion, quantization and offline evaluation tools. Conversion dependencies are declared in `training/qwen/conversion-requirements.txt` and installed separately from training.
+- Pillow and qrcode (laptop scripts that generate test images; not in the app)
 - Jest with jest-expo (unit tests)
 - TODO: anything else added during the build
 
