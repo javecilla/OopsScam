@@ -19,7 +19,7 @@ Scam messages contain OTPs, account numbers and personal details, so uploading t
 - Paste or share a message (from SMS, Messenger, Viber and more) and get a verdict: **Scam**, **Suspicious** or **Low risk**, with a 0 to 100 score.
 - See the red flags highlighted in the message, a short Taglish reason and what to do next.
 - Never says a message is "safe". It flags risk; it does not guarantee anything.
-- Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks.
+- Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks. A QR Ph payment code (GCash, Maya, banks) is not given a verdict; the app shows who receives the money and the amount, and reminds you to check the receiver before paying.
 - Optional SMS auto-check (stretch, **off by default**): when you turn on "Auto-check new texts", each new incoming text is checked in the background with the rules and classifier only (no LLM). A notification appears only for Suspicious or Scam, and the lock screen shows only "OopsScam: possible scam text". Tapping it opens the full result with the Taglish explanation. Texts are checked in memory and never stored; the inbox is never read.
 - Paste an email, with or without its From and Subject lines: it is scored by a separate email classifier, and a sender address that imitates a brand (for example `alerts@bdo-secure-login.example`) is flagged.
 

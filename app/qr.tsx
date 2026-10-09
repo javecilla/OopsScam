@@ -7,19 +7,35 @@ import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { MAX_INPUT_CHARS } from '@/config';
-import { colors, spacing } from '@/theme';
+import { type PaymentQr, parsePaymentQr } from '@/core/paymentQr';
+import { colors, fontSize, spacing } from '@/theme';
 import { decodeQrImage, deleteTemporaryImage, pickImage } from '@/vision/images';
+
+// Peso amounts as "₱500.00"; other currencies keep their ISO code.
+function formatAmount(qr: PaymentQr): string | null {
+  if (!qr.amount) return null;
+  const value = Number(qr.amount);
+  if (qr.currency === '608' && Number.isFinite(value)) return `₱${value.toFixed(2)}`;
+  return `${qr.amount}${qr.currency ? ` (currency ${qr.currency})` : ''}`;
+}
 
 export default function QrScreen() {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [payment, setPayment] = useState<PaymentQr | null>(null);
   const scanned = useRef(false);
 
   const check = (data: string): void => {
     if (typeof data !== 'string' || !data.trim()) {
       throw new TypeError('Walang laman ang QR code. Subukan ang ibang QR.');
+    }
+    // A payment QR has no message to judge: show who gets paid instead of a false verdict.
+    const paymentQr = parsePaymentQr(data);
+    if (paymentQr) {
+      setPayment(paymentQr);
+      return;
     }
     router.replace({
       pathname: '/result',
@@ -77,6 +93,45 @@ export default function QrScreen() {
     }
   };
 
+  const scanAgain = (): void => {
+    setPayment(null);
+    setNotice(null);
+    scanned.current = false;
+  };
+
+  if (payment) {
+    const amount = formatAmount(payment);
+    return (
+      <Screen>
+        <View style={styles.content}>
+          <View style={styles.card} testID="qr-payment">
+            <Text style={styles.heading}>PAYMENT QR</Text>
+            <Text>Ang bayad ay mapupunta kay:</Text>
+            <Text style={styles.receiver}>
+              {payment.merchantName ?? 'Walang nakasulat na pangalan'}
+            </Text>
+            {payment.city ? <Text>{payment.city}</Text> : null}
+            {amount ? (
+              <Text style={styles.receiver}>
+                {amount}
+                {payment.dynamic ? ' · Naka-set na ang halaga sa QR.' : ''}
+              </Text>
+            ) : null}
+          </View>
+          <Text>
+            Hindi masasabi ng OopsScam kung totoo ang receiver. Siguraduhing tugma ang pangalan sa
+            tindahan o taong babayaran mo bago magbayad. Huwag magbayad sa QR na ipinadala ng hindi
+            mo kilala.
+          </Text>
+          {payment.networkId ? (
+            <Text style={styles.muted}>Network ID: {payment.networkId}</Text>
+          ) : null}
+          <Button title="Mag-scan ulit" onPress={scanAgain} testID="qr-scan-again" />
+        </View>
+      </Screen>
+    );
+  }
+
   return (
     <Screen>
       <View style={styles.content}>
@@ -121,4 +176,13 @@ export default function QrScreen() {
 const styles = StyleSheet.create({
   content: { flex: 1, gap: spacing.md },
   camera: { flex: 1, minHeight: 240, borderRadius: spacing.sm, backgroundColor: colors.surface },
+  card: {
+    gap: spacing.xs,
+    padding: spacing.lg,
+    borderRadius: spacing.md,
+    backgroundColor: colors.surface,
+  },
+  heading: { fontWeight: '800', color: colors.muted },
+  receiver: { fontSize: 22, fontWeight: '700' },
+  muted: { color: colors.muted, fontSize: fontSize.small },
 });
