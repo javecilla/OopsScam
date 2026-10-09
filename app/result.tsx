@@ -57,6 +57,7 @@ export default function ResultScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <View
           style={[styles.verdictCard, { backgroundColor: ui.color }]}
+          testID="analysis-verdict"
           accessible
           accessibilityRole="header"
           accessibilityLabel={`Verdict: ${ui.word}, score ${result.score} sa 100. ${ui.tl}.`}

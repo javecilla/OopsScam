@@ -52,11 +52,11 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 | ID  | Task                                             | Role        | Done when                                                                            |
 | --- | ------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------ |
-| T13 | Screenshot checker                               | On-device   | A picked or shared screenshot becomes editable text and runs the same pipeline       |
-| T14 | QR code checker                                  | On-device   | A scanned QR code is checked for shortened or lookalike links                        |
-| T15 | Evaluation script                                | Data and ML | Prints precision, recall, false-alarm rate and latency on `data/test`; results saved |
-| T16 | Demo build without the INTERNET permission       | Mobile      | Android app info shows no internet permission and every feature still works          |
-| T17 | Practice mode (only if everything above is done) | Mobile      | Short quiz works                                                                     |
+| T13 | Screenshot checker                               | On-device   | **Done:** picked/shared images become editable OCR text and use the existing pipeline. Shared-image OCR, editing, analysis and blank-image errors verified on the Samsung A72. Picked screenshot read in 0.9 seconds and returned Scam (score 80); app-cache copies are deleted after decoding. |
+| T14 | QR code checker                                  | On-device   | Implemented: camera and gallery QR decoding use the existing pipeline. Live camera scan confirmed by the user; a lookalike GCash link produced Scam. Gallery decoding retest pending. |
+| T15 | Evaluation script                                | Data and ML | **Done:** prints precision, recall, false-alarm rate and laptop latency on the frozen `data/test_v2` set (the original `data/test` was never created). Results: [evaluation report](data/results/2026-10-09_test_v2.md); frozen hash and leakage checks pass. |
+| T16 | Demo build without the INTERNET permission       | Mobile      | **Done:** standalone release APK rebuilt with bundled models; APK permission inspection confirms INTERNET and ACCESS_NETWORK_STATE are absent. `app.json` preserves these exclusions on prebuild. Shared OCR and camera QR exercised on the phone. |
+| T17 | Practice mode (only if everything above is done) | Mobile      | Deferred: optional quiz stays out of the build while manual gallery QR verification is pending. |
 
 **3:00 AM: feature freeze.** Only fixes after this.
 

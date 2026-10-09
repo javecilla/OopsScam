@@ -228,7 +228,9 @@ function main() {
     const a = app.flaggedIsSuspiciousOrScam;
     console.log(
       `${set}: n=${app.n} recall ${fmt(a.recall)} precision ${fmt(a.precision)} ` +
-        `false alarms ${fmt(a.falseAlarmRate)} -> ${base}.md`,
+        `false alarms ${fmt(a.falseAlarmRate)} ` +
+        `rules median ${app.latencyMs.rulesMedian?.toFixed(2)} ms ` +
+        `classifier median ${app.latencyMs.mlMedian?.toFixed(2)} ms -> ${base}.md`,
     );
   }
 }
