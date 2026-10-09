@@ -8,7 +8,7 @@ For software tasks, first consult `.agents/skills/sdlc-router/SKILL.md` to selec
 **Event:** AppBuildersPH Hackathon 2026, theme Local AI. Submission deadline **10:00 AM, Oct 10, 2026** (aim to submit by 9:15 AM). One submission only, no edits.
 **Status:** Boilerplate shell is implemented (Expo Router Stack, UI primitives, theme, config, strict TypeScript, lint, format). Core detection rules, ML classifier, OCR/QR, and local LLM modules are up next.
 
-Read these first, in order: `docs/HANDOFF.md`, `docs/Scam Guardian — Product Requirements Document.md`, `SRS.md`, `PLAN.md`.
+Read these first, in order: `docs/HANDOFF.md`, `docs/OopsScam — Product Requirements Document.md`, `SRS.md`, `PLAN.md`.
 
 ---
 
@@ -25,6 +25,9 @@ Read these first, in order: `docs/HANDOFF.md`, `docs/Scam Guardian — Product R
 9. **Fresh code only.** Nothing from older projects. Anything reused must be disclosed.
 10. **Native modules require dev builds:** Expo Go cannot run our native modules (`llama.rn`, `ML Kit`). A development build MUST be used once native modules are integrated.
 11. **Presentation-only UI primitives:** Components in `src/components/` MUST be presentation-only, with no domain logic, state, API calls, or context.
+12. **RECEIVE_SMS only, never READ_SMS.** The optional SMS auto-check may request only RECEIVE_SMS (and POST_NOTIFICATIONS on Android 13+), after the user turns it on. Never read the inbox, never send, delete or block texts, never become the default SMS app, and never store incoming texts (intent extras in memory only).
+13. **No LLM in the background.** The SMS background check (`src/sms/backgroundCheck.ts`) uses the rules and classifier only; it must not import `src/pipeline.ts` or `src/llm/`. The explanation runs when the user opens the result.
+14. **No expo-notifications or Firebase.** They can pull in network permissions. Notifications are posted natively in Kotlin (`modules/sms-watch`).
 
 ---
 
@@ -50,6 +53,8 @@ src/core/         Rules, links, brands.json, scoring, fusion, templates, types (
 src/ml/           Classifier scoring from exported weights JSON [planned]
 src/llm/          llama.rn wrapper, prompt, JSON parsing, timeout, template fallback [planned]
 src/vision/       OCR and QR wrappers (ML Kit bundled) [planned]
+src/sms/          Optional SMS auto-check: background task (rules + classifier) and native-module wrapper
+modules/sms-watch/ Local Expo module (Kotlin): SMS receiver, Headless JS service, scam-alert notifications
 assets/           classifier.json (small). GGUF model copied via adb, NOT committed.
 training/         Python: train and export scripts
 data/             train/, dev/, test/ (frozen), sources.md

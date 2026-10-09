@@ -20,6 +20,7 @@ Scam messages contain OTPs, account numbers and personal details, so uploading t
 - See the red flags highlighted in the message, a short Taglish reason and what to do next.
 - Never says a message is "safe". It flags risk; it does not guarantee anything.
 - Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks.
+- Optional SMS auto-check (stretch, **off by default**): when you turn on "Auto-check new texts", each new incoming text is checked in the background with the rules and classifier only (no LLM). A notification appears only for Suspicious or Scam, and the lock screen shows only "OopsScam: possible scam text". Tapping it opens the full result with the Taglish explanation. Texts are checked in memory and never stored; the inbox is never read.
 
 TODO: add 3 screenshots.
 
@@ -48,6 +49,8 @@ message ──> 1. Rules (red flags, link checks) ──┐
 
 The release APK declares no INTERNET or ACCESS_NETWORK_STATE permission (`blockedPermissions` in `app.json`), so Android itself blocks network access; judges can confirm this in the app info screen. Only debug builds talk to the Metro development server on the laptop.
 
+The optional SMS auto-check (`modules/sms-watch`) adds only `RECEIVE_SMS` (new incoming texts), `POST_NOTIFICATIONS` (Android 13 and later) and `WAKE_LOCK` (keeps the phone awake for the second the background check runs). `RECEIVE_SMS` and `POST_NOTIFICATIONS` are asked for at runtime, only after you turn the setting on and read a short Taglish explanation. The app never asks for `READ_SMS`, never reads the inbox, and cannot send, delete or block texts. Even with the setting on, nothing can be sent anywhere, because the app has no internet permission. Turn the setting off and checks stop immediately.
+
 ## Technology and credits
 
 **Models**
@@ -65,6 +68,7 @@ The release APK declares no INTERNET or ACCESS_NETWORK_STATE permission (`blocke
 - expo-camera (bundled ML Kit barcode scanning, camera and gallery QR decoding)
 - Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
 - expo-share-intent (Android share menu, text and images)
+- Local `modules/sms-watch` Expo module for the optional SMS auto-check: an Android SMS receiver, a React Native Headless JS task and native AndroidX notifications (no expo-notifications or Firebase; no new npm dependencies)
 - expo-clipboard (Paste button; reads the clipboard only when tapped)
 - scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
 - Pillow and qrcode (laptop scripts that generate test images; not in the app)
@@ -93,6 +97,7 @@ The three public datasets above contain real messages published by their authors
 
 - Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the Home and Result screens and app wiring, the training, evaluation and data scripts (`training/`, `scripts/`), their unit tests, and the data documentation.
 - Codex (OpenAI): implemented the phase 3 screenshot and QR input screens, the bundled OCR Expo module, image cleanup, and native integration.
+- Claude Code (Anthropic): wrote the optional SMS auto-check (`modules/sms-watch`, `src/sms`, the Home screen toggle and its unit test).
 - Evaluation and training data: all of our own messages (training examples, dev, test_v2, adversarial and LLM check sets, scam-pattern examples) were generated with Claude Code. TODO: team review of this data before submission.
 - TODO: add any other AI tools the team used (for example Devin) and what they were used for.
 
@@ -112,6 +117,10 @@ The Android prebuild hook packages `models/Qwen_Qwen3-0.6B-Q4_K_M.gguf` in the A
 Without the model file the app still works and shows template explanations ("Templates only" in the status strip).
 
 The Windows SDK/Java setup and standalone release-build command are in [the build handoff](handoff/oopsscam-handoff-2026-10-10-build.md). `app.json` blocks INTERNET, ACCESS_NETWORK_STATE and RECORD_AUDIO on every prebuild. Debug builds need Metro; use `android/app/build/outputs/apk/release/app-release.apk` for offline testing and distribution. Fresh-clone verification remains pending.
+
+**SMS auto-check install note:** install the APK over USB (`npx expo run:android` or `adb install`). Google Play Protect can block an APK that requests `RECEIVE_SMS` when it is installed from a browser, file manager or messaging app. If Android greys out the SMS permission, open App info and look for "Allow restricted settings".
+
+**SMS auto-check demo note:** turn Wi-Fi and mobile data off but keep cellular on. Airplane mode also blocks SMS, so no texts arrive.
 
 TODO: confirm the build on a clean machine and add the release APK download link.
 
@@ -144,7 +153,7 @@ Limits of these numbers: the sets are small. test_v2 was written by an AI tool, 
 
 - Not 100% accurate; it gives a risk level only.
 - It cannot prove a sender or payment is real.
-- Android restricts SMS and call-audio access, so input is paste, share, a screenshot or a QR code.
+- Android restricts SMS and call-audio access, so input is paste, share, a screenshot or a QR code. The optional SMS auto-check sees only new incoming texts (RECEIVE_SMS), never the inbox.
 - Small local models write weaker Taglish than large cloud models.
 - Android only.
 

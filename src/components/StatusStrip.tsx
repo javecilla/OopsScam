@@ -7,16 +7,18 @@ type StatusStripProps = {
   llmLabel: string;
   classifierLabel: string;
   timings?: string;
+  note?: string;
 };
 
 // SRS FR-UI-05. Presentation only: the screen passes in ready-made labels.
-export function StatusStrip({ llmLabel, classifierLabel, timings }: StatusStripProps) {
+export function StatusStrip({ llmLabel, classifierLabel, timings, note }: StatusStripProps) {
   return (
     <View style={styles.strip} accessibilityRole="summary">
       <Text style={styles.text}>
         Offline-ready · {llmLabel} · {classifierLabel}
       </Text>
       {timings ? <Text style={styles.text}>{timings}</Text> : null}
+      {note ? <Text style={styles.text}>{note}</Text> : null}
     </View>
   );
 }

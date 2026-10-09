@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- SMS auto-check (SRS 3.13). New incoming texts only: never READ_SMS (SEC-08). -->
+  <uses-permission android:name="android.permission.RECEIVE_SMS" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <!-- HeadlessJsTaskService holds a wake lock while the check runs. -->
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+  <application>
+    <!-- Exported so the system can deliver SMS_RECEIVED; BROADCAST_SMS limits senders to the system. -->
+    <receiver
+      android:name="expo.modules.smswatch.SmsReceiver"
+      android:exported="true"
+      android:permission="android.permission.BROADCAST_SMS">
+      <intent-filter>
+        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+      </intent-filter>
+    </receiver>
+    <service
+      android:name="expo.modules.smswatch.SmsCheckTaskService"
+      android:exported="false" />
+  </application>
+</manifest>

@@ -76,4 +76,4 @@ Quick setup instructions to get **OopsScam** running on your local machine.
 
 - [`AGENTS.md`](./AGENTS.md): Standing rules, architectural blueprint, and workflow agreements.
 - [`SRS.md`](./SRS.md): Full software requirements, risk scoring formulas, and UI specifications.
-- [`docs/Scam Guardian — Product Requirements Document.md`](./docs/Scam%20Guardian%20—%20Product%20Requirements%20Document.md): Product vision, hackathon criteria, and fallback strategies.
+- [`docs/OopsScam — Product Requirements Document.md`](./docs/Scam%20Guardian%20—%20Product%20Requirements%20Document.md): Product vision, hackathon criteria, and fallback strategies.
