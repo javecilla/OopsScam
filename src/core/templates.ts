@@ -12,6 +12,10 @@ export const FLAG_TEXT: Record<FlagId, { tl: string; en: string }> = {
     tl: 'Ginagaya ng link ang pangalan ng kilalang brand, pero hindi ito ang official website nila.',
     en: 'The link imitates a known brand but is not its official website.',
   },
+  sender_lookalike: {
+    tl: 'Ginagaya ng email address ng nagpadala ang pangalan ng kilalang brand, pero hindi ito ang official domain nila.',
+    en: 'The sender’s email address imitates a known brand but is not its official domain.',
+  },
   apk_link: {
     tl: 'May link para mag-download ng app (.apk) sa labas ng Play Store. Puwede itong malware.',
     en: 'It links to an app file (.apk) outside the Play Store, which may be malware.',

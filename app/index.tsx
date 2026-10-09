@@ -13,7 +13,7 @@ import { statusLabels } from '@/pipeline';
 import { colors, fontSize, spacing } from '@/theme';
 import { pickImage } from '@/vision/images';
 
-// FR-IN-04: fictional samples, one scam and one genuine OTP.
+// FR-IN-04: fictional samples, one scam and one genuine OTP, plus a scam email.
 const SAMPLES = [
   {
     label: 'Sample: pekeng GCash alert',
@@ -22,6 +22,10 @@ const SAMPLES = [
   {
     label: 'Sample: totoong OTP',
     text: 'Your GCash OTP is 482913. Do not share this code with anyone, including GCash employees. It expires in 5 minutes.',
+  },
+  {
+    label: 'Sample: pekeng BDO email',
+    text: 'From: BDO Unibank <alerts@bdo-secure-login.example>\nSubject: Account on hold\n\nDear Client,\n\nWe noticed unusual activity on your account. To keep it active, confirm your details within 24 hours at bdo-secure-login.example/verify\n\nBDO Security Team',
   },
 ];
 
@@ -108,7 +112,8 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Scam ba ito?</Text>
         <Text style={styles.subtitle}>
-          I-paste o i-share dito ang text o link. Sa phone mo lang ito sinusuri, walang internet.
+          I-paste o i-share dito ang text, email o link. Sa phone mo lang ito sinusuri, walang
+          internet.
         </Text>
 
         <TextInput
@@ -116,7 +121,7 @@ export default function HomeScreen() {
           style={styles.input}
           value={text}
           onChangeText={load}
-          placeholder="I-paste ang message dito…"
+          placeholder="I-paste ang message o email dito…"
           placeholderTextColor={colors.muted}
           multiline
           textAlignVertical="top"

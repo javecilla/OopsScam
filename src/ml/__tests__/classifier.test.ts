@@ -1,11 +1,14 @@
 import { describe, expect, it } from '@jest/globals';
 
 import weights from '../../../assets/classifier.json';
+import emailWeights from '../../../assets/classifier_email.json';
 import parity from '../../../training/parity.json';
+import emailParity from '../../../training/parity_email.json';
 import { analyze } from '../../core/analyze';
 import { loadClassifier } from '../classifier';
 
 const classifier = loadClassifier(weights);
+const emailClassifier = loadClassifier(emailWeights);
 
 describe('classifier parity with Python (FR-ML-04)', () => {
   it('loads the exported weights', () => {
@@ -20,6 +23,23 @@ describe('classifier parity with Python (FR-ML-04)', () => {
     'sample %i matches within 0.01',
     (_, text, p) => {
       expect(Math.abs(classifier!.score(text) - p)).toBeLessThan(0.01);
+    },
+  );
+});
+
+describe('email classifier parity with Python (training/train_email.py)', () => {
+  it('loads the exported weights', () => {
+    expect(emailClassifier).not.toBeNull();
+  });
+
+  it('has at least 20 parity samples', () => {
+    expect(emailParity.length).toBeGreaterThanOrEqual(20);
+  });
+
+  it.each(emailParity.map((s, i) => [i, s.text, s.p] as const))(
+    'sample %i matches within 0.01',
+    (_, text, p) => {
+      expect(Math.abs(emailClassifier!.score(text) - p)).toBeLessThan(0.01);
     },
   );
 });

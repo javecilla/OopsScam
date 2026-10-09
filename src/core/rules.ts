@@ -1,6 +1,7 @@
 // Rules engine (SRS 3.2): a deterministic function of the message text only (FR-RL-01).
 
-import { checkLinks, extractLinks, hasNonOfficialLink } from './links';
+import { senderAddresses } from './email';
+import { checkLinks, extractLinks, hasNonOfficialLink, lookalikeBrand } from './links';
 import { rulesScore } from './scoring';
 import { FLAG_TEXT } from './templates';
 import type { Flag, FlagId, RulesResult } from './types';
@@ -9,6 +10,7 @@ import type { Flag, FlagId, RulesResult } from './types';
 export const POINTS: Record<FlagId, number> = {
   credential_request: 60,
   lookalike_domain: 45,
+  sender_lookalike: 45,
   apk_link: 35,
   remote_access: 30,
   brand_link_mismatch: 30,
@@ -137,6 +139,11 @@ export function analyzeRules(text: string): RulesResult {
   if (relative && emergency) add('emergency_relative', emergency[0]);
 
   for (const hit of checkLinks(links, text)) add(hit.id, hit.evidence);
+
+  // Email sender check. Not a hard flag: brands send email from domains our brand list may not have yet.
+  for (const sender of senderAddresses(text)) {
+    if (lookalikeBrand(sender.host)) add('sender_lookalike', sender.address);
+  }
 
   // Combination bonuses (FR-RL-05). Links to official brand domains do not count here.
   const riskyLink = hasNonOfficialLink(links);
