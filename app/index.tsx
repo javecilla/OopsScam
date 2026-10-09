@@ -1,15 +1,28 @@
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
 import { useShareIntentContext } from 'expo-share-intent';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
+import { Heading } from '@/components/Heading';
+import { MessageInput } from '@/components/MessageInput';
+import { Notice } from '@/components/Notice';
 import { Screen } from '@/components/Screen';
+import { ScanFrame } from '@/components/ScanFrame';
 import { StatusStrip } from '@/components/StatusStrip';
 import { Text } from '@/components/Text';
-import { MAX_INPUT_CHARS } from '@/config';
-import { statusLabels } from '@/pipeline';
+import {
+  acknowledgeSession,
+  createSession,
+  editSession,
+  getSession,
+  PARTIAL_NOTICE,
+  replaceHomeInput,
+  setSessionNotice,
+  submitSession,
+} from '@/session';
 import {
   addSmsOpenListener,
   autoCheckAvailable,
@@ -19,91 +32,92 @@ import {
   turnOffAutoCheck,
   turnOnAutoCheck,
 } from '@/sms/smsWatch';
-import { colors, fontSize, spacing } from '@/theme';
-import { pickImage } from '@/vision/images';
+import { useHomeSession } from '@/useSession';
+import { useAppActive, useReadiness } from '@/useReadiness';
+import { brutalist, colors, fonts, fontSize, shape, spacing } from '@/theme';
+import { deleteTemporaryImage, pickImage } from '@/vision/images';
 
-// FR-IN-04: fictional samples, one scam and one genuine OTP, plus a scam email.
-const SAMPLES = [
-  {
-    label: 'Sample: pekeng GCash alert',
-    text: 'GCash Advisory: Your account will be SUSPENDED within 24 hours due to unusual activity. Verify now at gcash-verify.xyz/login to avoid deactivation.',
-  },
-  {
-    label: 'Sample: totoong OTP',
-    text: 'Your GCash OTP is 482913. Do not share this code with anyone, including GCash employees. It expires in 5 minutes.',
-  },
-  {
-    label: 'Sample: pekeng BDO email',
-    text: 'From: BDO Unibank <alerts@bdo-secure-login.example>\nSubject: Account on hold\n\nDear Client,\n\nWe noticed unusual activity on your account. To keep it active, confirm your details within 24 hours at bdo-secure-login.example/verify\n\nBDO Security Team',
-  },
-];
-
-const TRUNCATED_NOTICE = `Pinutol sa ${MAX_INPUT_CHARS.toLocaleString()} characters ang message.`;
-const LABELS_REFRESH_MS = 1000;
-
-// FR-SM-01: plain-Taglish explanation shown before the permission prompt.
 const AUTO_CHECK_EXPLAIN =
-  'Kapag naka-on, bawat BAGONG text na dumating ay susuriin dito mismo sa phone mo. Kung mukhang scam, may lalabas na notification. Hindi namin binabasa ang inbox mo, hindi sine-save ang mga text, at walang internet ang app kaya walang naipapadala kahit saan. Pwede mo itong i-off anumang oras.';
+  'When enabled, every NEW incoming text message is checked privately on your phone. If a scam is detected, you will receive an alert. We do not read your inbox history, do not save your messages, and the app runs completely offline without sending data anywhere. You can turn this off anytime.';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntentContext();
-  const [text, setText] = useState('');
-  const [notice, setNotice] = useState<string | null>(null);
-  const [labels, setLabels] = useState(statusLabels);
+  const session = useHomeSession();
+  const draftId = session.id;
+  const setNotice = (message: string | null) => {
+    setSessionNotice(draftId, message);
+  };
   const [picking, setPicking] = useState(false);
   const [autoCheck, setAutoCheck] = useState(isAutoCheckOn);
+  const pickerLock = useRef(false);
+  const navigating = useRef(false);
+  const lastShare = useRef<typeof shareIntent | null>(null);
+  const input = useRef<TextInput>(null);
+  const active = useAppActive();
+  const labels = useReadiness();
+  const insets = useSafeAreaInsets();
+  const alive = useRef(true);
 
-  // Keep the status strip current while the model loads in the background.
   useEffect(() => {
-    const id = setInterval(() => {
-      const next = statusLabels();
-      setLabels((prev) => (prev.llmLabel === next.llmLabel ? prev : next));
-    }, LABELS_REFRESH_MS);
-    return () => clearInterval(id);
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
   }, []);
 
-  // FR-IN-01: cap the input and tell the user.
-  const load = (raw: string): string => {
-    const capped = raw.slice(0, MAX_INPUT_CHARS);
-    setText(capped);
-    setNotice(raw.length > MAX_INPUT_CHARS ? TRUNCATED_NOTICE : null);
-    return capped;
-  };
-
-  const check = (message: string) => {
-    if (!message.trim()) {
-      // FR-IN-05
-      setNotice('Mag-paste o mag-type muna ng message na gusto mong i-check.');
-      return;
-    }
-    router.push({ pathname: '/result', params: { text: message } });
-  };
-
-  // FR-IN-03 / USE-02: shared text opens here and goes straight to the result.
   useEffect(() => {
-    if (!hasShareIntent) return;
-    const image = shareIntent.files?.find((file) => file.mimeType?.startsWith('image/'));
-    if (image) {
-      resetShareIntent();
-      router.push({ pathname: '/screenshot', params: { uri: image.path } });
+    if (active) navigating.current = false;
+  }, [active]);
+
+  const openResult = (id: string) => {
+    if (navigating.current) return;
+    if (!submitSession(id)) {
+      setNotice(
+        getSession(id)?.text.trim()
+          ? 'Please review the partial input notice before checking.'
+          : 'Please paste or type a message first.',
+      );
+      input.current?.focus();
       return;
     }
+    navigating.current = true;
+    router.push({ pathname: '/result', params: { sessionId: id } });
+  };
+
+  useEffect(() => {
+    if (!hasShareIntent) {
+      lastShare.current = null;
+      return;
+    }
+    if (lastShare.current === shareIntent) return;
+    lastShare.current = shareIntent;
+    const image = shareIntent.files?.find((file) => file.mimeType?.startsWith('image/'));
     const shared = shareIntent.text ?? shareIntent.webUrl ?? '';
     resetShareIntent();
-    if (!shared.trim()) return;
-    const truncated = shared.length > MAX_INPUT_CHARS ? '1' : '0';
-    router.push({
-      pathname: '/result',
-      params: { text: shared.slice(0, MAX_INPUT_CHARS), truncated },
-    });
-  }, [hasShareIntent, shareIntent, resetShareIntent, router]);
+    if (image) {
+      const id = createSession('', 'screenshot', image.path);
+      router.push({ pathname: '/screenshot', params: { sessionId: id } });
+    } else if (shared.trim()) {
+      const id = replaceHomeInput(shared, 'share');
+      if (!getSession(id)?.truncated && submitSession(id)) {
+        navigating.current = true;
+        router.push({ pathname: '/result', params: { sessionId: id } });
+      }
+    } else setSessionNotice(draftId, 'No readable text or image found in shared content.');
+  }, [hasShareIntent, shareIntent, resetShareIntent, router, draftId]);
 
-  // FR-SM-05: a tapped auto-check notification opens the result with that text.
+  // Handle incoming SMS notifications (FR-SM-05)
   useEffect(() => {
+    if (!autoCheckAvailable) return;
     syncAutoCheck().then(setAutoCheck);
-    const open = (sms: string) =>
-      router.push({ pathname: '/result', params: { text: sms.slice(0, MAX_INPUT_CHARS) } });
+    const open = (sms: string) => {
+      const id = replaceHomeInput(sms, 'text');
+      if (submitSession(id)) {
+        navigating.current = true;
+        router.push({ pathname: '/result', params: { sessionId: id } });
+      }
+    };
     const launched = consumeLaunchText();
     if (launched) open(launched);
     return addSmsOpenListener(open);
@@ -115,163 +129,218 @@ export default function HomeScreen() {
       setAutoCheck(false);
       return;
     }
-    Alert.alert('I-check ang mga bagong text?', AUTO_CHECK_EXPLAIN, [
-      { text: 'Huwag muna', style: 'cancel' },
+    Alert.alert('Auto-check new text messages?', AUTO_CHECK_EXPLAIN, [
+      { text: 'Not Now', style: 'cancel' },
       {
-        text: 'Sige, i-on',
+        text: 'Turn On',
         onPress: async () => {
           const ok = await turnOnAutoCheck();
           setAutoCheck(ok);
-          if (!ok) setNotice('Hindi na-on ang auto-check: kailangan ang SMS permission.');
+          if (!ok) setNotice('Auto-check was not enabled: SMS permission is required.');
         },
       },
     ]);
   };
 
-  // FR-IN-02 / SEC-04: the clipboard is read only when the user taps Paste.
   const paste = async () => {
-    const clip = await Clipboard.getStringAsync();
-    if (clip) load(clip);
-    else setNotice('Walang laman ang clipboard.');
+    try {
+      const clip = await Clipboard.getStringAsync();
+      if (!alive.current) return;
+      if (!clip) {
+        setNotice('Your clipboard is empty. You can type or paste directly here.');
+        return;
+      }
+      replaceHomeInput(clip);
+      setNotice(null);
+    } catch {
+      if (alive.current)
+        setNotice('Could not access clipboard. Please paste manually into the input box.');
+    }
   };
 
-  const pickScreenshot = async (): Promise<void> => {
+  const pickScreenshot = async () => {
+    if (pickerLock.current) return;
+    pickerLock.current = true;
     setPicking(true);
     setNotice(null);
     try {
       const uri = await pickImage();
-      if (uri !== null) router.push({ pathname: '/screenshot', params: { uri } });
-    } catch (error) {
-      setNotice(
-        `Hindi makapili ng screenshot: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      if (!uri) return;
+      if (!alive.current) {
+        deleteTemporaryImage(uri);
+        return;
+      }
+      router.push({
+        pathname: '/screenshot',
+        params: { sessionId: createSession('', 'screenshot', uri) },
+      });
+    } catch {
+      if (alive.current) setNotice('Unable to select image. Please try again or paste text.');
     } finally {
-      setPicking(false);
+      pickerLock.current = false;
+      if (alive.current) setPicking(false);
     }
   };
 
   return (
-    <Screen>
+    <Screen keyboardOffset={insets.top + 56}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>Scam ba ito?</Text>
-        <Text style={styles.subtitle}>
-          I-paste o i-share dito ang text, email o link. Sa phone mo lang ito sinusuri, walang
-          internet.
-        </Text>
-
-        <TextInput
-          testID="message-input"
-          style={styles.input}
-          value={text}
-          onChangeText={load}
-          placeholder="I-paste ang message o email dito…"
-          placeholderTextColor={colors.muted}
-          multiline
-          textAlignVertical="top"
-          accessibilityLabel="Message na i-check"
+        <Heading
+          title="Is This a Scam?"
+          description="Check suspicious messages, links, screenshots, or QR codes safely on your device before tapping."
         />
-        {notice ? (
-          <Text style={styles.notice} accessibilityLiveRegion="polite">
-            {notice}
-          </Text>
+
+        <ScanFrame>
+          <MessageInput
+            value={session?.text ?? ''}
+            inputRef={input}
+            onChangeText={(raw) => {
+              editSession(draftId, raw);
+              setNotice(null);
+            }}
+          />
+        </ScanFrame>
+
+        {session?.truncated ? (
+          <Notice
+            message={PARTIAL_NOTICE}
+            onAcknowledge={session.acknowledged ? undefined : () => acknowledgeSession(draftId)}
+          />
         ) : null}
 
-        <View style={styles.row}>
-          <View style={styles.flex}>
+        {session.notice ? <Notice message={session.notice} /> : null}
+
+        <View style={styles.utilities}>
+          <View style={styles.utility}>
             <Button title="Paste" variant="secondary" onPress={paste} testID="paste-message" />
           </View>
-          <View style={styles.flex}>
-            <Button title="I-check" onPress={() => check(text)} testID="analyze-message" />
-          </View>
+          {session?.text ? (
+            <View style={styles.utility}>
+              <Button
+                title="Clear"
+                variant="secondary"
+                onPress={() => {
+                  replaceHomeInput('');
+                  setNotice(null);
+                }}
+              />
+            </View>
+          ) : null}
         </View>
 
         <Button
-          title={picking ? 'Binubuksan ang gallery…' : 'Pumili ng screenshot'}
-          variant="secondary"
-          onPress={pickScreenshot}
-          testID="pick-screenshot"
-          disabled={picking}
-        />
-        <Button
-          title="I-check ang QR"
-          variant="secondary"
-          onPress={() => router.push('/qr')}
-          testID="open-qr"
-        />
-        <Button
-          title="Tingnan ang Scan History"
-          variant="secondary"
-          onPress={() => router.push('/history' as any)}
-          testID="open-history"
+          title="Check Message"
+          onPress={() => openResult(draftId)}
+          testID="analyze-message"
+          disabled={!!session?.truncated && !session.acknowledged}
         />
 
         {autoCheckAvailable ? (
-          <View style={styles.toggleRow}>
-            <Text style={styles.flex}>Auto-check new texts</Text>
-            <Switch
-              value={autoCheck}
-              onValueChange={toggleAutoCheck}
-              trackColor={{ true: colors.primary }}
-              accessibilityLabel="Auto-check new texts"
-              testID="sms-auto-check"
-            />
+          <View style={styles.toggleCard}>
+            <View style={styles.toggleRow}>
+              <View style={styles.toggleInfo}>
+                <Text role="section" style={styles.toggleTitle}>
+                  Auto-Check New Text Messages
+                </Text>
+                <Text style={styles.toggleSubtitle}>
+                  Scans new SMS messages privately as they arrive
+                </Text>
+              </View>
+              <Switch
+                value={autoCheck}
+                onValueChange={toggleAutoCheck}
+                trackColor={{ true: colors.primary, false: colors.softBorder }}
+                thumbColor={colors.onPrimary}
+                accessibilityLabel="Auto-check new text messages"
+                testID="sms-auto-check"
+              />
+            </View>
           </View>
         ) : null}
 
-        <Text style={styles.section}>Subukan ang sample</Text>
-        {SAMPLES.map((s) => (
-          <Button key={s.label} title={s.label} variant="secondary" onPress={() => check(s.text)} />
-        ))}
+        <View style={styles.section}>
+          <Text role="section" accessibilityRole="header">
+            Check an Image or QR Code
+          </Text>
+          <Button
+            title="Select Screenshot"
+            variant="secondary"
+            onPress={pickScreenshot}
+            testID="pick-screenshot"
+            busy={picking}
+          />
+          <Button
+            title="Scan QR Code"
+            variant="secondary"
+            onPress={() => router.push('/qr')}
+            testID="open-qr"
+            disabled={picking}
+          />
+        </View>
+
+        <View style={styles.section}>
+          <Text role="section" accessibilityRole="header">
+            Scan History
+          </Text>
+          <Text style={styles.muted}>
+            Past scan results are safely saved offline on your phone.
+          </Text>
+          <Button
+            title="View Scan History"
+            variant="secondary"
+            onPress={() => router.push('/history' as any)}
+            testID="open-history"
+            disabled={picking}
+          />
+        </View>
+
+        <StatusStrip
+          llmLabel={labels.llmLabel}
+          classifierLabel={labels.classifierLabel}
+          note={
+            autoCheckAvailable
+              ? `Auto-check text messages: ${autoCheck ? 'ON' : 'OFF'}`
+              : undefined
+          }
+        />
       </ScrollView>
-      <StatusStrip
-        llmLabel={labels.llmLabel}
-        classifierLabel={labels.classifierLabel}
-        note={
-          autoCheckAvailable ? `Auto-check ng bagong text: ${autoCheck ? 'ON' : 'OFF'}` : undefined
-        }
-      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    gap: spacing.md,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-  },
-  subtitle: {
-    color: colors.muted,
-  },
-  input: {
-    minHeight: 160,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: spacing.sm,
-    padding: spacing.md,
-    fontSize: fontSize.body,
-    color: colors.text,
+  content: { gap: spacing.md, paddingBottom: spacing.xl },
+  utilities: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  utility: { flexGrow: 1, flexBasis: 120 },
+  section: { marginTop: spacing.md, gap: spacing.sm },
+  toggleCard: {
     backgroundColor: colors.surface,
-  },
-  notice: {
-    color: colors.suspicious,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  flex: {
-    flex: 1,
+    padding: spacing.md,
+    borderRadius: shape.panel,
+    borderWidth: brutalist.borderWidth,
+    borderColor: brutalist.borderColor,
+    borderRightWidth: brutalist.borderWidth + brutalist.offset,
+    borderBottomWidth: brutalist.borderWidth + brutalist.offset,
+    marginTop: spacing.xs,
   },
   toggleRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: spacing.sm,
   },
-  section: {
-    marginTop: spacing.sm,
-    fontWeight: '600',
+  toggleInfo: {
+    flex: 1,
+    gap: 2,
   },
+  toggleTitle: {
+    fontSize: fontSize.body,
+    fontFamily: fonts.bold,
+    color: colors.text,
+  },
+  toggleSubtitle: {
+    fontSize: fontSize.small,
+    color: colors.muted,
+  },
+  muted: { color: colors.muted },
 });

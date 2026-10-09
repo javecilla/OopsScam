@@ -112,19 +112,19 @@ export const FLAG_TEXT: Record<FlagId, { tl: string; en: string }> = {
 
 export const VERDICT_TEMPLATE: Record<Verdict, { intro: string; action: string }> = {
   scam: {
-    intro: 'Mukhang SCAM ito.',
+    intro: 'This message shows clear signs of a SCAM.',
     action:
-      'Huwag i-click ang link, huwag magbigay ng OTP o MPIN, at huwag magpadala ng pera. I-delete ang message at i-report sa CICC hotline 1326.',
+      'Do not click the link, never share your OTP or passwords, and do not send money. Delete this message and report it.',
   },
   suspicious: {
-    intro: 'Kahina-hinala ang message na ito.',
+    intro: 'This message appears suspicious.',
     action:
-      'Huwag munang sumunod. I-verify muna sa official app o hotline ng brand o ahensya, hindi gamit ang link o number sa message.',
+      'Do not follow any instructions yet. Verify directly through the official app or hotline of the company or bank, never using links in this message.',
   },
   low_risk: {
-    intro: 'Walang nakitang malinaw na red flag, pero hindi ito garantiya na totoo ang message.',
+    intro: 'No obvious red flags detected (hindi ito garantiya na totoo ang message).',
     action:
-      'Mag-ingat pa rin: huwag ibigay ang OTP o MPIN kahit kanino, at i-verify sa official app kung may duda ka.',
+      'Always stay alert: never share your OTP or PIN with anyone, and confirm through official channels if in doubt.',
   },
 };
 
@@ -133,9 +133,12 @@ export const MAX_EXPLANATION_CHARS = 400;
 const MAX_REASONS = 3;
 
 // FR-LM-05: the fallback explanation, built from the verdict and the top flags (already sorted by points).
-export function buildTemplateExplanation(verdict: Verdict, flags: { tl: string }[]): Explanation {
+export function buildTemplateExplanation(
+  verdict: Verdict,
+  flags: { tl?: string; en?: string }[],
+): Explanation {
   const { intro, action } = VERDICT_TEMPLATE[verdict];
-  const reasons = flags.slice(0, MAX_REASONS).map((f) => f.tl);
+  const reasons = flags.slice(0, MAX_REASONS).map((f) => f.en || f.tl || '');
   return {
     source: 'template',
     explanationTl: [intro, ...reasons].join(' ').slice(0, MAX_EXPLANATION_CHARS),
