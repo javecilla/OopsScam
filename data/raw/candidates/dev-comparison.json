@@ -1,0 +1,5453 @@
+{
+  "set": "data/dev",
+  "rows": 92,
+  "scam": 47,
+  "legit": 45,
+  "inputHashes": {
+    "dev.csv": "9007417c1775aea8bcd1199065e97cfaa7a56584f79ebe79f1e248e723b1f4e6"
+  },
+  "models": [
+    {
+      "name": "classifier",
+      "path": "data/raw/baseline/classifier.json",
+      "sha256": "210d0985733e92cb11ae864da1846cd6f4d3a8241306fd4c4663554e85442207",
+      "bytes": 225768,
+      "classifier": {
+        "tp": 39,
+        "fp": 6,
+        "tn": 39,
+        "fn": 8,
+        "accuracy": 0.8478260869565217,
+        "precision": 0.8666666666666667,
+        "recall": 0.8297872340425532,
+        "f1": 0.8478260869565217,
+        "falseAlarmRate": 0.13333333333333333
+      },
+      "fused": {
+        "tp": 46,
+        "fp": 6,
+        "tn": 39,
+        "fn": 1,
+        "accuracy": 0.9239130434782609,
+        "precision": 0.8846153846153846,
+        "recall": 0.9787234042553191,
+        "f1": 0.9292929292929293,
+        "falseAlarmRate": 0.13333333333333333
+      },
+      "scamVerdictOnly": {
+        "tp": 29,
+        "fp": 0,
+        "tn": 45,
+        "fn": 18,
+        "accuracy": 0.8043478260869565,
+        "precision": 1,
+        "recall": 0.6170212765957447,
+        "f1": 0.7631578947368421,
+        "falseAlarmRate": 0
+      },
+      "perCategory": {
+        "account_threat_link": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "credential_request": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "prize_raffle_ayuda": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "government_impersonation": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "parcel_fee": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "job_loan_investment": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "emergency_relative": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "remote_access_apk": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "qr_phishing": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "marketplace_scam": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "other_scam": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.75,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "falseAlarmRate": null
+        },
+        "otp": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "transaction_receipt": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "telco_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "delivery_notice": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "bill_reminder": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "gov_announcement": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 6,
+          "fn": 0,
+          "accuracy": 0.8571428571428571,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.14285714285714285
+        },
+        "personal_chat": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "marketplace_legit": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "promo": {
+          "tp": 0,
+          "fp": 2,
+          "tn": 8,
+          "fn": 0,
+          "accuracy": 0.8,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.2
+        }
+      },
+      "predictions": [
+        {
+          "id": "dev-s001",
+          "label": "scam",
+          "probability": 0.8230111497445073,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s002",
+          "label": "scam",
+          "probability": 0.9573982561415928,
+          "score": 70,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s003",
+          "label": "scam",
+          "probability": 0.9894567130978252,
+          "score": 76,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s004",
+          "label": "scam",
+          "probability": 0.07211767527528765,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s005",
+          "label": "scam",
+          "probability": 0.9381198936216449,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s006",
+          "label": "scam",
+          "probability": 0.9185102692786247,
+          "score": 97,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s007",
+          "label": "scam",
+          "probability": 0.9704667359275068,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s008",
+          "label": "scam",
+          "probability": 0.9751155833484517,
+          "score": 39,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s009",
+          "label": "scam",
+          "probability": 0.9998891261867032,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s010",
+          "label": "scam",
+          "probability": 0.9973188785345081,
+          "score": 49,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s011",
+          "label": "scam",
+          "probability": 0.9884794536055878,
+          "score": 85,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s012",
+          "label": "scam",
+          "probability": 0.8593017683911177,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s013",
+          "label": "scam",
+          "probability": 0.9995719450655659,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s014",
+          "label": "scam",
+          "probability": 0.6912127634788088,
+          "score": 43,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s015",
+          "label": "scam",
+          "probability": 0.6462760547172477,
+          "score": 86,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s016",
+          "label": "scam",
+          "probability": 0.9114052029538194,
+          "score": 68,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s017",
+          "label": "scam",
+          "probability": 0.87037962279368,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s018",
+          "label": "scam",
+          "probability": 0.998281718925432,
+          "score": 73,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s019",
+          "label": "scam",
+          "probability": 0.9995972382485138,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s020",
+          "label": "scam",
+          "probability": 0.4809772904709507,
+          "score": 48,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s021",
+          "label": "scam",
+          "probability": 0.9057805494004384,
+          "score": 65,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s022",
+          "label": "scam",
+          "probability": 0.8415193379851682,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s023",
+          "label": "scam",
+          "probability": 0.1730770221380936,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s024",
+          "label": "scam",
+          "probability": 0.1714072508000728,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s025",
+          "label": "scam",
+          "probability": 0.9796132029187625,
+          "score": 75,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s026",
+          "label": "scam",
+          "probability": 0.9949760044643565,
+          "score": 76,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s027",
+          "label": "scam",
+          "probability": 0.9870391117118456,
+          "score": 39,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s028",
+          "label": "scam",
+          "probability": 0.45612706798662783,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s029",
+          "label": "scam",
+          "probability": 0.8817643849290411,
+          "score": 91,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s030",
+          "label": "scam",
+          "probability": 0.9888172957382233,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s031",
+          "label": "scam",
+          "probability": 0.9506187785997864,
+          "score": 47,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s032",
+          "label": "scam",
+          "probability": 0.9826655492703636,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s033",
+          "label": "scam",
+          "probability": 0.9968565797958553,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s034",
+          "label": "scam",
+          "probability": 0.8149953443449307,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s035",
+          "label": "scam",
+          "probability": 0.9917979325532374,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s036",
+          "label": "scam",
+          "probability": 0.9420522905408931,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s037",
+          "label": "scam",
+          "probability": 0.9937924824174391,
+          "score": 52,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s038",
+          "label": "scam",
+          "probability": 0.9767953505398399,
+          "score": 69,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s039",
+          "label": "scam",
+          "probability": 0.7698529190871591,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s040",
+          "label": "scam",
+          "probability": 0.9767282368451193,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s041",
+          "label": "scam",
+          "probability": 0.8092936478557712,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s042",
+          "label": "scam",
+          "probability": 0.9895751418220252,
+          "score": 59,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s043",
+          "label": "scam",
+          "probability": 0.9157984362087132,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s044",
+          "label": "scam",
+          "probability": 0.391615392637051,
+          "score": 34,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s045",
+          "label": "scam",
+          "probability": 0.9985991226519183,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s046",
+          "label": "scam",
+          "probability": 0.11689400724427688,
+          "score": 9,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s047",
+          "label": "scam",
+          "probability": 0.3867559371288833,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-l001",
+          "label": "legit",
+          "probability": 0.026495841058583713,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l002",
+          "label": "legit",
+          "probability": 0.027109552563187027,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l003",
+          "label": "legit",
+          "probability": 0.04595047478854378,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l004",
+          "label": "legit",
+          "probability": 0.20673915684786845,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l005",
+          "label": "legit",
+          "probability": 0.14113138591564175,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l006",
+          "label": "legit",
+          "probability": 0.08273723766359714,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l007",
+          "label": "legit",
+          "probability": 0.4346759301191633,
+          "score": 17,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l008",
+          "label": "legit",
+          "probability": 0.18500696448481743,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l009",
+          "label": "legit",
+          "probability": 0.00950390265189696,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l010",
+          "label": "legit",
+          "probability": 0.21535796747878805,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l011",
+          "label": "legit",
+          "probability": 0.7327617597091586,
+          "score": 32,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l012",
+          "label": "legit",
+          "probability": 0.05484569985265629,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l013",
+          "label": "legit",
+          "probability": 0.056548882139765,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l014",
+          "label": "legit",
+          "probability": 0.5787509287678257,
+          "score": 38,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l015",
+          "label": "legit",
+          "probability": 0.20290453988213628,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l016",
+          "label": "legit",
+          "probability": 0.01856296512278994,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l017",
+          "label": "legit",
+          "probability": 0.024737048623491714,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l018",
+          "label": "legit",
+          "probability": 0.034884262730402724,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l019",
+          "label": "legit",
+          "probability": 0.2400492288288092,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l020",
+          "label": "legit",
+          "probability": 0.22585621018149102,
+          "score": 15,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l021",
+          "label": "legit",
+          "probability": 0.12910962871779266,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l022",
+          "label": "legit",
+          "probability": 0.44904657078229576,
+          "score": 33,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l023",
+          "label": "legit",
+          "probability": 0.14205340026353494,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l024",
+          "label": "legit",
+          "probability": 0.09045197779724079,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l025",
+          "label": "legit",
+          "probability": 0.010754293125588529,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l026",
+          "label": "legit",
+          "probability": 0.044707279253525765,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l027",
+          "label": "legit",
+          "probability": 0.07454728110165075,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l028",
+          "label": "legit",
+          "probability": 0.010916243787306948,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l029",
+          "label": "legit",
+          "probability": 0.06101755663914024,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l030",
+          "label": "legit",
+          "probability": 0.1365234086960967,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l031",
+          "label": "legit",
+          "probability": 0.002469397704961047,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l032",
+          "label": "legit",
+          "probability": 0.4809932137308644,
+          "score": 19,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l033",
+          "label": "legit",
+          "probability": 0.7492683398752467,
+          "score": 30,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l034",
+          "label": "legit",
+          "probability": 0.2804438693881881,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l035",
+          "label": "legit",
+          "probability": 0.10546376111561823,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l036",
+          "label": "legit",
+          "probability": 0.2133624384470905,
+          "score": 9,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l037",
+          "label": "legit",
+          "probability": 0.020229670856041545,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l038",
+          "label": "legit",
+          "probability": 0.2119622416861855,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l039",
+          "label": "legit",
+          "probability": 0.741193414682513,
+          "score": 30,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l040",
+          "label": "legit",
+          "probability": 0.08118563739737561,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l041",
+          "label": "legit",
+          "probability": 0.39526797479784104,
+          "score": 25,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l042",
+          "label": "legit",
+          "probability": 0.020859796691530676,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l043",
+          "label": "legit",
+          "probability": 0.03382452213097622,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l044",
+          "label": "legit",
+          "probability": 0.6087277466938704,
+          "score": 24,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l045",
+          "label": "legit",
+          "probability": 0.6891839945860538,
+          "score": 40,
+          "verdict": "suspicious"
+        }
+      ]
+    },
+    {
+      "name": "C-0.5",
+      "path": "data/raw/candidates/C-0.5.json",
+      "sha256": "2c1cccdde7df81c99aace0b1b3b581c772e4ff4fe4f8b5cba70d78d1ac6fc1df",
+      "bytes": 227332,
+      "classifier": {
+        "tp": 45,
+        "fp": 4,
+        "tn": 41,
+        "fn": 2,
+        "accuracy": 0.9347826086956522,
+        "precision": 0.9183673469387755,
+        "recall": 0.9574468085106383,
+        "f1": 0.9375,
+        "falseAlarmRate": 0.08888888888888889
+      },
+      "fused": {
+        "tp": 45,
+        "fp": 1,
+        "tn": 44,
+        "fn": 2,
+        "accuracy": 0.967391304347826,
+        "precision": 0.9782608695652174,
+        "recall": 0.9574468085106383,
+        "f1": 0.967741935483871,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "scamVerdictOnly": {
+        "tp": 29,
+        "fp": 0,
+        "tn": 45,
+        "fn": 18,
+        "accuracy": 0.8043478260869565,
+        "precision": 1,
+        "recall": 0.6170212765957447,
+        "f1": 0.7631578947368421,
+        "falseAlarmRate": 0
+      },
+      "perCategory": {
+        "account_threat_link": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "credential_request": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "prize_raffle_ayuda": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "government_impersonation": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "parcel_fee": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "job_loan_investment": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.8333333333333334,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "falseAlarmRate": null
+        },
+        "emergency_relative": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "remote_access_apk": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "qr_phishing": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "marketplace_scam": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "other_scam": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.75,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "falseAlarmRate": null
+        },
+        "otp": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "transaction_receipt": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "telco_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "delivery_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "bill_reminder": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "gov_announcement": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "personal_chat": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "marketplace_legit": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "promo": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        }
+      },
+      "predictions": [
+        {
+          "id": "dev-s001",
+          "label": "scam",
+          "probability": 0.898376811762201,
+          "score": 77,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s002",
+          "label": "scam",
+          "probability": 0.7655839636793429,
+          "score": 62,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s003",
+          "label": "scam",
+          "probability": 0.8305650525546784,
+          "score": 69,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s004",
+          "label": "scam",
+          "probability": 0.2139585503853767,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s005",
+          "label": "scam",
+          "probability": 0.8976619659110588,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s006",
+          "label": "scam",
+          "probability": 0.9279695598929567,
+          "score": 97,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s007",
+          "label": "scam",
+          "probability": 0.9873573830225731,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s008",
+          "label": "scam",
+          "probability": 0.5685085091662958,
+          "score": 23,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s009",
+          "label": "scam",
+          "probability": 0.994521378515165,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s010",
+          "label": "scam",
+          "probability": 0.8960175256870964,
+          "score": 45,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s011",
+          "label": "scam",
+          "probability": 0.9682714579428316,
+          "score": 84,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s012",
+          "label": "scam",
+          "probability": 0.8055824487312822,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s013",
+          "label": "scam",
+          "probability": 0.9896807697129738,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s014",
+          "label": "scam",
+          "probability": 0.6310462121815448,
+          "score": 40,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s015",
+          "label": "scam",
+          "probability": 0.7651758221251627,
+          "score": 91,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s016",
+          "label": "scam",
+          "probability": 0.9145129834510409,
+          "score": 68,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s017",
+          "label": "scam",
+          "probability": 0.8900477077696796,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s018",
+          "label": "scam",
+          "probability": 0.9393964388826548,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s019",
+          "label": "scam",
+          "probability": 0.9903711291863092,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s020",
+          "label": "scam",
+          "probability": 0.5564395958308131,
+          "score": 51,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s021",
+          "label": "scam",
+          "probability": 0.9369232124796356,
+          "score": 66,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s022",
+          "label": "scam",
+          "probability": 0.9572636640730201,
+          "score": 94,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s023",
+          "label": "scam",
+          "probability": 0.5136681096227343,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s024",
+          "label": "scam",
+          "probability": 0.8486912598488584,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s025",
+          "label": "scam",
+          "probability": 0.8610841725910529,
+          "score": 70,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s026",
+          "label": "scam",
+          "probability": 0.9125961841667578,
+          "score": 73,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s027",
+          "label": "scam",
+          "probability": 0.9677857683587064,
+          "score": 39,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s028",
+          "label": "scam",
+          "probability": 0.927384583063589,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s029",
+          "label": "scam",
+          "probability": 0.9565714899258979,
+          "score": 94,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s030",
+          "label": "scam",
+          "probability": 0.8453373051556214,
+          "score": 52,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s031",
+          "label": "scam",
+          "probability": 0.6904395903559274,
+          "score": 37,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s032",
+          "label": "scam",
+          "probability": 0.8739536122909215,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s033",
+          "label": "scam",
+          "probability": 0.9269499243394229,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s034",
+          "label": "scam",
+          "probability": 0.9031415219619546,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s035",
+          "label": "scam",
+          "probability": 0.8732353026270688,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s036",
+          "label": "scam",
+          "probability": 0.9143076808305249,
+          "score": 70,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s037",
+          "label": "scam",
+          "probability": 0.9654445305908785,
+          "score": 51,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s038",
+          "label": "scam",
+          "probability": 0.7880123890922939,
+          "score": 62,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s039",
+          "label": "scam",
+          "probability": 0.8048854169248729,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s040",
+          "label": "scam",
+          "probability": 0.9704652571984985,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s041",
+          "label": "scam",
+          "probability": 0.7154454301988712,
+          "score": 60,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s042",
+          "label": "scam",
+          "probability": 0.9879375232962275,
+          "score": 59,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s043",
+          "label": "scam",
+          "probability": 0.8944665968398139,
+          "score": 54,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s044",
+          "label": "scam",
+          "probability": 0.771665698694205,
+          "score": 49,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s045",
+          "label": "scam",
+          "probability": 0.9830066220602413,
+          "score": 54,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s046",
+          "label": "scam",
+          "probability": 0.39838856712932896,
+          "score": 21,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s047",
+          "label": "scam",
+          "probability": 0.592109028693388,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-l001",
+          "label": "legit",
+          "probability": 0.06755634570081971,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l002",
+          "label": "legit",
+          "probability": 0.21884706299163828,
+          "score": 9,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l003",
+          "label": "legit",
+          "probability": 0.1372137304554186,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l004",
+          "label": "legit",
+          "probability": 0.2924331170278097,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l005",
+          "label": "legit",
+          "probability": 0.3285875678072178,
+          "score": 13,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l006",
+          "label": "legit",
+          "probability": 0.1429793739815376,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l007",
+          "label": "legit",
+          "probability": 0.20089259083326244,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l008",
+          "label": "legit",
+          "probability": 0.16179196572449395,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l009",
+          "label": "legit",
+          "probability": 0.08009165337913858,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l010",
+          "label": "legit",
+          "probability": 0.4566142223603487,
+          "score": 21,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l011",
+          "label": "legit",
+          "probability": 0.515023514034335,
+          "score": 24,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l012",
+          "label": "legit",
+          "probability": 0.21800249231881283,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l013",
+          "label": "legit",
+          "probability": 0.19671576326970283,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l014",
+          "label": "legit",
+          "probability": 0.5665088334632088,
+          "score": 38,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l015",
+          "label": "legit",
+          "probability": 0.40690359057139414,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l016",
+          "label": "legit",
+          "probability": 0.03183268675979529,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l017",
+          "label": "legit",
+          "probability": 0.04625195624994793,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l018",
+          "label": "legit",
+          "probability": 0.06876583167765113,
+          "score": 9,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l019",
+          "label": "legit",
+          "probability": 0.19158258985915266,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l020",
+          "label": "legit",
+          "probability": 0.23305342015323988,
+          "score": 15,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l021",
+          "label": "legit",
+          "probability": 0.20305951185854873,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l022",
+          "label": "legit",
+          "probability": 0.2080704751916852,
+          "score": 23,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l023",
+          "label": "legit",
+          "probability": 0.12985827882502016,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l024",
+          "label": "legit",
+          "probability": 0.3483544558017661,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l025",
+          "label": "legit",
+          "probability": 0.1457725595558289,
+          "score": 18,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l026",
+          "label": "legit",
+          "probability": 0.08068870774843077,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l027",
+          "label": "legit",
+          "probability": 0.11359714347115087,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l028",
+          "label": "legit",
+          "probability": 0.12500706348236998,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l029",
+          "label": "legit",
+          "probability": 0.14402541742501104,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l030",
+          "label": "legit",
+          "probability": 0.14938855920043007,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l031",
+          "label": "legit",
+          "probability": 0.034098772828816834,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l032",
+          "label": "legit",
+          "probability": 0.6741646925705029,
+          "score": 27,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l033",
+          "label": "legit",
+          "probability": 0.3708100989267031,
+          "score": 15,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l034",
+          "label": "legit",
+          "probability": 0.5519322121747969,
+          "score": 25,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l035",
+          "label": "legit",
+          "probability": 0.16557810797243577,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l036",
+          "label": "legit",
+          "probability": 0.10244498215903597,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l037",
+          "label": "legit",
+          "probability": 0.022667324647415887,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l038",
+          "label": "legit",
+          "probability": 0.13825185961221578,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l039",
+          "label": "legit",
+          "probability": 0.078702457027494,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l040",
+          "label": "legit",
+          "probability": 0.05705135273227742,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l041",
+          "label": "legit",
+          "probability": 0.28416769335569675,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l042",
+          "label": "legit",
+          "probability": 0.07744272695467809,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l043",
+          "label": "legit",
+          "probability": 0.041902411224887366,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l044",
+          "label": "legit",
+          "probability": 0.4741859697363274,
+          "score": 19,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l045",
+          "label": "legit",
+          "probability": 0.4343384437063269,
+          "score": 29,
+          "verdict": "low_risk"
+        }
+      ]
+    },
+    {
+      "name": "C-1.0",
+      "path": "data/raw/candidates/C-1.0.json",
+      "sha256": "f7b1f474a90e72927a994d3add6d1de6cf1bea6e9e91c0e875c9e6124db7e1c7",
+      "bytes": 227195,
+      "classifier": {
+        "tp": 45,
+        "fp": 1,
+        "tn": 44,
+        "fn": 2,
+        "accuracy": 0.967391304347826,
+        "precision": 0.9782608695652174,
+        "recall": 0.9574468085106383,
+        "f1": 0.967741935483871,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "fused": {
+        "tp": 45,
+        "fp": 1,
+        "tn": 44,
+        "fn": 2,
+        "accuracy": 0.967391304347826,
+        "precision": 0.9782608695652174,
+        "recall": 0.9574468085106383,
+        "f1": 0.967741935483871,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "scamVerdictOnly": {
+        "tp": 30,
+        "fp": 0,
+        "tn": 45,
+        "fn": 17,
+        "accuracy": 0.8152173913043478,
+        "precision": 1,
+        "recall": 0.6382978723404256,
+        "f1": 0.7792207792207793,
+        "falseAlarmRate": 0
+      },
+      "perCategory": {
+        "account_threat_link": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "credential_request": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "prize_raffle_ayuda": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "government_impersonation": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "parcel_fee": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "job_loan_investment": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.8333333333333334,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "falseAlarmRate": null
+        },
+        "emergency_relative": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "remote_access_apk": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "qr_phishing": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "marketplace_scam": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "other_scam": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.75,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "falseAlarmRate": null
+        },
+        "otp": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "transaction_receipt": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "telco_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "delivery_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "bill_reminder": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "gov_announcement": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "personal_chat": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "marketplace_legit": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "promo": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        }
+      },
+      "predictions": [
+        {
+          "id": "dev-s001",
+          "label": "scam",
+          "probability": 0.9317847391018607,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s002",
+          "label": "scam",
+          "probability": 0.772076261145011,
+          "score": 63,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s003",
+          "label": "scam",
+          "probability": 0.8766905250731352,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s004",
+          "label": "scam",
+          "probability": 0.13113019613783047,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s005",
+          "label": "scam",
+          "probability": 0.93358998198109,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s006",
+          "label": "scam",
+          "probability": 0.9467238699400234,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s007",
+          "label": "scam",
+          "probability": 0.9934200269654903,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s008",
+          "label": "scam",
+          "probability": 0.5347193670414748,
+          "score": 21,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s009",
+          "label": "scam",
+          "probability": 0.997610352575197,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s010",
+          "label": "scam",
+          "probability": 0.9302151488908417,
+          "score": 46,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s011",
+          "label": "scam",
+          "probability": 0.9831371067413807,
+          "score": 84,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s012",
+          "label": "scam",
+          "probability": 0.8295570037132186,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s013",
+          "label": "scam",
+          "probability": 0.9944042810630197,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s014",
+          "label": "scam",
+          "probability": 0.6224909238237201,
+          "score": 40,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s015",
+          "label": "scam",
+          "probability": 0.8249735871185004,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s016",
+          "label": "scam",
+          "probability": 0.9374637943623882,
+          "score": 69,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s017",
+          "label": "scam",
+          "probability": 0.910562920459379,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s018",
+          "label": "scam",
+          "probability": 0.9603615862314485,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s019",
+          "label": "scam",
+          "probability": 0.9950376101270644,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s020",
+          "label": "scam",
+          "probability": 0.5836712518445587,
+          "score": 52,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s021",
+          "label": "scam",
+          "probability": 0.9572334058035293,
+          "score": 67,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s022",
+          "label": "scam",
+          "probability": 0.9743725700560195,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s023",
+          "label": "scam",
+          "probability": 0.5229883156249737,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s024",
+          "label": "scam",
+          "probability": 0.8778954858022672,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s025",
+          "label": "scam",
+          "probability": 0.8986779291822621,
+          "score": 72,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s026",
+          "label": "scam",
+          "probability": 0.9384698498769908,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s027",
+          "label": "scam",
+          "probability": 0.9820432801748264,
+          "score": 39,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s028",
+          "label": "scam",
+          "probability": 0.9567326463500448,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s029",
+          "label": "scam",
+          "probability": 0.971671784367942,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s030",
+          "label": "scam",
+          "probability": 0.8754198206295792,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s031",
+          "label": "scam",
+          "probability": 0.7402560858058456,
+          "score": 39,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s032",
+          "label": "scam",
+          "probability": 0.895890250994995,
+          "score": 75,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s033",
+          "label": "scam",
+          "probability": 0.9480585236670845,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s034",
+          "label": "scam",
+          "probability": 0.9385158639417727,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s035",
+          "label": "scam",
+          "probability": 0.8961061611117562,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s036",
+          "label": "scam",
+          "probability": 0.9411750430210926,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s037",
+          "label": "scam",
+          "probability": 0.9793397678612543,
+          "score": 51,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s038",
+          "label": "scam",
+          "probability": 0.8301415340714705,
+          "score": 63,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s039",
+          "label": "scam",
+          "probability": 0.8550942001874895,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s040",
+          "label": "scam",
+          "probability": 0.981426342250685,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s041",
+          "label": "scam",
+          "probability": 0.7652227721077406,
+          "score": 62,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s042",
+          "label": "scam",
+          "probability": 0.9951020293309325,
+          "score": 60,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s043",
+          "label": "scam",
+          "probability": 0.9271275658086127,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s044",
+          "label": "scam",
+          "probability": 0.8298769474213082,
+          "score": 51,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s045",
+          "label": "scam",
+          "probability": 0.9901383080480989,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s046",
+          "label": "scam",
+          "probability": 0.3886182708973557,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s047",
+          "label": "scam",
+          "probability": 0.5995855278152872,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-l001",
+          "label": "legit",
+          "probability": 0.039620685863533935,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l002",
+          "label": "legit",
+          "probability": 0.1350459762459014,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l003",
+          "label": "legit",
+          "probability": 0.08895655571341383,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l004",
+          "label": "legit",
+          "probability": 0.15970849720877725,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l005",
+          "label": "legit",
+          "probability": 0.17805539321909247,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l006",
+          "label": "legit",
+          "probability": 0.08181047768256307,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l007",
+          "label": "legit",
+          "probability": 0.1254119833209258,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l008",
+          "label": "legit",
+          "probability": 0.08314869524805633,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l009",
+          "label": "legit",
+          "probability": 0.04884365926959604,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l010",
+          "label": "legit",
+          "probability": 0.33884152595295053,
+          "score": 17,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l011",
+          "label": "legit",
+          "probability": 0.40861003508465094,
+          "score": 19,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l012",
+          "label": "legit",
+          "probability": 0.16173875272125163,
+          "score": 9,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l013",
+          "label": "legit",
+          "probability": 0.13487589092037805,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l014",
+          "label": "legit",
+          "probability": 0.4883764495697155,
+          "score": 35,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l015",
+          "label": "legit",
+          "probability": 0.3581453846021167,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l016",
+          "label": "legit",
+          "probability": 0.011223877224910092,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l017",
+          "label": "legit",
+          "probability": 0.020506643071982415,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l018",
+          "label": "legit",
+          "probability": 0.03413743759511035,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l019",
+          "label": "legit",
+          "probability": 0.10668213356429931,
+          "score": 10,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l020",
+          "label": "legit",
+          "probability": 0.15118245735398225,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l021",
+          "label": "legit",
+          "probability": 0.12713438566220508,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l022",
+          "label": "legit",
+          "probability": 0.13061777558064905,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l023",
+          "label": "legit",
+          "probability": 0.09401271788466013,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l024",
+          "label": "legit",
+          "probability": 0.26650765143901983,
+          "score": 11,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l025",
+          "label": "legit",
+          "probability": 0.0974200240350212,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l026",
+          "label": "legit",
+          "probability": 0.04916011012725232,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l027",
+          "label": "legit",
+          "probability": 0.07390967217467816,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l028",
+          "label": "legit",
+          "probability": 0.09191327812219731,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l029",
+          "label": "legit",
+          "probability": 0.07676587139341476,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l030",
+          "label": "legit",
+          "probability": 0.1166668157880707,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l031",
+          "label": "legit",
+          "probability": 0.019389262086374707,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l032",
+          "label": "legit",
+          "probability": 0.6814754596448322,
+          "score": 27,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l033",
+          "label": "legit",
+          "probability": 0.34112645995538743,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l034",
+          "label": "legit",
+          "probability": 0.4583348873387392,
+          "score": 21,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l035",
+          "label": "legit",
+          "probability": 0.09171662193960713,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l036",
+          "label": "legit",
+          "probability": 0.06733237319077114,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l037",
+          "label": "legit",
+          "probability": 0.008884098929905498,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l038",
+          "label": "legit",
+          "probability": 0.11349167656577128,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l039",
+          "label": "legit",
+          "probability": 0.050405578266238926,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l040",
+          "label": "legit",
+          "probability": 0.025576176472995375,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l041",
+          "label": "legit",
+          "probability": 0.1923090470682178,
+          "score": 17,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l042",
+          "label": "legit",
+          "probability": 0.04504321795390394,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l043",
+          "label": "legit",
+          "probability": 0.023443035759711815,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l044",
+          "label": "legit",
+          "probability": 0.4532329291021673,
+          "score": 18,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l045",
+          "label": "legit",
+          "probability": 0.39607565599962435,
+          "score": 28,
+          "verdict": "low_risk"
+        }
+      ]
+    },
+    {
+      "name": "C-2.0",
+      "path": "data/raw/candidates/C-2.0.json",
+      "sha256": "8132f37a51ec09790656b6b4b35de9e3a39403475e0d163afa6f834985d547d3",
+      "bytes": 227181,
+      "classifier": {
+        "tp": 45,
+        "fp": 1,
+        "tn": 44,
+        "fn": 2,
+        "accuracy": 0.967391304347826,
+        "precision": 0.9782608695652174,
+        "recall": 0.9574468085106383,
+        "f1": 0.967741935483871,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "fused": {
+        "tp": 45,
+        "fp": 1,
+        "tn": 44,
+        "fn": 2,
+        "accuracy": 0.967391304347826,
+        "precision": 0.9782608695652174,
+        "recall": 0.9574468085106383,
+        "f1": 0.967741935483871,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "scamVerdictOnly": {
+        "tp": 30,
+        "fp": 0,
+        "tn": 45,
+        "fn": 17,
+        "accuracy": 0.8152173913043478,
+        "precision": 1,
+        "recall": 0.6382978723404256,
+        "f1": 0.7792207792207793,
+        "falseAlarmRate": 0
+      },
+      "perCategory": {
+        "account_threat_link": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "credential_request": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "prize_raffle_ayuda": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "government_impersonation": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "parcel_fee": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "job_loan_investment": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.8333333333333334,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "falseAlarmRate": null
+        },
+        "emergency_relative": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "remote_access_apk": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "qr_phishing": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "marketplace_scam": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "other_scam": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.75,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "falseAlarmRate": null
+        },
+        "otp": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "transaction_receipt": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "telco_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "delivery_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "bill_reminder": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "gov_announcement": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "personal_chat": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "marketplace_legit": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "promo": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        }
+      },
+      "predictions": [
+        {
+          "id": "dev-s001",
+          "label": "scam",
+          "probability": 0.9584375279408778,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s002",
+          "label": "scam",
+          "probability": 0.8009109795053255,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s003",
+          "label": "scam",
+          "probability": 0.9155645452736457,
+          "score": 73,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s004",
+          "label": "scam",
+          "probability": 0.08118590645362714,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s005",
+          "label": "scam",
+          "probability": 0.959884449405139,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s006",
+          "label": "scam",
+          "probability": 0.9651653800376969,
+          "score": 99,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s007",
+          "label": "scam",
+          "probability": 0.99685768020682,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s008",
+          "label": "scam",
+          "probability": 0.5098156283888906,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s009",
+          "label": "scam",
+          "probability": 0.9990773156769294,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s010",
+          "label": "scam",
+          "probability": 0.9507740372248137,
+          "score": 47,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s011",
+          "label": "scam",
+          "probability": 0.9914523468524886,
+          "score": 85,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s012",
+          "label": "scam",
+          "probability": 0.8648851475747342,
+          "score": 88,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s013",
+          "label": "scam",
+          "probability": 0.9973607784240253,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s014",
+          "label": "scam",
+          "probability": 0.5990359036998982,
+          "score": 39,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s015",
+          "label": "scam",
+          "probability": 0.8796859582450556,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s016",
+          "label": "scam",
+          "probability": 0.9607707667788671,
+          "score": 70,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s017",
+          "label": "scam",
+          "probability": 0.9328768766598431,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s018",
+          "label": "scam",
+          "probability": 0.976628210196134,
+          "score": 72,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s019",
+          "label": "scam",
+          "probability": 0.9974704223700006,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s020",
+          "label": "scam",
+          "probability": 0.604334841594375,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s021",
+          "label": "scam",
+          "probability": 0.9732400554600555,
+          "score": 68,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s022",
+          "label": "scam",
+          "probability": 0.9859280616651215,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s023",
+          "label": "scam",
+          "probability": 0.5622512107183377,
+          "score": 54,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s024",
+          "label": "scam",
+          "probability": 0.9093784137992136,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s025",
+          "label": "scam",
+          "probability": 0.931681710516307,
+          "score": 73,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s026",
+          "label": "scam",
+          "probability": 0.9562025492492108,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s027",
+          "label": "scam",
+          "probability": 0.9907906289228888,
+          "score": 40,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s028",
+          "label": "scam",
+          "probability": 0.9762552705988006,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s029",
+          "label": "scam",
+          "probability": 0.9830100642901052,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s030",
+          "label": "scam",
+          "probability": 0.9021411036272778,
+          "score": 54,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s031",
+          "label": "scam",
+          "probability": 0.7907973788810717,
+          "score": 41,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s032",
+          "label": "scam",
+          "probability": 0.9172961067464435,
+          "score": 76,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s033",
+          "label": "scam",
+          "probability": 0.9648082071392566,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s034",
+          "label": "scam",
+          "probability": 0.9647063619134824,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s035",
+          "label": "scam",
+          "probability": 0.9169016132967349,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s036",
+          "label": "scam",
+          "probability": 0.9615043768902154,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s037",
+          "label": "scam",
+          "probability": 0.9885011356415389,
+          "score": 52,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s038",
+          "label": "scam",
+          "probability": 0.8620667230514047,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s039",
+          "label": "scam",
+          "probability": 0.9035254499904152,
+          "score": 89,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s040",
+          "label": "scam",
+          "probability": 0.9889224301739495,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s041",
+          "label": "scam",
+          "probability": 0.8118378966464611,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s042",
+          "label": "scam",
+          "probability": 0.9982180430128149,
+          "score": 60,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s043",
+          "label": "scam",
+          "probability": 0.9541011217180608,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s044",
+          "label": "scam",
+          "probability": 0.8802666119238848,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s045",
+          "label": "scam",
+          "probability": 0.994732980433814,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s046",
+          "label": "scam",
+          "probability": 0.38149823453196724,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s047",
+          "label": "scam",
+          "probability": 0.6287164160760195,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-l001",
+          "label": "legit",
+          "probability": 0.023046690404814277,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l002",
+          "label": "legit",
+          "probability": 0.0826620226109106,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l003",
+          "label": "legit",
+          "probability": 0.05664114075610794,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l004",
+          "label": "legit",
+          "probability": 0.07263268056938324,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l005",
+          "label": "legit",
+          "probability": 0.09156658952743794,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l006",
+          "label": "legit",
+          "probability": 0.04673344521198414,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l007",
+          "label": "legit",
+          "probability": 0.0706721582038173,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l008",
+          "label": "legit",
+          "probability": 0.04110812639641331,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l009",
+          "label": "legit",
+          "probability": 0.02855768124939174,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l010",
+          "label": "legit",
+          "probability": 0.2280566150673112,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l011",
+          "label": "legit",
+          "probability": 0.30828393909726554,
+          "score": 15,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l012",
+          "label": "legit",
+          "probability": 0.11431348097703543,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l013",
+          "label": "legit",
+          "probability": 0.08893412324595612,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l014",
+          "label": "legit",
+          "probability": 0.42876542476023655,
+          "score": 32,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l015",
+          "label": "legit",
+          "probability": 0.33229855718389384,
+          "score": 13,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l016",
+          "label": "legit",
+          "probability": 0.003950543415490252,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l017",
+          "label": "legit",
+          "probability": 0.00837544458155785,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l018",
+          "label": "legit",
+          "probability": 0.01553044039429988,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l019",
+          "label": "legit",
+          "probability": 0.05327716478387054,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l020",
+          "label": "legit",
+          "probability": 0.09388709219254394,
+          "score": 10,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l021",
+          "label": "legit",
+          "probability": 0.07759351398502805,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l022",
+          "label": "legit",
+          "probability": 0.07167691890831153,
+          "score": 18,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l023",
+          "label": "legit",
+          "probability": 0.06495796072799137,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l024",
+          "label": "legit",
+          "probability": 0.1934993449749474,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l025",
+          "label": "legit",
+          "probability": 0.06010470659634906,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l026",
+          "label": "legit",
+          "probability": 0.02773128621940292,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l027",
+          "label": "legit",
+          "probability": 0.04597692815366406,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l028",
+          "label": "legit",
+          "probability": 0.06677907333606542,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l029",
+          "label": "legit",
+          "probability": 0.03651671919429126,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l030",
+          "label": "legit",
+          "probability": 0.08954965316214553,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l031",
+          "label": "legit",
+          "probability": 0.010137959580263292,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l032",
+          "label": "legit",
+          "probability": 0.6850987428768113,
+          "score": 27,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l033",
+          "label": "legit",
+          "probability": 0.30399095089312744,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l034",
+          "label": "legit",
+          "probability": 0.33199035936368754,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l035",
+          "label": "legit",
+          "probability": 0.046190818562199365,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l036",
+          "label": "legit",
+          "probability": 0.04216108796264831,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l037",
+          "label": "legit",
+          "probability": 0.003089234582023923,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l038",
+          "label": "legit",
+          "probability": 0.09696828165407298,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l039",
+          "label": "legit",
+          "probability": 0.03008959839811295,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l040",
+          "label": "legit",
+          "probability": 0.010633625314439198,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l041",
+          "label": "legit",
+          "probability": 0.12863473760002467,
+          "score": 14,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l042",
+          "label": "legit",
+          "probability": 0.02591163329878005,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l043",
+          "label": "legit",
+          "probability": 0.012439241424435638,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l044",
+          "label": "legit",
+          "probability": 0.4325353051543263,
+          "score": 17,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l045",
+          "label": "legit",
+          "probability": 0.3510764793250736,
+          "score": 26,
+          "verdict": "low_risk"
+        }
+      ]
+    },
+    {
+      "name": "C-4.0",
+      "path": "data/raw/candidates/C-4.0.json",
+      "sha256": "b65a2eb60d8a191950a2b738a39c80f4ee2aa283f69e2796dcf2d4342a984d86",
+      "bytes": 227210,
+      "classifier": {
+        "tp": 44,
+        "fp": 1,
+        "tn": 44,
+        "fn": 3,
+        "accuracy": 0.9565217391304348,
+        "precision": 0.9777777777777777,
+        "recall": 0.9361702127659575,
+        "f1": 0.9565217391304348,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "fused": {
+        "tp": 45,
+        "fp": 1,
+        "tn": 44,
+        "fn": 2,
+        "accuracy": 0.967391304347826,
+        "precision": 0.9782608695652174,
+        "recall": 0.9574468085106383,
+        "f1": 0.967741935483871,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "scamVerdictOnly": {
+        "tp": 30,
+        "fp": 0,
+        "tn": 45,
+        "fn": 17,
+        "accuracy": 0.8152173913043478,
+        "precision": 1,
+        "recall": 0.6382978723404256,
+        "f1": 0.7792207792207793,
+        "falseAlarmRate": 0
+      },
+      "perCategory": {
+        "account_threat_link": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "credential_request": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "prize_raffle_ayuda": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "government_impersonation": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "parcel_fee": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "job_loan_investment": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.8333333333333334,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "falseAlarmRate": null
+        },
+        "emergency_relative": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "remote_access_apk": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "qr_phishing": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "marketplace_scam": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "other_scam": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.75,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "falseAlarmRate": null
+        },
+        "otp": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "transaction_receipt": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "telco_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "delivery_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "bill_reminder": {
+          "tp": 0,
+          "fp": 1,
+          "tn": 2,
+          "fn": 0,
+          "accuracy": 0.6666666666666666,
+          "precision": 0,
+          "recall": null,
+          "f1": 0,
+          "falseAlarmRate": 0.3333333333333333
+        },
+        "gov_announcement": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "personal_chat": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "marketplace_legit": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "promo": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        }
+      },
+      "predictions": [
+        {
+          "id": "dev-s001",
+          "label": "scam",
+          "probability": 0.9764889491495103,
+          "score": 80,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s002",
+          "label": "scam",
+          "probability": 0.8249356875912266,
+          "score": 65,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s003",
+          "label": "scam",
+          "probability": 0.9409357257588353,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s004",
+          "label": "scam",
+          "probability": 0.04634684911221578,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s005",
+          "label": "scam",
+          "probability": 0.9761639378139648,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s006",
+          "label": "scam",
+          "probability": 0.9771456168052137,
+          "score": 99,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s007",
+          "label": "scam",
+          "probability": 0.9985442651228575,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s008",
+          "label": "scam",
+          "probability": 0.48568533445629936,
+          "score": 19,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s009",
+          "label": "scam",
+          "probability": 0.9996357984691665,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s010",
+          "label": "scam",
+          "probability": 0.9683250659032347,
+          "score": 48,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s011",
+          "label": "scam",
+          "probability": 0.9958567832312537,
+          "score": 85,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s012",
+          "label": "scam",
+          "probability": 0.8979071571455306,
+          "score": 89,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s013",
+          "label": "scam",
+          "probability": 0.9987397339257542,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s014",
+          "label": "scam",
+          "probability": 0.5733228267226594,
+          "score": 38,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s015",
+          "label": "scam",
+          "probability": 0.9245763674752853,
+          "score": 97,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s016",
+          "label": "scam",
+          "probability": 0.9753486164544771,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s017",
+          "label": "scam",
+          "probability": 0.9481901209723871,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s018",
+          "label": "scam",
+          "probability": 0.9858578116920342,
+          "score": 72,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s019",
+          "label": "scam",
+          "probability": 0.9987474611085271,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s020",
+          "label": "scam",
+          "probability": 0.6406783032104114,
+          "score": 54,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s021",
+          "label": "scam",
+          "probability": 0.983694626014255,
+          "score": 68,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s022",
+          "label": "scam",
+          "probability": 0.9923278293402638,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s023",
+          "label": "scam",
+          "probability": 0.5978012933720847,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s024",
+          "label": "scam",
+          "probability": 0.9350977447691361,
+          "score": 93,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s025",
+          "label": "scam",
+          "probability": 0.9532118896040637,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s026",
+          "label": "scam",
+          "probability": 0.9695734414349031,
+          "score": 75,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s027",
+          "label": "scam",
+          "probability": 0.9952592150652451,
+          "score": 40,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s028",
+          "label": "scam",
+          "probability": 0.9880340692359274,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s029",
+          "label": "scam",
+          "probability": 0.9899751165586225,
+          "score": 95,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s030",
+          "label": "scam",
+          "probability": 0.9246254369627351,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s031",
+          "label": "scam",
+          "probability": 0.8284452384689968,
+          "score": 42,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s032",
+          "label": "scam",
+          "probability": 0.9341193868508975,
+          "score": 76,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s033",
+          "label": "scam",
+          "probability": 0.9776183868721111,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s034",
+          "label": "scam",
+          "probability": 0.9811509568422402,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s035",
+          "label": "scam",
+          "probability": 0.9298599108823535,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s036",
+          "label": "scam",
+          "probability": 0.9759302216204391,
+          "score": 72,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s037",
+          "label": "scam",
+          "probability": 0.9938409168386,
+          "score": 52,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s038",
+          "label": "scam",
+          "probability": 0.8942839430558149,
+          "score": 66,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s039",
+          "label": "scam",
+          "probability": 0.9371184655183149,
+          "score": 90,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s040",
+          "label": "scam",
+          "probability": 0.9932850145408741,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s041",
+          "label": "scam",
+          "probability": 0.8534050239807279,
+          "score": 66,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s042",
+          "label": "scam",
+          "probability": 0.9993941842615548,
+          "score": 60,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s043",
+          "label": "scam",
+          "probability": 0.971011365935648,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s044",
+          "label": "scam",
+          "probability": 0.9209292754432489,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s045",
+          "label": "scam",
+          "probability": 0.9972999367230839,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s046",
+          "label": "scam",
+          "probability": 0.3770203703444323,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s047",
+          "label": "scam",
+          "probability": 0.6641953209727063,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-l001",
+          "label": "legit",
+          "probability": 0.01400553867553179,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l002",
+          "label": "legit",
+          "probability": 0.044065151088865315,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l003",
+          "label": "legit",
+          "probability": 0.03702249099725478,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l004",
+          "label": "legit",
+          "probability": 0.029289013132633414,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l005",
+          "label": "legit",
+          "probability": 0.04009512938920508,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l006",
+          "label": "legit",
+          "probability": 0.023996815704449156,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l007",
+          "label": "legit",
+          "probability": 0.03717573661959871,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l008",
+          "label": "legit",
+          "probability": 0.018036246228212722,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l009",
+          "label": "legit",
+          "probability": 0.014900245634064583,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l010",
+          "label": "legit",
+          "probability": 0.13891251495079343,
+          "score": 9,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l011",
+          "label": "legit",
+          "probability": 0.20899803031964367,
+          "score": 11,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l012",
+          "label": "legit",
+          "probability": 0.07889778478770569,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l013",
+          "label": "legit",
+          "probability": 0.057141840637798806,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l014",
+          "label": "legit",
+          "probability": 0.3670285480953162,
+          "score": 30,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-l015",
+          "label": "legit",
+          "probability": 0.30386745968741113,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l016",
+          "label": "legit",
+          "probability": 0.0012103767397320562,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l017",
+          "label": "legit",
+          "probability": 0.0031941603020686966,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l018",
+          "label": "legit",
+          "probability": 0.006739502593149118,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l019",
+          "label": "legit",
+          "probability": 0.024236912454448426,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l020",
+          "label": "legit",
+          "probability": 0.053515826681214594,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l021",
+          "label": "legit",
+          "probability": 0.044194041185621265,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l022",
+          "label": "legit",
+          "probability": 0.035901607918085145,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l023",
+          "label": "legit",
+          "probability": 0.04323446653394719,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l024",
+          "label": "legit",
+          "probability": 0.13375534908502387,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l025",
+          "label": "legit",
+          "probability": 0.03292302202518019,
+          "score": 13,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l026",
+          "label": "legit",
+          "probability": 0.014549315425954378,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l027",
+          "label": "legit",
+          "probability": 0.027330902730766098,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l028",
+          "label": "legit",
+          "probability": 0.046129867631573694,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l029",
+          "label": "legit",
+          "probability": 0.016561891592981635,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l030",
+          "label": "legit",
+          "probability": 0.06814784571935252,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l031",
+          "label": "legit",
+          "probability": 0.005243429503423674,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l032",
+          "label": "legit",
+          "probability": 0.6890357547083268,
+          "score": 28,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l033",
+          "label": "legit",
+          "probability": 0.2768002927875031,
+          "score": 11,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l034",
+          "label": "legit",
+          "probability": 0.2197250114209018,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l035",
+          "label": "legit",
+          "probability": 0.021050488584117025,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l036",
+          "label": "legit",
+          "probability": 0.026056859330128492,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l037",
+          "label": "legit",
+          "probability": 0.0009474438004888778,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l038",
+          "label": "legit",
+          "probability": 0.08046302402124221,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l039",
+          "label": "legit",
+          "probability": 0.015107721146081157,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l040",
+          "label": "legit",
+          "probability": 0.0043416222900371,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l041",
+          "label": "legit",
+          "probability": 0.0737455914609881,
+          "score": 12,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l042",
+          "label": "legit",
+          "probability": 0.013846408770656113,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l043",
+          "label": "legit",
+          "probability": 0.006233160203101858,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l044",
+          "label": "legit",
+          "probability": 0.4081127679746446,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l045",
+          "label": "legit",
+          "probability": 0.3096524309188547,
+          "score": 24,
+          "verdict": "low_risk"
+        }
+      ]
+    },
+    {
+      "name": "C-8.0",
+      "path": "data/raw/candidates/C-8.0.json",
+      "sha256": "51ee6c791fa2ad95a7746516d80b81f74ad1e746b470be4a45e9aed0cb4d8240",
+      "bytes": 227207,
+      "classifier": {
+        "tp": 44,
+        "fp": 1,
+        "tn": 44,
+        "fn": 3,
+        "accuracy": 0.9565217391304348,
+        "precision": 0.9777777777777777,
+        "recall": 0.9361702127659575,
+        "f1": 0.9565217391304348,
+        "falseAlarmRate": 0.022222222222222223
+      },
+      "fused": {
+        "tp": 45,
+        "fp": 0,
+        "tn": 45,
+        "fn": 2,
+        "accuracy": 0.9782608695652174,
+        "precision": 1,
+        "recall": 0.9574468085106383,
+        "f1": 0.9782608695652174,
+        "falseAlarmRate": 0
+      },
+      "scamVerdictOnly": {
+        "tp": 30,
+        "fp": 0,
+        "tn": 45,
+        "fn": 17,
+        "accuracy": 0.8152173913043478,
+        "precision": 1,
+        "recall": 0.6382978723404256,
+        "f1": 0.7792207792207793,
+        "falseAlarmRate": 0
+      },
+      "perCategory": {
+        "account_threat_link": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "credential_request": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "prize_raffle_ayuda": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "government_impersonation": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "parcel_fee": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "job_loan_investment": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.8333333333333334,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "falseAlarmRate": null
+        },
+        "emergency_relative": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "remote_access_apk": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "qr_phishing": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "marketplace_scam": {
+          "tp": 5,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falseAlarmRate": null
+        },
+        "other_scam": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "accuracy": 0.75,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "falseAlarmRate": null
+        },
+        "otp": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "transaction_receipt": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "telco_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "delivery_notice": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "bill_reminder": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "gov_announcement": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "personal_chat": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "marketplace_legit": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        },
+        "promo": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "accuracy": 1,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "falseAlarmRate": 0
+        }
+      },
+      "predictions": [
+        {
+          "id": "dev-s001",
+          "label": "scam",
+          "probability": 0.9876694314593861,
+          "score": 80,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s002",
+          "label": "scam",
+          "probability": 0.8446546622968895,
+          "score": 66,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s003",
+          "label": "scam",
+          "probability": 0.9597219283743413,
+          "score": 74,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s004",
+          "label": "scam",
+          "probability": 0.022651369206031932,
+          "score": 53,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s005",
+          "label": "scam",
+          "probability": 0.9868178757606805,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s006",
+          "label": "scam",
+          "probability": 0.9865521586097652,
+          "score": 99,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s007",
+          "label": "scam",
+          "probability": 0.9992141393708035,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s008",
+          "label": "scam",
+          "probability": 0.45834597455956266,
+          "score": 18,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s009",
+          "label": "scam",
+          "probability": 0.9998390602817935,
+          "score": 64,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s010",
+          "label": "scam",
+          "probability": 0.9804282533451055,
+          "score": 48,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s011",
+          "label": "scam",
+          "probability": 0.998352961044062,
+          "score": 85,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s012",
+          "label": "scam",
+          "probability": 0.9287895714974614,
+          "score": 90,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s013",
+          "label": "scam",
+          "probability": 0.9993851158742587,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s014",
+          "label": "scam",
+          "probability": 0.5559800372148652,
+          "score": 37,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s015",
+          "label": "scam",
+          "probability": 0.9579887289666001,
+          "score": 98,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s016",
+          "label": "scam",
+          "probability": 0.9834150930951031,
+          "score": 71,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s017",
+          "label": "scam",
+          "probability": 0.957002630997443,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s018",
+          "label": "scam",
+          "probability": 0.9920374397967264,
+          "score": 73,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s019",
+          "label": "scam",
+          "probability": 0.9993095663683684,
+          "score": 79,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s020",
+          "label": "scam",
+          "probability": 0.6826592708835255,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s021",
+          "label": "scam",
+          "probability": 0.9914483981215929,
+          "score": 68,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s022",
+          "label": "scam",
+          "probability": 0.9955456254299112,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s023",
+          "label": "scam",
+          "probability": 0.6258615359480527,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s024",
+          "label": "scam",
+          "probability": 0.9496675041323298,
+          "score": 94,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s025",
+          "label": "scam",
+          "probability": 0.9683587501393227,
+          "score": 75,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s026",
+          "label": "scam",
+          "probability": 0.9802380408590315,
+          "score": 75,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s027",
+          "label": "scam",
+          "probability": 0.997253512580893,
+          "score": 40,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s028",
+          "label": "scam",
+          "probability": 0.9940547477814928,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s029",
+          "label": "scam",
+          "probability": 0.9932132074432587,
+          "score": 96,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s030",
+          "label": "scam",
+          "probability": 0.9425971103402281,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s031",
+          "label": "scam",
+          "probability": 0.8609810228351492,
+          "score": 43,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s032",
+          "label": "scam",
+          "probability": 0.9463890997499468,
+          "score": 77,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s033",
+          "label": "scam",
+          "probability": 0.986572132115216,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s034",
+          "label": "scam",
+          "probability": 0.9905430746506148,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s035",
+          "label": "scam",
+          "probability": 0.926779210134864,
+          "score": 100,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s036",
+          "label": "scam",
+          "probability": 0.9855563296709617,
+          "score": 72,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s037",
+          "label": "scam",
+          "probability": 0.9972108291402262,
+          "score": 52,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s038",
+          "label": "scam",
+          "probability": 0.9299148866518067,
+          "score": 67,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s039",
+          "label": "scam",
+          "probability": 0.9598997350942923,
+          "score": 91,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s040",
+          "label": "scam",
+          "probability": 0.995683164902361,
+          "score": 58,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s041",
+          "label": "scam",
+          "probability": 0.8786973297140082,
+          "score": 67,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s042",
+          "label": "scam",
+          "probability": 0.9998058496964469,
+          "score": 60,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-s043",
+          "label": "scam",
+          "probability": 0.9803439534345639,
+          "score": 57,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s044",
+          "label": "scam",
+          "probability": 0.9570310390032732,
+          "score": 56,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s045",
+          "label": "scam",
+          "probability": 0.998707228046768,
+          "score": 55,
+          "verdict": "suspicious"
+        },
+        {
+          "id": "dev-s046",
+          "label": "scam",
+          "probability": 0.3688941691993128,
+          "score": 20,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-s047",
+          "label": "scam",
+          "probability": 0.702721054814572,
+          "score": 78,
+          "verdict": "scam"
+        },
+        {
+          "id": "dev-l001",
+          "label": "legit",
+          "probability": 0.009508434259917606,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l002",
+          "label": "legit",
+          "probability": 0.019680352595655676,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l003",
+          "label": "legit",
+          "probability": 0.02670711686360583,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l004",
+          "label": "legit",
+          "probability": 0.01183409832166272,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l005",
+          "label": "legit",
+          "probability": 0.014152148042308776,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l006",
+          "label": "legit",
+          "probability": 0.010957538894064917,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l007",
+          "label": "legit",
+          "probability": 0.01786596955637222,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l008",
+          "label": "legit",
+          "probability": 0.006048251924057275,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l009",
+          "label": "legit",
+          "probability": 0.007027731876373313,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l010",
+          "label": "legit",
+          "probability": 0.07693676836447876,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l011",
+          "label": "legit",
+          "probability": 0.1195605306309751,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l012",
+          "label": "legit",
+          "probability": 0.051459260424386394,
+          "score": 5,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l013",
+          "label": "legit",
+          "probability": 0.03439956189418245,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l014",
+          "label": "legit",
+          "probability": 0.3003942825969539,
+          "score": 27,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l015",
+          "label": "legit",
+          "probability": 0.27615923693701544,
+          "score": 11,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l016",
+          "label": "legit",
+          "probability": 0.00031224147529059794,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l017",
+          "label": "legit",
+          "probability": 0.0011414220501454514,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l018",
+          "label": "legit",
+          "probability": 0.0027865362010619397,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l019",
+          "label": "legit",
+          "probability": 0.009370855558237115,
+          "score": 6,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l020",
+          "label": "legit",
+          "probability": 0.027734083381901163,
+          "score": 7,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l021",
+          "label": "legit",
+          "probability": 0.025744799391154722,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l022",
+          "label": "legit",
+          "probability": 0.01641916668898135,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l023",
+          "label": "legit",
+          "probability": 0.028550992494786945,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l024",
+          "label": "legit",
+          "probability": 0.09120533937861311,
+          "score": 4,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l025",
+          "label": "legit",
+          "probability": 0.01605638670594846,
+          "score": 13,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l026",
+          "label": "legit",
+          "probability": 0.00788047099350643,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l027",
+          "label": "legit",
+          "probability": 0.015204564885256443,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l028",
+          "label": "legit",
+          "probability": 0.02840628669994946,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l029",
+          "label": "legit",
+          "probability": 0.007482423714975877,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l030",
+          "label": "legit",
+          "probability": 0.05611144941743496,
+          "score": 2,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l031",
+          "label": "legit",
+          "probability": 0.0028214052798573933,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l032",
+          "label": "legit",
+          "probability": 0.6889535245118013,
+          "score": 28,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l033",
+          "label": "legit",
+          "probability": 0.2585063127746854,
+          "score": 10,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l034",
+          "label": "legit",
+          "probability": 0.11903560670576188,
+          "score": 8,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l035",
+          "label": "legit",
+          "probability": 0.008774123567567939,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l036",
+          "label": "legit",
+          "probability": 0.015411054133004398,
+          "score": 1,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l037",
+          "label": "legit",
+          "probability": 0.0002573531776495541,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l038",
+          "label": "legit",
+          "probability": 0.06949304556589014,
+          "score": 3,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l039",
+          "label": "legit",
+          "probability": 0.00689647317944685,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l040",
+          "label": "legit",
+          "probability": 0.001707607526654486,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l041",
+          "label": "legit",
+          "probability": 0.03865797917115215,
+          "score": 11,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l042",
+          "label": "legit",
+          "probability": 0.0072694123830895,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l043",
+          "label": "legit",
+          "probability": 0.0028637432181072885,
+          "score": 0,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l044",
+          "label": "legit",
+          "probability": 0.39042961802131715,
+          "score": 16,
+          "verdict": "low_risk"
+        },
+        {
+          "id": "dev-l045",
+          "label": "legit",
+          "probability": 0.2583516082653043,
+          "score": 22,
+          "verdict": "low_risk"
+        }
+      ]
+    }
+  ]
+}

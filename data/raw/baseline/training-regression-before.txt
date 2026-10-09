@@ -1,0 +1,132 @@
+test_conflicting_labels_are_quarantined (test_training.TrainingDataTests) ... ERROR
+test_dev_and_frozen_overlaps_are_excluded (test_training.TrainingDataTests) ... ERROR
+test_duplicate_groups_do_not_cross_public_holdout (test_training.TrainingDataTests) ... ERROR
+test_local_data_never_enters_public_holdout (test_training.TrainingDataTests) ... ERROR
+test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) ... ERROR
+test_spam_is_not_automatically_scam (test_training.TrainingDataTests) ... FAIL
+test_weighting_keeps_philippine_context (test_training.TrainingDataTests) ... ERROR
+
+======================================================================
+ERROR: test_conflicting_labels_are_quarantined (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 40, in test_conflicting_labels_are_quarantined
+    training, holdout, audit = train.prepare_data([data], set(), set())
+AttributeError: module 'train' has no attribute 'prepare_data'
+
+======================================================================
+ERROR: test_dev_and_frozen_overlaps_are_excluded (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 51, in test_dev_and_frozen_overlaps_are_excluded
+    training, holdout, audit = train.prepare_data(
+AttributeError: module 'train' has no attribute 'prepare_data'
+
+======================================================================
+ERROR: test_duplicate_groups_do_not_cross_public_holdout (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 28, in test_duplicate_groups_do_not_cross_public_holdout
+    training, holdout, audit = train.prepare_data([pd.DataFrame(rows)], set(), set())
+AttributeError: module 'train' has no attribute 'prepare_data'
+
+======================================================================
+ERROR: test_local_data_never_enters_public_holdout (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 63, in test_local_data_never_enters_public_holdout
+    training, holdout, _ = train.prepare_data([data], set(), set())
+AttributeError: module 'train' has no attribute 'prepare_data'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text=' ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text='<REDACTED>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text='<BLANK>')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text='notifs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) (text='OTP')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 19, in test_placeholders_and_missing_text_are_rejected
+    self.assertFalse(train.usable_text(text))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 20, in test_placeholders_and_missing_text_are_rejected
+    self.assertTrue(train.usable_text("Your parcel is ready for pickup."))
+AttributeError: module 'train' has no attribute 'usable_text'
+
+======================================================================
+ERROR: test_weighting_keeps_philippine_context (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 69, in test_weighting_keeps_philippine_context
+    np.testing.assert_array_equal(train.sample_weights(data), [3.0, 3.0, 1.0, 0.5])
+AttributeError: module 'train' has no attribute 'sample_weights'
+
+======================================================================
+FAIL: test_spam_is_not_automatically_scam (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 11, in test_spam_is_not_automatically_scam
+    self.assertIsNone(train.map_label("spam"))
+AssertionError: 'scam' is not None
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+FAILED (failures=1, errors=14)
