@@ -38,6 +38,7 @@ OopsScam is an Android app (React Native with Expo, TypeScript) that checks susp
 | Demo build without the Android INTERNET permission                        | A verifiable offline proof judges can see in app info                                                                                   |
 | Call mode is **out of scope for now**                                     | Too risky for the time; revisit only after the core flow works. Practice mode is the stretch feature                                    |
 | Verdict labels: Scam, Suspicious, Low risk                                | Never "safe"; the app flags risk and guarantees nothing                                                                                 |
+| Optional SMS auto-check (T18): **Headless JS shipped in code**, with a neutral-notification fallback | RECEIVE_SMS only, off by default; background check is rules + classifier (no LLM); native Kotlin notifications (no expo-notifications/Firebase, so still no INTERNET). If the service cannot start, the receiver posts "May bagong text" and the app analyzes on open. Not yet verified on the phone; revert its single commit if AT-17 to AT-21 fail by 5:00 AM |
 
 ## The scoring design (summary; the PRD has the full table)
 

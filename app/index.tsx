@@ -2,7 +2,7 @@ import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
 import { useShareIntentContext } from 'expo-share-intent';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
@@ -10,6 +10,15 @@ import { StatusStrip } from '@/components/StatusStrip';
 import { Text } from '@/components/Text';
 import { MAX_INPUT_CHARS } from '@/config';
 import { statusLabels } from '@/pipeline';
+import {
+  addSmsOpenListener,
+  autoCheckAvailable,
+  consumeLaunchText,
+  isAutoCheckOn,
+  syncAutoCheck,
+  turnOffAutoCheck,
+  turnOnAutoCheck,
+} from '@/sms/smsWatch';
 import { colors, fontSize, spacing } from '@/theme';
 import { pickImage } from '@/vision/images';
 
@@ -28,6 +37,10 @@ const SAMPLES = [
 const TRUNCATED_NOTICE = `Pinutol sa ${MAX_INPUT_CHARS.toLocaleString()} characters ang message.`;
 const LABELS_REFRESH_MS = 1000;
 
+// FR-SM-01: plain-Taglish explanation shown before the permission prompt.
+const AUTO_CHECK_EXPLAIN =
+  'Kapag naka-on, bawat BAGONG text na dumating ay susuriin dito mismo sa phone mo. Kung mukhang scam, may lalabas na notification. Hindi namin binabasa ang inbox mo, hindi sine-save ang mga text, at walang internet ang app kaya walang naipapadala kahit saan. Pwede mo itong i-off anumang oras.';
+
 export default function HomeScreen() {
   const router = useRouter();
   const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntentContext();
@@ -35,6 +48,7 @@ export default function HomeScreen() {
   const [notice, setNotice] = useState<string | null>(null);
   const [labels, setLabels] = useState(statusLabels);
   const [picking, setPicking] = useState(false);
+  const [autoCheck, setAutoCheck] = useState(isAutoCheckOn);
 
   // Keep the status strip current while the model loads in the background.
   useEffect(() => {
@@ -80,6 +94,35 @@ export default function HomeScreen() {
       params: { text: shared.slice(0, MAX_INPUT_CHARS), truncated },
     });
   }, [hasShareIntent, shareIntent, resetShareIntent, router]);
+
+  // FR-SM-05: a tapped auto-check notification opens the result with that text.
+  useEffect(() => {
+    syncAutoCheck().then(setAutoCheck);
+    const open = (sms: string) =>
+      router.push({ pathname: '/result', params: { text: sms.slice(0, MAX_INPUT_CHARS) } });
+    const launched = consumeLaunchText();
+    if (launched) open(launched);
+    return addSmsOpenListener(open);
+  }, [router]);
+
+  const toggleAutoCheck = (on: boolean) => {
+    if (!on) {
+      turnOffAutoCheck();
+      setAutoCheck(false);
+      return;
+    }
+    Alert.alert('I-check ang mga bagong text?', AUTO_CHECK_EXPLAIN, [
+      { text: 'Huwag muna', style: 'cancel' },
+      {
+        text: 'Sige, i-on',
+        onPress: async () => {
+          const ok = await turnOnAutoCheck();
+          setAutoCheck(ok);
+          if (!ok) setNotice('Hindi na-on ang auto-check: kailangan ang SMS permission.');
+        },
+      },
+    ]);
+  };
 
   // FR-IN-02 / SEC-04: the clipboard is read only when the user taps Paste.
   const paste = async () => {
@@ -151,12 +194,31 @@ export default function HomeScreen() {
           testID="open-qr"
         />
 
+        {autoCheckAvailable ? (
+          <View style={styles.toggleRow}>
+            <Text style={styles.flex}>Auto-check new texts</Text>
+            <Switch
+              value={autoCheck}
+              onValueChange={toggleAutoCheck}
+              trackColor={{ true: colors.primary }}
+              accessibilityLabel="Auto-check new texts"
+              testID="sms-auto-check"
+            />
+          </View>
+        ) : null}
+
         <Text style={styles.section}>Subukan ang sample</Text>
         {SAMPLES.map((s) => (
           <Button key={s.label} title={s.label} variant="secondary" onPress={() => check(s.text)} />
         ))}
       </ScrollView>
-      <StatusStrip llmLabel={labels.llmLabel} classifierLabel={labels.classifierLabel} />
+      <StatusStrip
+        llmLabel={labels.llmLabel}
+        classifierLabel={labels.classifierLabel}
+        note={
+          autoCheckAvailable ? `Auto-check ng bagong text: ${autoCheck ? 'ON' : 'OFF'}` : undefined
+        }
+      />
     </Screen>
   );
 }
@@ -191,6 +253,11 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
   section: {
     marginTop: spacing.sm,

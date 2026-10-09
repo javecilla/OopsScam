@@ -1,0 +1,20 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'com.oopsscam'
+version = '1.0.0'
+
+android {
+  namespace 'expo.modules.smswatch'
+  defaultConfig {
+    versionCode 1
+    versionName '1.0.0'
+  }
+}
+
+dependencies {
+  // HeadlessJsTaskService for the background check.
+  implementation 'com.facebook.react:react-android'
+}

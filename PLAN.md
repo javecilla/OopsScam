@@ -57,6 +57,7 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 | T15 | Evaluation script                                | Data and ML | **Done:** prints precision, recall, false-alarm rate and laptop latency on the frozen `data/test_v2` set (the original `data/test` was never created). Results: [evaluation report](data/results/2026-10-09_test_v2.md); frozen hash and leakage checks pass. |
 | T16 | Demo build without the INTERNET permission       | Mobile      | **Done:** standalone release APK rebuilt with bundled models; APK permission inspection confirms INTERNET and ACCESS_NETWORK_STATE are absent. `app.json` preserves these exclusions on prebuild. Shared OCR and camera QR exercised on the phone. |
 | T17 | Practice mode (only if everything above is done) | Mobile      | Deferred: optional quiz stays out of the build while manual gallery QR verification is pending. |
+| T18 | SMS auto-check (stretch, cut-off 1:30 AM; moved to 5:00 AM by team decision) | Mobile + On-device | AT-17 to AT-21 pass on the demo phone. **Implemented in code** (`modules/sms-watch`, `src/sms`, Home toggle; Headless JS with neutral-notification fallback); Jest, typecheck, lint and Metro bundle pass. Native build and AT-17 to AT-21 on the phone still to do. If they do not pass by 5:00 AM, revert the single commit. |
 
 **3:00 AM: feature freeze.** Only fixes after this.
 
@@ -96,11 +97,12 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 ## If we fall behind: cut in this order
 
-1. Practice mode and the optional pattern update
-2. QR checker
-3. Screenshot checker (then update the demo script)
-4. ML classifier (run on rules alone)
-5. LLM explanations (use templates)
+1. SMS auto-check (revert its single commit)
+2. Practice mode and the optional pattern update
+3. QR checker
+4. Screenshot checker (then update the demo script)
+5. ML classifier (run on rules alone)
+6. LLM explanations (use templates)
 
 Never cut: the rules engine, the real-OTP rule, the result screen, the offline demo, the README and the submission.
 
