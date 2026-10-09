@@ -1,6 +1,6 @@
 # GLOSSARY.md
 
-Comprehensive terminology, architectural concepts, and domain definitions for **OopsScam** (Scam Guardian).
+Comprehensive terminology, architectural concepts, and domain definitions for **OopsScam** (OopsScam).
 
 ---
 

@@ -8,7 +8,7 @@ For software tasks, first consult `.agents/skills/sdlc-router/SKILL.md` to selec
 **Event:** AppBuildersPH Hackathon 2026, theme Local AI. Submission deadline **10:00 AM, Oct 10, 2026** (aim to submit by 9:15 AM). One submission only, no edits.
 **Status:** Boilerplate shell is implemented (Expo Router Stack, UI primitives, theme, config, strict TypeScript, lint, format). Core detection rules, ML classifier, OCR/QR, and local LLM modules are up next.
 
-Read these first, in order: `docs/HANDOFF.md`, `docs/Scam Guardian — Product Requirements Document.md`, `SRS.md`, `PLAN.md`.
+Read these first, in order: `docs/HANDOFF.md`, `docs/OopsScam — Product Requirements Document.md`, `SRS.md`, `PLAN.md`.
 
 ---
 
