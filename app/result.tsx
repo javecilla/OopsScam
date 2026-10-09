@@ -1,379 +1,369 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
+import { Heading } from '@/components/Heading';
+import { Notice } from '@/components/Notice';
+import { ScanFrame } from '@/components/ScanFrame';
 import { Screen } from '@/components/Screen';
 import { StatusStrip } from '@/components/StatusStrip';
 import { Text } from '@/components/Text';
-import { MAX_INPUT_CHARS } from '@/config';
-import { analyze } from '@/core/analyze';
-import { looksLikeEmail } from '@/core/email';
 import { highlightParts } from '@/core/highlight';
 import type { Verdict } from '@/core/types';
-import type { ExplainOutput } from '@/llm/explain';
-import {
-  formatQwenTimings,
-  qwenStatusLabels,
-  QWEN_STAGE_LABEL,
-  runQwenExplanation,
-  runQwenPipeline,
-  type QwenAnalysisResult,
-  type QwenRuntime,
-  type QwenStage,
-} from '@/pipeline';
+import { formatTimings } from '@/pipeline';
+import { clearSessions, enhanceSession } from '@/session';
 import { saveScanRecord } from '@/storage/history';
-import { colors, fontSize, spacing } from '@/theme';
+import { brutalist, colors, fonts, shape, spacing } from '@/theme';
+import { useReadiness } from '@/useReadiness';
+import { useSession } from '@/useSession';
 
-// FR-UI-02: the verdict is always a word, never color alone. Never "safe" (AGENTS rule 4).
-const VERDICT_UI: Record<Verdict, { word: string; tl: string; color: string }> = {
-  scam: { word: 'SCAM', tl: 'Mukhang scam ito', color: colors.scam },
-  suspicious: { word: 'SUSPICIOUS', tl: 'Kahina-hinala', color: colors.suspicious },
-  low_risk: { word: 'LOW RISK', tl: 'Walang nakitang red flag', color: colors.lowRisk },
+const VERDICT_UI: Record<
+  Verdict,
+  { word: string; meaning: string; background: string; foreground: string }
+> = {
+  scam: {
+    word: 'SCAM',
+    meaning: 'This looks like a scam. Do not click links, reply, or send money.',
+    background: colors.highlight,
+    foreground: colors.scam,
+  },
+  suspicious: {
+    word: 'SUSPICIOUS',
+    meaning: 'Warning signs detected. Verify through official channels before acting.',
+    background: colors.suspicious,
+    foreground: colors.text,
+  },
+  low_risk: {
+    word: 'LOW RISK',
+    meaning: 'No obvious red flags detected in the analyzed message.',
+    background: colors.frame,
+    foreground: colors.onFrame,
+  },
 };
 
-type QwenPhase = 'loading' | 'ready' | 'error';
-
 export default function ResultScreen() {
+  const { sessionId } = useLocalSearchParams<{ sessionId?: string }>();
+  const session = useSession(sessionId);
   const router = useRouter();
-  const {
-    text = '',
-    truncated,
-    inputType = 'text',
-  } = useLocalSearchParams<{
-    text: string;
-    truncated?: string;
-    inputType?: 'text' | 'image' | 'qr';
-  }>();
-
-  // Immediate rules-only snapshot while Qwen loads (no ML classifier, always fast).
-  const rulesResult = useMemo(() => analyze(text, null), [text]);
-
-  // Qwen classification state.
-  const [qwenPhase, setQwenPhase] = useState<QwenPhase>('loading');
-  const [qwenStage, setQwenStage] = useState<QwenStage | null>(null);
-  const [qwenResult, setQwenResult] = useState<QwenAnalysisResult | null>(null);
-  const [qwenError, setQwenError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-
-  // Explanation state (FR-UI-04).
-  const [explained, setExplained] = useState<{ text: string; out: ExplainOutput } | null>(null);
-  const savedRef = useRef(false);
-
-  // Active verdict uses Qwen result when ready, rules snapshot while loading/errored.
-  const activeResult = qwenResult ?? rulesResult;
-  const verdict = activeResult.verdict;
-  const ui = VERDICT_UI[verdict];
-
-  const timings = formatQwenTimings(
-    rulesResult.timingsMs.rules,
-    qwenResult?.classificationMs ?? null,
-    explained?.out.ms ?? null,
+  const labels = useReadiness();
+  const result = session?.result;
+  const explained = session?.explained;
+  const verdict = explained?.verdict ?? result?.verdict;
+  const ui = verdict ? VERDICT_UI[verdict] : null;
+  const message = session?.text ?? '';
+  const parts = useMemo(
+    () =>
+      result
+        ? highlightParts(
+            message,
+            result.flags.map((flag) => flag.evidence),
+          )
+        : [],
+    [result, message],
   );
 
-  // FR-FU-04 / FR-UI-04: load Qwen, classify, then explain in one context.
   useEffect(() => {
-    let cancelled = false;
-    let localRuntime: QwenRuntime | null = null;
-    const abortCtrl = new AbortController();
+    if (sessionId) void enhanceSession(sessionId);
+  }, [sessionId]);
 
-    void (async () => {
-      // Reset all state at the start of each run (retry or new text).
-      setQwenPhase('loading');
-      setQwenStage(null);
-      setQwenError(null);
-      setQwenResult(null);
-      setExplained(null);
-      savedRef.current = false;
+  const savedSessionIdRef = useRef<string | null>(null);
 
-      try {
-        const { result, runtime } = await runQwenPipeline(
-          text,
-          (s) => {
-            if (!cancelled) setQwenStage(s);
-          },
-          abortCtrl.signal,
-        );
-        localRuntime = runtime;
-        if (cancelled) return;
+  useEffect(() => {
+    if (!sessionId || !session?.result || !session?.explained || !session.text.trim()) return;
+    if (savedSessionIdRef.current === sessionId) return;
 
-        setQwenResult(result);
-        setQwenPhase('ready');
+    if (!session.enhancing) {
+      savedSessionIdRef.current = sessionId;
+      const inputType: 'text' | 'image' | 'qr' =
+        session.source === 'screenshot' ? 'image' : session.source === 'qr' ? 'qr' : 'text';
+      void saveScanRecord({
+        verdict: session.explained.verdict ?? session.result.verdict,
+        score: session.result.score,
+        flagCount: session.result.flags.length,
+        inputType,
+      }).catch((err) => {
+        console.warn('Failed to save scan record:', err);
+      });
+    }
+  }, [sessionId, session?.result, session?.explained, session?.enhancing, session?.source, session?.text]);
 
-        const out = await runQwenExplanation(text, result, runtime);
-        if (cancelled) return;
-        setExplained({ text, out });
-
-        // Save scan metadata after successful Qwen analysis.
-        if (!savedRef.current && text.trim()) {
-          savedRef.current = true;
-          void saveScanRecord({
-            verdict: result.verdict,
-            score: result.score,
-            flagCount: result.flags.length,
-            inputType,
-          }).catch(() => {
-            Alert.alert(
-              'Hindi na-save ang scan',
-              'Hindi naisulat ang scan metadata sa lokal na history. Nananatili ang resulta sa screen.',
-            );
-          });
-        }
-      } catch (err) {
-        if (cancelled || (err as Error)?.name === 'AbortError') return;
-        const msg =
-          err instanceof Error
-            ? err.message
-            : 'Hindi maanalisa ng Qwen. Subukan muli.';
-        setQwenError(msg);
-        setQwenPhase('error');
-
-        // Save rules-snapshot metadata so history still records the attempt.
-        if (!savedRef.current && text.trim()) {
-          savedRef.current = true;
-          const snapshot = analyze(text, null);
-          void saveScanRecord({
-            verdict: snapshot.verdict,
-            score: snapshot.score,
-            flagCount: snapshot.flags.length,
-            inputType,
-          }).catch(() => {});
-        }
-      } finally {
-        void localRuntime?.release().catch(() => {});
-        localRuntime = null;
-      }
-    })();
-
+  useEffect(() => {
     return () => {
-      cancelled = true;
-      abortCtrl.abort();
-      // Runtime is released in the finally block; abort will surface AbortError there.
+      if (sessionId && session?.result && session.text.trim() && savedSessionIdRef.current !== sessionId) {
+        savedSessionIdRef.current = sessionId;
+        const inputType: 'text' | 'image' | 'qr' =
+          session.source === 'screenshot' ? 'image' : session.source === 'qr' ? 'qr' : 'text';
+        void saveScanRecord({
+          verdict: session.explained?.verdict ?? session.result.verdict,
+          score: session.result.score,
+          flagCount: session.result.flags.length,
+          inputType,
+        }).catch((err) => {
+          console.warn('Failed to save scan record on unmount:', err);
+        });
+      }
     };
-  }, [text, retryCount, inputType]);
+  }, [sessionId, session?.result, session?.explained, session?.source, session?.text]);
 
-  const parts = highlightParts(
-    text,
-    activeResult.flags.map((f) => f.evidence),
-  );
-
-  const statusLabels = qwenStatusLabels(qwenStage, qwenError);
+  const newCheck = () => {
+    clearSessions();
+    router.dismissTo('/');
+  };
 
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Verdict card ── loading state while Qwen is initialising / classifying */}
-        {qwenPhase === 'loading' ? (
-          <View
-            style={[styles.verdictCard, styles.verdictLoading]}
-            accessible
-            accessibilityLiveRegion="polite"
-            accessibilityLabel="Inaanalisa ang mensahe…"
-          >
-            <View style={styles.row}>
-              <ActivityIndicator color={colors.primary} />
-              <Text style={styles.verdictLoadingText}>Inaanalisa…</Text>
-            </View>
-            {qwenStage ? (
-              <Text style={styles.stageLabel}>{QWEN_STAGE_LABEL[qwenStage]}</Text>
-            ) : null}
-          </View>
-        ) : (
-          /* Verdict card ── Qwen result or rules snapshot (on error) */
-          <View
-            style={[styles.verdictCard, { backgroundColor: ui.color }]}
-            testID="analysis-verdict"
-            accessible
-            accessibilityRole="header"
-            accessibilityLabel={`Verdict: ${ui.word}, score ${activeResult.score} sa 100. ${ui.tl}.`}
-          >
-            <Text style={styles.verdictWord}>{ui.word}</Text>
-            <Text style={styles.verdictSub}>
-              {ui.tl} · Score {activeResult.score}/100
-            </Text>
-            {qwenResult !== null ? (
-              <>
-                <Text style={styles.verdictSub}>Qwen AI · fine-tuned na modelo</Text>
-                {qwenResult.llmRaised ? (
-                  <Text style={styles.verdictSub}>Itinaas ng Qwen mula sa rules baseline.</Text>
-                ) : null}
-              </>
-            ) : (
-              <Text style={styles.verdictSub}>Rules lang (Qwen hindi available)</Text>
-            )}
-          </View>
-        )}
-
-        {/* Error banner with retry button */}
-        {qwenPhase === 'error' && qwenError ? (
-          <View style={styles.errorBanner}>
-            <Text style={styles.errorText}>{qwenError}</Text>
-            <Pressable
-              onPress={() => {
-                setRetryCount((c) => c + 1);
-              }}
-              style={styles.retryButton}
-              accessibilityRole="button"
-              accessibilityLabel="Subukan muli ang Qwen AI"
-            >
-              <Text style={styles.retryText}>Subukan muli</Text>
-            </Pressable>
-          </View>
-        ) : null}
-
-        {looksLikeEmail(text) ? <Text style={styles.muted}>Sinuri bilang email.</Text> : null}
-
-        {truncated === '1' ? (
-          // FR-IN-01
-          <Text style={styles.disclaimer}>
-            Pinutol sa {MAX_INPUT_CHARS.toLocaleString()} characters ang message.
-          </Text>
-        ) : null}
-
-        {verdict === 'low_risk' ? (
-          // FR-UI-03 / HON-01
-          <Text style={styles.disclaimer}>
-            Hindi ito garantiya. Hindi 100% accurate ang OopsScam; mag-ingat pa rin at huwag ibigay
-            ang OTP o MPIN kahit kanino.
-          </Text>
-        ) : null}
-
-        <Text style={styles.section}>Bakit?</Text>
-        {explained ? (
-          <Text>{explained.out.explanation.explanationTl}</Text>
-        ) : (
-          <View style={styles.row} accessibilityLiveRegion="polite">
-            {qwenPhase !== 'error' ? <ActivityIndicator color={colors.primary} /> : null}
-            <Text style={styles.muted}>
-              {qwenPhase === 'error' ? 'Walang Qwen explanation.' : 'Ipinapaliwanag…'}
-            </Text>
-          </View>
-        )}
-
-        {explained ? (
+        {!result || !ui || !session || !explained ? (
           <>
-            <Text style={styles.section}>Gawin mo ito</Text>
-            <Text>{explained.out.explanation.actionTl}</Text>
-            <Text style={styles.muted}>
-              Paliwanag mula sa:{' '}
-              {explained.out.explanation.source === 'llm' ? 'local AI sa phone' : 'template'}
-            </Text>
+            <Heading
+              title="No Input Found"
+              description="No message was provided for this result. Please try checking again from Home."
+            />
+            <Button title="Back to Home" onPress={newCheck} />
           </>
-        ) : null}
-
-        {activeResult.flags.length > 0 ? (
+        ) : (
           <>
-            <Text style={styles.section}>Mga red flag ({activeResult.flags.length})</Text>
-            {activeResult.flags.map((f) => (
-              <Text key={f.id}>• {f.tl}</Text>
-            ))}
-          </>
-        ) : null}
-
-        <Text style={styles.section}>Ang message</Text>
-        <View style={styles.messageBox}>
-          <Text>
-            {parts.map((p, i) =>
-              p.highlighted ? (
-                <Text key={i} style={styles.highlight}>
-                  {p.text}
+            <ScanFrame>
+              <View
+                style={[
+                  styles.verdict,
+                  { backgroundColor: ui.background },
+                ]}
+                accessible
+                accessibilityRole="header"
+                accessibilityLiveRegion="polite"
+                accessibilityLabel={
+                  'Verdict: ' + ui.word + '. Risk score ' + result.score + ' out of 100. ' + ui.meaning
+                }
+                testID="analysis-verdict"
+              >
+                <View style={styles.stampBadge}>
+                  <Text role="label" style={styles.stampBadgeText}>
+                    SECURITY CALLING CARD
+                  </Text>
+                </View>
+                <Text role="verdict" style={[styles.verdictWord, { color: ui.foreground }]}>
+                  {ui.word}
                 </Text>
-              ) : (
-                p.text
-              ),
-            )}
-          </Text>
-        </View>
+                <Text style={[styles.verdictMeaning, { color: ui.foreground }]}>{ui.meaning}</Text>
+                <Text role="label" style={[styles.verdictScore, { color: ui.foreground }]}>
+                  Risk score: {result.score}/100
+                </Text>
+              </View>
+            </ScanFrame>
 
-        <Button title="Mag-check ng iba" variant="secondary" onPress={() => router.back()} />
+            <Text role="label" style={styles.muted}>
+              Automated risk rating based on rules and local AI (not a guarantee).
+            </Text>
+
+            {explained.llmRaised ? (
+              <Notice message="Risk rating was elevated by local AI after contextual analysis." />
+            ) : null}
+
+            {session.truncated ? (
+              <Notice message="Only part of the message was checked. Unchecked text may contain risks." />
+            ) : null}
+
+            {verdict === 'low_risk' ? (
+              <Notice message="This is not a guarantee that the message is safe. Stay cautious and never share OTPs or passwords." />
+            ) : null}
+
+            <Card accentColor={colors.primary} style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <View style={[styles.sectionBadge, { backgroundColor: colors.primary }]}>
+                  <Text role="label" style={styles.sectionBadgeText}>
+                    ACTION
+                  </Text>
+                </View>
+                <Text role="section" accessibilityRole="header">
+                  What You Should Do
+                </Text>
+              </View>
+              <Text style={styles.bodyText}>{explained.explanation.actionTl}</Text>
+            </Card>
+
+            <Card accentColor={colors.frame} style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <View style={[styles.sectionBadge, { backgroundColor: colors.frame }]}>
+                  <Text role="label" style={styles.sectionBadgeText}>
+                    EXPLANATION
+                  </Text>
+                </View>
+                <Text role="section" accessibilityRole="header">
+                  Why This Verdict?
+                </Text>
+              </View>
+              <Text style={styles.bodyText} accessibilityLiveRegion="polite">
+                {explained.explanation.explanationTl}
+              </Text>
+              {session.enhancing ? (
+                <View style={styles.loading}>
+                  <ActivityIndicator color={colors.primary} />
+                  <Text role="label">Local AI is generating an in-depth explanation…</Text>
+                </View>
+              ) : null}
+              <Text role="label" style={styles.muted}>
+                Explanation source:{' '}
+                {explained.explanation.source === 'llm' ? 'local AI on your phone' : 'security rule template'}
+              </Text>
+            </Card>
+
+            <Card style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <View style={[styles.sectionBadge, { backgroundColor: colors.ink }]}>
+                  <Text role="label" style={styles.sectionBadgeText}>
+                    RED FLAGS ({result.flags.length})
+                  </Text>
+                </View>
+              </View>
+              {result.flags.length ? (
+                result.flags.map((flag) => (
+                  <View key={flag.id} style={styles.flag}>
+                    <Text style={styles.flagText}>• {flag.en || flag.tl}</Text>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.muted}>No obvious red flags detected in the analyzed message.</Text>
+              )}
+            </Card>
+
+            <Card style={styles.sectionCard}>
+              <View style={styles.sectionHeader}>
+                <View style={[styles.sectionBadge, { backgroundColor: colors.ink }]}>
+                  <Text role="label" style={styles.sectionBadgeText}>
+                    ANALYZED MESSAGE
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.messageBox}>
+                <Text selectable style={styles.messageContent}>
+                  {parts.map((part, index) =>
+                    part.highlighted ? (
+                      <Text key={index} style={styles.highlight}>
+                        {part.text}
+                      </Text>
+                    ) : (
+                      part.text
+                    ),
+                  )}
+                </Text>
+              </View>
+            </Card>
+
+            <Button title="Check Another Message" onPress={newCheck} />
+            <Button
+              title="Back to Input"
+              variant="secondary"
+              onPress={() => (router.canGoBack() ? router.back() : router.dismissTo('/'))}
+            />
+            <Button
+              title="View Scan History"
+              variant="secondary"
+              onPress={() => router.push('/history' as any)}
+            />
+            <StatusStrip
+              llmLabel={labels.llmLabel}
+              classifierLabel={labels.classifierLabel}
+              timings={formatTimings({ ...result.timingsMs, llm: explained.ms || null })}
+            />
+          </>
+        )}
       </ScrollView>
-      <StatusStrip
-        llmLabel={statusLabels.llmLabel}
-        classifierLabel={statusLabels.classifierLabel}
-        timings={timings}
-      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    gap: spacing.md,
-    paddingBottom: spacing.lg,
-  },
-  verdictCard: {
-    borderRadius: spacing.md,
+  content: { gap: spacing.md, paddingBottom: spacing.xl },
+  verdict: {
+    borderRadius: shape.panel,
     padding: spacing.lg,
-    gap: spacing.xs,
+    gap: spacing.sm,
+    borderWidth: brutalist.borderWidth,
+    borderColor: brutalist.borderColor,
+    borderRightWidth: brutalist.borderWidth + brutalist.offset,
+    borderBottomWidth: brutalist.borderWidth + brutalist.offset,
   },
-  verdictLoading: {
-    backgroundColor: colors.surface,
+  stampBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.ink,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: shape.control,
+    transform: [{ skewX: '-8deg' }],
   },
-  verdictLoadingText: {
-    fontSize: fontSize.body,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  stageLabel: {
-    color: colors.muted,
-    fontSize: fontSize.small,
+  stampBadgeText: {
+    color: colors.onFrame,
+    fontFamily: fonts.bold,
+    fontSize: 10,
+    letterSpacing: 1.5,
   },
   verdictWord: {
-    fontSize: fontSize.verdict,
-    fontWeight: '800',
-    color: colors.background,
+    letterSpacing: 1,
   },
-  verdictSub: {
-    color: colors.background,
-    fontWeight: '600',
+  verdictMeaning: {
+    fontSize: 16,
+    lineHeight: 22,
   },
-  errorBanner: {
-    backgroundColor: colors.scam + '22',
-    borderLeftWidth: 3,
-    borderLeftColor: colors.scam,
-    borderRadius: spacing.sm,
-    padding: spacing.md,
+  verdictScore: {
+    fontFamily: fonts.bold,
+    fontSize: 15,
+  },
+  sectionCard: {
     gap: spacing.sm,
   },
-  errorText: {
-    color: colors.text,
-    fontSize: fontSize.small,
-  },
-  retryButton: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: spacing.xs,
-    backgroundColor: colors.primary,
-  },
-  retryText: {
-    color: colors.background,
-    fontWeight: '700',
-    fontSize: fontSize.small,
-  },
-  disclaimer: {
-    color: colors.muted,
-  },
-  section: {
-    fontWeight: '700',
-    marginTop: spacing.sm,
-  },
-  row: {
+  sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
+    marginBottom: spacing.xs,
   },
-  muted: {
-    color: colors.muted,
-    fontSize: fontSize.small,
+  sectionBadge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: shape.control,
+    transform: [{ skewX: '-8deg' }],
+  },
+  sectionBadgeText: {
+    color: colors.onPrimary,
+    fontFamily: fonts.bold,
+    fontSize: 10,
+    letterSpacing: 1,
+  },
+  bodyText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: colors.text,
+  },
+  muted: { color: colors.muted },
+  loading: { gap: spacing.sm, alignItems: 'flex-start', marginVertical: spacing.xs },
+  flag: {
+    paddingVertical: spacing.xs,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.softBorder,
+  },
+  flagText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: colors.text,
   },
   messageBox: {
-    backgroundColor: colors.surface,
-    borderRadius: spacing.sm,
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: colors.softBorder,
+    borderRadius: shape.control,
     padding: spacing.md,
+  },
+  messageContent: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: colors.text,
   },
   highlight: {
     backgroundColor: colors.highlight,
-    fontWeight: '700',
+    color: colors.scam,
+    fontFamily: fonts.bold,
   },
 });

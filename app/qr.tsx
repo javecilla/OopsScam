@@ -1,14 +1,27 @@
-import { CameraView, type BarcodeScanningResult, useCameraPermissions } from 'expo-camera';
+import type { BarcodeScanningResult } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRouter } from 'expo-router';
-import { useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Linking, ScrollView, StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/Button';
+import { Heading } from '@/components/Heading';
+import { Notice } from '@/components/Notice';
+import { ScanFrame } from '@/components/ScanFrame';
 import { Screen } from '@/components/Screen';
+import { StatusStrip } from '@/components/StatusStrip';
 import { Text } from '@/components/Text';
-import { MAX_INPUT_CHARS } from '@/config';
 import { type PaymentQr, parsePaymentQr } from '@/core/paymentQr';
-import { colors, fontSize, spacing } from '@/theme';
+import {
+  acknowledgeSession,
+  createSession,
+  discardSession,
+  PARTIAL_NOTICE,
+  submitSession,
+} from '@/session';
+import { useSession } from '@/useSession';
+import { useAppActive, useReadiness } from '@/useReadiness';
+import { brutalist, colors, fonts, fontSize, shape, spacing } from '@/theme';
 import { decodeQrImage, deleteTemporaryImage, pickImage } from '@/vision/images';
 
 // Peso amounts as "₱500.00"; other currencies keep their ISO code.
@@ -20,169 +33,323 @@ function formatAmount(qr: PaymentQr): string | null {
 }
 
 export default function QrScreen() {
-  const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
-  const [notice, setNotice] = useState<string | null>(null);
+  const [previewId, setPreviewId] = useState<string | undefined>();
+  const [cameraFailed, setCameraFailed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [payment, setPayment] = useState<PaymentQr | null>(null);
-  const scanned = useRef(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const session = useSession(previewId);
+  const router = useRouter();
+  const lock = useRef(false);
+  const submitted = useRef(false);
+  const decoded = useRef(false);
+  const active = useAppActive();
+  const labels = useReadiness();
+  const alive = useRef(true);
 
-  const check = (data: string): void => {
-    if (typeof data !== 'string' || !data.trim()) {
-      throw new TypeError('Walang laman ang QR code. Subukan ang ibang QR.');
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (active) submitted.current = false;
+  }, [active]);
+
+  const preview = (data: string) => {
+    if (!data.trim()) {
+      lock.current = false;
+      setNotice('Empty QR code. Please try another QR code.');
+      return;
     }
     // A payment QR has no message to judge: show who gets paid instead of a false verdict.
     const paymentQr = parsePaymentQr(data);
     if (paymentQr) {
+      decoded.current = true;
+      lock.current = true;
       setPayment(paymentQr);
+      setNotice(null);
       return;
     }
-    router.replace({
-      pathname: '/result',
-      params: {
-        text: data.slice(0, MAX_INPUT_CHARS),
-        truncated: data.length > MAX_INPUT_CHARS ? '1' : '0',
-        inputType: 'qr',
-      },
-    });
+    decoded.current = true;
+    lock.current = true;
+    setPreviewId(createSession(data, 'qr'));
+    setNotice(null);
   };
 
-  const onScan = (result: BarcodeScanningResult): void => {
-    if (scanned.current || busy) return;
-    scanned.current = true;
-    try {
-      check(result.data);
-    } catch (error) {
-      scanned.current = false;
-      setNotice(error instanceof Error ? error.message : String(error));
-    }
+  const onScan = (result: BarcodeScanningResult) => {
+    if (!active || lock.current || decoded.current) return;
+    lock.current = true;
+    preview(result.data);
   };
 
-  const enableCamera = async (): Promise<void> => {
+  const enableCamera = async () => {
+    if (lock.current) return;
+    lock.current = true;
+    setBusy(true);
     try {
       const response = await requestPermission();
-      if (!response.granted) {
-        setNotice(
-          'Hindi pinayagan ang camera. Puwede kang pumili ng QR image, o payagan ang camera sa Settings.',
-        );
-      }
-    } catch (error) {
-      setNotice(
-        `Hindi mabuksan ang camera: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      if (!alive.current) return;
+      setCameraFailed(false);
+      if (!response.granted)
+        setNotice('Camera access was denied. You can still check QR codes by selecting an image.');
+    } catch {
+      if (alive.current)
+        setNotice('Unable to open camera. Please choose a QR image or paste text in Home.');
+    } finally {
+      if (!decoded.current) lock.current = false;
+      if (alive.current) setBusy(false);
     }
   };
 
-  const pickQr = async (): Promise<void> => {
+  const pickQr = async () => {
+    if (lock.current) return;
+    lock.current = true;
     setBusy(true);
     setNotice(null);
     try {
       const uri = await pickImage();
-      if (uri === null) return;
+      if (!uri) return;
       let data: string;
       try {
         data = await decodeQrImage(uri);
       } finally {
         deleteTemporaryImage(uri);
       }
-      check(data);
-    } catch (error) {
-      setNotice(`Hindi mabasa ang QR: ${error instanceof Error ? error.message : String(error)}`);
+      if (alive.current) preview(data);
+    } catch {
+      if (alive.current)
+        setNotice('Could not read QR code. Please choose an image with a single, clear QR code.');
     } finally {
-      setBusy(false);
+      if (!decoded.current) lock.current = false;
+      if (alive.current) setBusy(false);
     }
   };
 
   const scanAgain = (): void => {
     setPayment(null);
     setNotice(null);
-    scanned.current = false;
+    decoded.current = false;
+    lock.current = false;
+    setCameraFailed(false);
+  };
+
+  const check = () => {
+    if (!previewId || submitted.current || !submitSession(previewId)) return;
+    submitted.current = true;
+    router.push({ pathname: '/result', params: { sessionId: previewId } });
   };
 
   if (payment) {
     const amount = formatAmount(payment);
     return (
       <Screen>
-        <View style={styles.content}>
+        <ScrollView contentContainerStyle={styles.content}>
+          <Heading
+            title="Payment QR Code"
+            description="This QR code is used for sending payments, not text messaging."
+          />
           <View style={styles.card} testID="qr-payment">
-            <Text style={styles.heading}>PAYMENT QR</Text>
-            <Text>Ang bayad ay mapupunta kay:</Text>
-            <Text style={styles.receiver}>
-              {payment.merchantName ?? 'Walang nakasulat na pangalan'}
+            <View style={styles.badge}>
+              <Text role="label" style={styles.badgeText}>
+                PAYMENT QR
+              </Text>
+            </View>
+            <Text role="label" style={styles.heading}>
+              Payment Recipient:
             </Text>
-            {payment.city ? <Text>{payment.city}</Text> : null}
+            <Text style={styles.receiver}>
+              {payment.merchantName ?? 'No name specified'}
+            </Text>
+            {payment.city ? <Text style={styles.city}>{payment.city}</Text> : null}
             {amount ? (
               <Text style={styles.receiver}>
                 {amount}
-                {payment.dynamic ? ' · Naka-set na ang halaga sa QR.' : ''}
+                {payment.dynamic ? ' · Pre-set amount in QR' : ''}
               </Text>
             ) : null}
           </View>
-          <Text>
-            Hindi masasabi ng OopsScam kung totoo ang receiver. Siguraduhing tugma ang pangalan sa
-            tindahan o taong babayaran mo bago magbayad. Huwag magbayad sa QR na ipinadala ng hindi
-            mo kilala.
+          <Text style={styles.warningText}>
+            OopsScam cannot verify if this recipient is legitimate. Make sure the name matches the business or person you intend to pay before sending money. Never send money to a QR code sent by an unknown contact.
           </Text>
           {payment.networkId ? (
             <Text style={styles.muted}>Network ID: {payment.networkId}</Text>
           ) : null}
-          <Button title="Mag-scan ulit" onPress={scanAgain} testID="qr-scan-again" />
-        </View>
+          <Button title="Scan Again" onPress={scanAgain} testID="qr-scan-again" />
+          <Button
+            title="Back to Home"
+            variant="secondary"
+            onPress={() => router.dismissTo('/')}
+          />
+          <StatusStrip llmLabel={labels.llmLabel} classifierLabel={labels.classifierLabel} />
+        </ScrollView>
       </Screen>
     );
   }
 
   return (
     <Screen>
-      <View style={styles.content}>
-        <Text>
-          Itutok sa isang QR code. Susuriin ang laman nito sa phone; hindi bubuksan ang link.
-        </Text>
-        {permission?.granted && !busy ? (
-          <CameraView
-            style={styles.camera}
-            facing="back"
-            barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
-            onBarcodeScanned={onScan}
-            onMountError={(error) => setNotice(`Hindi mabuksan ang camera: ${error.message}`)}
-            testID="qr-camera"
-          />
-        ) : (
-          <Button
-            title="Payagan ang camera"
-            variant="primary"
-            onPress={enableCamera}
-            testID="qr-enable-camera"
-            disabled={busy}
-          />
-        )}
-        <Button
-          title={busy ? 'Binabasa ang QR…' : 'Pumili ng QR image'}
-          variant="secondary"
-          onPress={pickQr}
-          testID="qr-pick-image"
-          disabled={busy}
+      <ScrollView contentContainerStyle={styles.content}>
+        <Heading
+          title={session ? 'Scanned QR Content' : 'Scan Before Tapping'}
+          description={
+            session
+              ? 'We do not open links automatically. Review the decoded content before checking.'
+              : 'Point your camera at a QR code, or pick an image. All processing stays on your phone.'
+          }
         />
-        {notice ? (
-          <Text accessibilityLiveRegion="polite" testID="qr-notice">
-            {notice}
-          </Text>
-        ) : null}
-      </View>
+        {session ? (
+          <>
+            <ScanFrame>
+              <Text
+                selectable
+                accessibilityLabel={'QR Content: ' + session.text}
+                testID="qr-preview"
+              >
+                {session.text}
+              </Text>
+            </ScanFrame>
+            {session.truncated ? (
+              <Notice
+                message={PARTIAL_NOTICE}
+                onAcknowledge={
+                  session.acknowledged
+                    ? undefined
+                    : () => {
+                        if (previewId) acknowledgeSession(previewId);
+                      }
+                }
+              />
+            ) : null}
+            <Button
+              title="Check QR Content"
+              onPress={check}
+              testID="analyze-qr"
+              disabled={session.truncated && !session.acknowledged}
+            />
+            <Button
+              title="Scan Again"
+              variant="secondary"
+              onPress={() => {
+                if (previewId) discardSession(previewId);
+                setPreviewId(undefined);
+                decoded.current = false;
+                lock.current = false;
+                setCameraFailed(false);
+              }}
+              testID="qr-rescan"
+            />
+          </>
+        ) : (
+          <>
+            {permission?.granted && !cameraFailed ? (
+              <ScanFrame dark>
+                <View style={styles.cameraArea}>
+                  {active && !busy ? (
+                    <CameraView
+                      style={styles.camera}
+                      facing="back"
+                      barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
+                      onBarcodeScanned={onScan}
+                      onMountError={() => {
+                        setCameraFailed(true);
+                        setNotice('Unable to open camera. Please try a QR image instead.');
+                      }}
+                      testID="qr-camera"
+                    />
+                  ) : (
+                    <Text style={styles.paused}>Camera paused.</Text>
+                  )}
+                </View>
+              </ScanFrame>
+            ) : (
+              <>
+                <Text>
+                  Camera access is only needed for live scanning. Not required for QR images.
+                </Text>
+                <Button
+                  title={
+                    permission && !permission.canAskAgain
+                      ? 'Open Settings'
+                      : 'Allow Camera'
+                  }
+                  onPress={() => {
+                    if (permission && !permission.canAskAgain)
+                      void Linking.openSettings().catch(() =>
+                        setNotice('Open Android Settings to allow camera access.'),
+                      );
+                    else void enableCamera();
+                  }}
+                  testID="qr-enable-camera"
+                  busy={busy}
+                />
+              </>
+            )}
+            <Button
+              title="Choose QR Image"
+              variant="secondary"
+              onPress={pickQr}
+              testID="qr-pick-image"
+              busy={busy}
+            />
+          </>
+        )}
+        {notice ? <Notice message={notice} /> : null}
+        <Button
+          title="Back to Home"
+          variant="secondary"
+          onPress={() => {
+            if (previewId) discardSession(previewId);
+            router.dismissTo('/');
+          }}
+        />
+        <StatusStrip llmLabel={labels.llmLabel} classifierLabel={labels.classifierLabel} />
+      </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: { flex: 1, gap: spacing.md },
-  camera: { flex: 1, minHeight: 240, borderRadius: spacing.sm, backgroundColor: colors.surface },
+  content: { gap: spacing.md, paddingBottom: spacing.xl },
+  cameraArea: {
+    height: 260,
+    borderRadius: shape.control,
+    overflow: 'hidden',
+    backgroundColor: colors.ink,
+    justifyContent: 'center',
+  },
+  camera: { flex: 1 },
+  paused: { color: colors.onFrame, textAlign: 'center' },
   card: {
     gap: spacing.xs,
     padding: spacing.lg,
-    borderRadius: spacing.md,
+    borderRadius: shape.panel,
     backgroundColor: colors.surface,
+    borderWidth: brutalist.borderWidth,
+    borderColor: brutalist.borderColor,
+    borderRightWidth: brutalist.borderWidth + brutalist.offset,
+    borderBottomWidth: brutalist.borderWidth + brutalist.offset,
   },
-  heading: { fontWeight: '800', color: colors.muted },
-  receiver: { fontSize: 22, fontWeight: '700' },
+  badge: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.primary,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: shape.control,
+    marginBottom: spacing.xs,
+  },
+  badgeText: {
+    color: colors.onPrimary,
+    fontFamily: fonts.bold,
+    fontSize: 10,
+    letterSpacing: 1,
+  },
+  heading: { fontFamily: fonts.bold, color: colors.muted, fontSize: fontSize.small },
+  receiver: { fontSize: 20, fontFamily: fonts.bold, color: colors.text },
+  city: { fontSize: fontSize.body, color: colors.muted },
+  warningText: { fontSize: 14, color: colors.muted, lineHeight: 20 },
   muted: { color: colors.muted, fontSize: fontSize.small },
 });

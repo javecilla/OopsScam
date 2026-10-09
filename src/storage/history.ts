@@ -13,8 +13,9 @@ export interface ScanRecord {
 export interface SaveScanInput {
   verdict: Verdict;
   score: number;
-  flagCount: number;
-  inputType: 'text' | 'image' | 'qr';
+  flagCount?: number;
+  flags?: { tl?: string; label?: string; id?: string; en?: string }[];
+  inputType?: 'text' | 'image' | 'qr';
 }
 
 export interface ScanStats {
@@ -55,13 +56,15 @@ function validateRecord(row: ScanRecord): ScanRecord {
 
 /** Persists only metadata and atomically retains the most recent 100 records. */
 export async function saveScanRecord(input: SaveScanInput): Promise<number> {
+  const flag_count = input.flagCount ?? input.flags?.length ?? 0;
+  const input_type = input.inputType ?? 'text';
   const metadata = validateRecord({
     id: 1,
     timestamp: Date.now(),
     verdict: input.verdict,
     score: input.score,
-    flag_count: input.flagCount,
-    input_type: input.inputType,
+    flag_count,
+    input_type,
   });
   const db = await getDb();
   let id = 0;
