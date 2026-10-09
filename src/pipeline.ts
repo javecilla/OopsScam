@@ -2,8 +2,10 @@
 // Nothing here touches the network; messages are kept in memory only (SEC-03).
 
 import classifierWeights from '@/assets/classifier.json';
+import emailClassifierWeights from '@/assets/classifier_email.json';
 
 import { analyze } from './core/analyze';
+import { looksLikeEmail } from './core/email';
 import type { AnalysisResult } from './core/types';
 import { loadClassifier } from './ml/classifier';
 import { explain, type ExplainOutput } from './llm/explain';
@@ -11,6 +13,8 @@ import { getLlmEngine, getLlmStatus, type LlmStatus } from './llm/llama';
 
 // FR-ML-03: invalid weights -> null -> rules only.
 const classifier = loadClassifier(classifierWeights);
+// Emails get their own model; if its weights are invalid, emails use the SMS model.
+const emailClassifier = loadClassifier(emailClassifierWeights) ?? classifier;
 
 export interface PipelineStatus {
   classifier: 'loaded' | 'rules_only';
@@ -23,7 +27,7 @@ export function getPipelineStatus(): PipelineStatus {
 
 // Verdict and score, without the LLM (FR-FU-04).
 export function runAnalysis(text: string): AnalysisResult {
-  return analyze(text, classifier?.score);
+  return analyze(text, (looksLikeEmail(text) ? emailClassifier : classifier)?.score);
 }
 
 // Taglish explanation from the LLM, or the template fallback. Never throws.

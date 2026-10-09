@@ -1,0 +1,12 @@
+{
+  "seed": 42,
+  "epochs": 2,
+  "examples_per_class": 512,
+  "learning_rate": 0.0003,
+  "gradient_accumulation": 8,
+  "lora_rank": 8,
+  "lora_alpha": 16,
+  "layers": [20, 21, 22, 23, 24, 25, 26, 27],
+  "threads": 6,
+  "max_tokens": 1024
+}

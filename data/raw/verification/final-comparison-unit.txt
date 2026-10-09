@@ -1,0 +1,12 @@
+✔ metrics distinguish false-alarm rate from precision and accuracy (1.3535ms)
+✔ metrics return null for absent classes and reject invalid inputs (0.4987ms)
+✔ CSV preserves commas, escaped quotes and newlines in messages (0.3208ms)
+✔ CSV rejects malformed inputs (0.1995ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 133.5748

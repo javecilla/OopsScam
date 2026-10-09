@@ -1,0 +1,98 @@
+[
+ {
+  "text": "Kuya, ako yung rider kanina. I-forward mo nga yung OTP na dumating, para ma-confirm ang delivery.",
+  "p": 0.9632233377401689
+ },
+ {
+  "text": "Tita, ako to si Jun. Nasa ospital ako, padalhan mo ako ng 5,000 sa GCash na ito please.",
+  "p": 0.9922939932489986
+ },
+ {
+  "text": "BPI: You transferred PHP 5,000.00 to account ending 4321 on Oct 09. Ref 778899.",
+  "p": 0.04461055137874041
+ },
+ {
+  "text": "BPI: Unauthorized login attempt detected. Confirm your identity here: bpi-secure-login.online",
+  "p": 0.9805000490026465
+ },
+ {
+  "text": "Converge: Your monthly bill of P1,500 is due in 3 days. Pay via the Converge app.",
+  "p": 0.1023316444512453
+ },
+ {
+  "text": "BDO: Your one-time PIN is 739204. Never share your OTP. BDO will never ask for it.",
+  "p": 0.031087253291498196
+ },
+ {
+  "text": "You have sent PHP 350.00 to 09XX XXX 1234. Ref No. 5566778899. Thank you for using Maya.",
+  "p": 0.04528143300153628
+ },
+ {
+  "text": "Metrobank: Your card has been restricted due to suspicious transactions. Reactivate at metrobank-card.live",
+  "p": 0.9799306905321515
+ },
+ {
+  "text": "Ang iyong Maya verification code ay 5521. Huwag ibigay ito kahit kanino.",
+  "p": 0.15024592168407136
+ },
+ {
+  "text": "Your account recovery needs the OTP we just sent. Reply with it within 5 minutes.",
+  "p": 0.9747048024066606
+ },
+ {
+  "text": "DSWD: Ikaw ay kwalipikado sa P8,000 ayuda. I-register agad sa dswd-ayuda-ph.online bago bukas.",
+  "p": 0.9825979698135293
+ },
+ {
+  "text": "DOLE AKAP: Approved ang P5,000 financial aid mo. Bayaran ang P200 processing fee para ma-release.",
+  "p": 0.9953693944014679
+ },
+ {
+  "text": "Na-load na ang P50 sa number mo. Salamat sa pagbili!",
+  "p": 0.16205485894902294
+ },
+ {
+  "text": "Uy, nasa bahay ka na? Kain tayo mamaya sa labas, libre ko.",
+  "p": 0.015839019088912307
+ },
+ {
+  "text": "Your phone has a virus! Install this app now to clean it: phone-cleaner.xyz/clean.apk",
+  "p": 0.9856555333326811
+ },
+ {
+  "text": "Kuya, hiramin ko muna yung payong mo bukas, babalik ko agad.",
+  "p": 0.07716687257661542
+ },
+ {
+  "text": "Smart: Your GIGA Video 99 has expired. To renew, dial *123#.",
+  "p": 0.19808813827771052
+ },
+ {
+  "text": "SSS Notice: May hindi na-claim na benefit na P12,000. I-verify ang account sa sss-benefits.xyz",
+  "p": 0.9992622813339184
+ },
+ {
+  "text": "PHLPost: May package ka na naka-hold sa customs. Bayaran ang P150 customs fee dito: phlpost-ph.online",
+  "p": 0.9943127178751915
+ },
+ {
+  "text": "Happy birthday, tita! Ingat po palagi at God bless.",
+  "p": 0.005615464510109589
+ },
+ {
+  "text": "",
+  "p": 0.0029945825789044114
+ },
+ {
+  "text": "😀 congrats!!  you   won ₱5,000 ñ señor  a b c",
+  "p": 0.9116104576735247
+ },
+ {
+  "text": "GCASH: I-VERIFY https://gcash-verify.xyz/login?id=12345 ngayon din!!!",
+  "p": 0.9439908500820197
+ },
+ {
+  "text": "ok",
+  "p": 0.00029760528475953815
+ }
+]

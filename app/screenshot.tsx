@@ -55,7 +55,7 @@ export default function ScreenshotScreen() {
       setNotice('Mag-type muna ng text na gusto mong i-check.');
       return;
     }
-    router.push({ pathname: '/result', params: { text } });
+    router.push({ pathname: '/result', params: { text, inputType: 'image' } });
   };
 
   return (

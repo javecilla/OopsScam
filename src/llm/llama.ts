@@ -8,15 +8,11 @@ import { initLlama, type LlamaContext } from 'llama.rn';
 import { LLM_MODEL_FILENAME } from '@/config';
 
 import type { LlmEngine } from './explain';
+import type { ClassificationEngine } from './classify';
 import type { ChatMessage } from './prompt';
 
 export type LlmStatus =
-  | 'not_loaded'
-  | 'copying_model'
-  | 'loading'
-  | 'ready'
-  | 'missing_model'
-  | 'failed';
+  'not_loaded' | 'copying_model' | 'loading' | 'ready' | 'missing_model' | 'failed';
 
 // FR-LM-03: greedy decoding, capped output, thinking off.
 const COMPLETION_PARAMS = {
@@ -130,4 +126,38 @@ export async function releaseLlm(): Promise<void> {
   contextPromise = null;
   status = 'not_loaded';
   await context?.release();
+}
+
+/** Adapt a loaded, verified Qwen context to the classification-only protocol. */
+export function createClassificationEngine(
+  context: LlamaContext,
+  model: string,
+): ClassificationEngine {
+  return {
+    model,
+    completeClassification: async (messages: ChatMessage[]): Promise<string> => {
+      const result = await context.completion({
+        messages,
+        temperature: 0,
+        n_predict: 24,
+        stop: ['<|im_end|>'],
+        jinja: true,
+        enable_thinking: false,
+        response_format: {
+          type: 'json_schema',
+          json_schema: {
+            strict: true,
+            schema: {
+              type: 'object',
+              properties: { verdict: { type: 'string', enum: ['scam', 'suspicious', 'low_risk'] } },
+              required: ['verdict'],
+              additionalProperties: false,
+            },
+          },
+        },
+      });
+      return result.content || result.text;
+    },
+    stopClassification: (): Promise<void> => context.stopCompletion(),
+  };
 }

@@ -1,0 +1,13 @@
+
+> oopsscam@1.0.0 lint
+> expo lint
+
+
+E:\VSC\OopsScam\app\qr.tsx
+  1:78  error  Unable to resolve path to module 'expo-camera'  import/no-unresolved
+
+E:\VSC\OopsScam\src\vision\images.ts
+  2:24  error  Unable to resolve path to module 'expo-camera'  import/no-unresolved
+
+✖ 2 problems (2 errors, 0 warnings)
+

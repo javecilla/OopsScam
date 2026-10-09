@@ -1,0 +1,10 @@
+
+> oopsscam@1.0.0 typecheck
+> tsc --noEmit
+
+app/index.tsx(71,21): error TS2322: Type '"/screenshot"' is not assignable to type '"/" | RelativePathString | ExternalPathString | "/result" | "/../scripts/build_sft_data" | "/_sitemap"'.
+app/index.tsx(96,39): error TS2322: Type '"/screenshot"' is not assignable to type '"/" | RelativePathString | ExternalPathString | "/result" | "/../scripts/build_sft_data" | "/_sitemap"'.
+app/index.tsx(150,38): error TS2345: Argument of type '"/qr"' is not assignable to parameter of type '"/" | RelativePathString | ExternalPathString | `/?${string}` | `/#${string}` | "/result" | `/result?${string}` | `/result#${string}` | "/../scripts/build_sft_data" | ... 10 more ... | { ...; }'.
+app/qr.tsx(1,78): error TS2307: Cannot find module 'expo-camera' or its corresponding type declarations.
+app/qr.tsx(91,28): error TS7006: Parameter 'error' implicitly has an 'any' type.
+src/vision/images.ts(2,24): error TS2307: Cannot find module 'expo-camera' or its corresponding type declarations.

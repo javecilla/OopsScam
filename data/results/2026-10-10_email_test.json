@@ -1,0 +1,400 @@
+{
+  "set": "email_test",
+  "date": "2026-10-10",
+  "app": {
+    "n": 40,
+    "emailRouted": 38,
+    "scam": 20,
+    "legit": 20,
+    "flaggedIsSuspiciousOrScam": {
+      "tp": 19,
+      "fp": 3,
+      "tn": 17,
+      "fn": 1,
+      "precision": 0.8636363636363636,
+      "recall": 0.95,
+      "f1": 0.9047619047619048,
+      "falseAlarmRate": 0.15
+    },
+    "scamOnly": {
+      "tp": 17,
+      "fp": 0,
+      "tn": 20,
+      "fn": 3,
+      "precision": 1,
+      "recall": 0.85,
+      "f1": 0.9189189189189189,
+      "falseAlarmRate": 0
+    },
+    "confusion": {
+      "scam": {
+        "scam": 17,
+        "suspicious": 2,
+        "low_risk": 1
+      },
+      "legit": {
+        "scam": 0,
+        "suspicious": 3,
+        "low_risk": 17
+      }
+    },
+    "perCategory": {
+      "account_threat_link": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "credential_request": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "marketplace_scam": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "parcel_fee": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "government_impersonation": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 2
+      },
+      "job_loan_investment": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "bill_fee_link": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "other_scam": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 1
+      },
+      "remote_access": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "prize_raffle_ayuda": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 2
+      },
+      "sender_spoof": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "bank_statement": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "transaction_receipt": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "otp": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "order_update": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "bill_reminder": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "security_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "school_office": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "gov_announcement": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 1
+      },
+      "job_application": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 1
+      },
+      "promo": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "booking_confirmation": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "personal_email": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 1
+      },
+      "delivery_notice": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      }
+    },
+    "latencyMs": {
+      "rulesMedian": 0.2793500000000222,
+      "rulesMax": 1.796699999999987,
+      "mlMedian": 0.9236499999999523,
+      "mlMax": 7.28430000000003
+    },
+    "missedScams": [
+      {
+        "id": "em-s015",
+        "score": 13,
+        "text": "From: Ramon Villanueva <ramon.villanueva.ceo@gmail-office.example>\r\nSubject: Quick favor\r\n\r\nHi,\r\n\r\nAre you at your desk? I need you to buy six PHP 2,000 gift cards for a client today. Keep this between us for now, I will explain later. Send me the codes by email as soon as you have them.\r\n\r\nRamon\r\nSent from my phone"
+      }
+    ],
+    "falseAlarms": [
+      {
+        "id": "em-l013",
+        "verdict": "suspicious",
+        "score": 37,
+        "flags": [
+          "gov_agency"
+        ],
+        "text": "From: SSS <noreply@sss.gov.ph>\r\nSubject: Contribution payment posted\r\n\r\nDear Member,\r\n\r\nYour contribution payment of PHP 1,140.00 for September 2026 has been posted to your SSS record. You may view your contributions in My.SSS or the SSS Mobile App.\r\n\r\nSocial Security System"
+      },
+      {
+        "id": "em-l014",
+        "verdict": "suspicious",
+        "score": 50,
+        "flags": [
+          "fee_request",
+          "job_loan_investment"
+        ],
+        "text": "From: Talent Acquisition <careers@northwindsolutions.example>\r\nSubject: We received your application\r\n\r\nDear Maria Santos,\r\n\r\nThank you for applying for the Junior Accountant position. Our recruitment team is reviewing applications and will contact shortlisted candidates for an interview within two weeks. We never charge applicants any fee during hiring.\r\n\r\nBest regards,\r\nTalent Acquisition Team"
+      },
+      {
+        "id": "em-l017",
+        "verdict": "suspicious",
+        "score": 32,
+        "flags": [],
+        "text": "Hi Carlo,\r\n\r\nKumusta! Para sa outing natin sa Batangas, P1,500 per head ang share sa resort. Paki-send na lang sa GCash ko bago mag-Friday para ma-reserve na natin. Kita-kits!\r\n\r\nSalamat,\r\nBea"
+      }
+    ]
+  },
+  "rulesOnly": {
+    "n": 40,
+    "emailRouted": 38,
+    "scam": 20,
+    "legit": 20,
+    "flaggedIsSuspiciousOrScam": {
+      "tp": 17,
+      "fp": 1,
+      "tn": 19,
+      "fn": 3,
+      "precision": 0.9444444444444444,
+      "recall": 0.85,
+      "f1": 0.8947368421052632,
+      "falseAlarmRate": 0.05
+    },
+    "scamOnly": {
+      "tp": 12,
+      "fp": 0,
+      "tn": 20,
+      "fn": 8,
+      "precision": 1,
+      "recall": 0.6,
+      "f1": 0.7499999999999999,
+      "falseAlarmRate": 0
+    },
+    "confusion": {
+      "scam": {
+        "scam": 12,
+        "suspicious": 5,
+        "low_risk": 3
+      },
+      "legit": {
+        "scam": 0,
+        "suspicious": 1,
+        "low_risk": 19
+      }
+    },
+    "perCategory": {
+      "account_threat_link": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 3
+      },
+      "credential_request": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 2
+      },
+      "marketplace_scam": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "parcel_fee": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "government_impersonation": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 2
+      },
+      "job_loan_investment": {
+        "label": "scam",
+        "n": 3,
+        "flagged": 2
+      },
+      "bill_fee_link": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "other_scam": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 1
+      },
+      "remote_access": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "prize_raffle_ayuda": {
+        "label": "scam",
+        "n": 2,
+        "flagged": 2
+      },
+      "sender_spoof": {
+        "label": "scam",
+        "n": 1,
+        "flagged": 1
+      },
+      "bank_statement": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "transaction_receipt": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "otp": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "order_update": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "bill_reminder": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "security_notice": {
+        "label": "legit",
+        "n": 3,
+        "flagged": 0
+      },
+      "school_office": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "gov_announcement": {
+        "label": "legit",
+        "n": 2,
+        "flagged": 0
+      },
+      "job_application": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 1
+      },
+      "promo": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "booking_confirmation": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "personal_email": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      },
+      "delivery_notice": {
+        "label": "legit",
+        "n": 1,
+        "flagged": 0
+      }
+    },
+    "latencyMs": {
+      "rulesMedian": 0.175549999999987,
+      "rulesMax": 0.3994999999999891,
+      "mlMedian": null,
+      "mlMax": null
+    },
+    "missedScams": [
+      {
+        "id": "em-s008",
+        "score": 15,
+        "text": "From: Prime Yield Partners <invest@primeyield-asia.example>\r\nSubject: Guaranteed 30% monthly returns\r\n\r\nDear Investor,\r\n\r\nJoin our private crypto trading pool and earn a guaranteed 30% return every month. Minimum investment is only PHP 10,000. Slots close tonight, so send your deposit now and reply with your GCash number.\r\n\r\nBest regards,\r\nAccount Manager"
+      },
+      {
+        "id": "em-s010",
+        "score": 23,
+        "text": "From: IT Helpdesk <helpdesk@mail-quota-admin.example>\r\nSubject: Mailbox full - verify to keep receiving emails\r\n\r\nHello,\r\n\r\nYour mailbox has reached its storage limit and incoming emails are on hold. Confirm your email password at mail-quota-admin.example/login within 12 hours to restore your mailbox.\r\n\r\nThanks,\r\nIT Service Desk"
+      },
+      {
+        "id": "em-s015",
+        "score": 15,
+        "text": "From: Ramon Villanueva <ramon.villanueva.ceo@gmail-office.example>\r\nSubject: Quick favor\r\n\r\nHi,\r\n\r\nAre you at your desk? I need you to buy six PHP 2,000 gift cards for a client today. Keep this between us for now, I will explain later. Send me the codes by email as soon as you have them.\r\n\r\nRamon\r\nSent from my phone"
+      }
+    ],
+    "falseAlarms": [
+      {
+        "id": "em-l014",
+        "verdict": "suspicious",
+        "score": 40,
+        "flags": [
+          "fee_request",
+          "job_loan_investment"
+        ],
+        "text": "From: Talent Acquisition <careers@northwindsolutions.example>\r\nSubject: We received your application\r\n\r\nDear Maria Santos,\r\n\r\nThank you for applying for the Junior Accountant position. Our recruitment team is reviewing applications and will contact shortlisted candidates for an interview within two weeks. We never charge applicants any fee during hiring.\r\n\r\nBest regards,\r\nTalent Acquisition Team"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+
+> oopsscam@1.0.0 test
+> jest --runInBand
+
+PASS src/core/__tests__/rules.test.ts
+PASS src/llm/__tests__/llm.test.ts
+PASS src/core/__tests__/fusion.test.ts
+PASS src/core/__tests__/links.test.ts
+PASS src/ml/__tests__/classifier.test.ts
+PASS src/core/__tests__/highlight.test.ts
+
+Test Suites: 6 passed, 6 total
+Tests:       127 passed, 127 total
+Snapshots:   0 total
+Time:        3.6 s
+Ran all test suites.

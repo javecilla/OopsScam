@@ -11,7 +11,9 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { join } from 'node:path';
 
 import weights from '../assets/classifier.json';
+import emailWeights from '../assets/classifier_email.json';
 import { analyze, type ClassifyFn } from '../src/core/analyze';
+import { looksLikeEmail } from '../src/core/email';
 import type { Verdict } from '../src/core/types';
 import { loadClassifier } from '../src/ml/classifier';
 
@@ -20,6 +22,7 @@ const SETS: Record<string, string> = {
   test: 'data/test', // the original frozen set (not created yet)
   test_v2: 'data/test_v2',
   adversarial: 'data/adversarial',
+  email_test: 'data/email_test',
 };
 
 interface Row {
@@ -121,6 +124,7 @@ function evaluate(rows: Row[], classify: ClassifyFn | null) {
   const mlMs = results.flatMap((r) => (r.out.timingsMs.ml === null ? [] : [r.out.timingsMs.ml]));
   return {
     n: rows.length,
+    emailRouted: rows.filter((r) => looksLikeEmail(r.text)).length,
     scam: rows.filter((r) => r.label === 'scam').length,
     legit: rows.filter((r) => r.label === 'legit').length,
     flaggedIsSuspiciousOrScam: metrics((v) => v !== 'low_risk'),
@@ -158,6 +162,7 @@ function markdown(set: string, date: string, app: Report, rulesOnly: Report): st
     '',
     `${app.n} messages (${app.scam} scam, ${app.legit} legit). Same \`src/core\` + \`src/ml\` code as the app; no rule, weight or threshold was changed.`,
     'Targets (PLAN.md): recall 90% or more, false alarms 10% or less. These are measured numbers on a small, AI-written set; they are a smoke check, not a benchmark.',
+    `Scored with the email classifier (input looks like an email, as in the app): ${app.emailRouted} of ${app.n}; the rest with the SMS classifier.`,
     '',
     '| Config | Recall | Precision | F1 | False-alarm rate | Recall (Scam verdict only) | False alarms (Scam verdict only) |',
     '| --- | --- | --- | --- | --- | --- | --- |',
@@ -209,6 +214,11 @@ function markdown(set: string, date: string, app: Report, rulesOnly: Report): st
 function main() {
   const classifier = loadClassifier(weights);
   if (!classifier) throw new Error('assets/classifier.json is invalid');
+  const emailClassifier = loadClassifier(emailWeights);
+  if (!emailClassifier) throw new Error('assets/classifier_email.json is invalid');
+  // Same routing as src/pipeline.ts: emails get the email model.
+  const routed: ClassifyFn = (text) =>
+    (looksLikeEmail(text) ? emailClassifier : classifier).score(text);
   const wanted = process.argv.slice(2);
   const now = new Date();
   const date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // local date
@@ -221,7 +231,7 @@ function main() {
       continue;
     }
     const rows = loadSet(dir);
-    const app = evaluate(rows, classifier.score);
+    const app = evaluate(rows, routed);
     const rulesOnly = evaluate(rows, null);
     const base = `data/results/${date}_${set}`;
     writeFileSync(`${base}.json`, JSON.stringify({ set, date, app, rulesOnly }, null, 2) + '\n');
