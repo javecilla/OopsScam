@@ -7,55 +7,56 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 - [ ] Team of 3 to 4 people. With fewer, merge roles: Mobile + On-device, and Data + Rules. Cut from the bottom of the "If we fall behind" list.
 - [ ] At least one machine has Android Studio, the Android SDK, the NDK and Java working. If not, installing them is task T2 and the 6:30 PM checkpoint is at risk.
-- [ ] One demo phone (model, RAM and Android version: ______) and, ideally, a second phone as backup.
+- [ ] One demo phone (model, RAM and Android version: **\_\_**) and, ideally, a second phone as backup.
 
 ## Roles (from the PRD)
 
-| Role | Owns | Person |
-| --- | --- | --- |
-| Data and ML | Datasets and licenses, test set, classifier training and export, evaluation script | |
-| Rules and logic | TypeScript rules, scoring, fusion, LLM prompt and JSON, unit tests | |
-| Mobile app | Expo screens, share menu, status strip, development build, release APK | |
-| On-device modules and docs | llama.rn model setup, OCR and QR, README, X/LinkedIn post, submission | |
+| Role                       | Owns                                                                               | Person |
+| -------------------------- | ---------------------------------------------------------------------------------- | ------ |
+| Data and ML                | Datasets and licenses, test set, classifier training and export, evaluation script |        |
+| Rules and logic            | TypeScript rules, scoring, fusion, LLM prompt and JSON, unit tests                 |        |
+| Mobile app                 | Expo screens, share menu, status strip, development build, release APK             |        |
+| On-device modules and docs | llama.rn model setup, OCR and QR, README, X/LinkedIn post, submission              |        |
 
 ## Phase 1: set up and prove the risky parts (until the 6:30 PM checkpoint)
 
-| ID | Task | Role | Done when |
-| --- | --- | --- | --- |
-| T1 | Create the public GitHub repo, initialize the Expo TypeScript app, add `docs/PRD.md`, `AGENTS.md`, `PLAN.md` | Mobile | First commit is pushed and the repo is public |
-| T2 | Android build environment works | Mobile | `npx expo run:android` installs a hello screen on the demo phone |
-| T3 | Qwen3 0.6B runs through llama.rn on the phone | On-device | One prompt returns valid JSON in 8 seconds or less with thinking off; the time is written here: ____ s |
-| T4 | OCR and QR use the **bundled** ML Kit models | On-device | After a fresh install in airplane mode, OCR reads a test screenshot and the camera reads a QR code; Gradle file checked |
-| T5 | Share menu works | Mobile | Sharing text from the messages app opens Scam Guardian with that text |
-| T6 | Datasets and test set started | Data and ML | `data/sources.md` lists each dataset with its license; the plan for a 100-message test set (50 scam, 50 legitimate, team-written) is agreed |
-| T7 | Rules v0 in `src/core` with unit tests | Rules | Tests pass for OTP request, lookalike domain, shortener, APK link and the real-OTP rule |
+| ID  | Task                                                                                                         | Role        | Done when                                                                                                                                   |
+| --- | ------------------------------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| T1  | Create the public GitHub repo, initialize the Expo TypeScript app, add `docs/PRD.md`, `AGENTS.md`, `PLAN.md` | Mobile      | First commit is pushed and the repo is public                                                                                               |
+| T2  | Android build environment works                                                                              | Mobile      | `npx expo run:android` installs a hello screen on the demo phone                                                                            |
+| T3  | Qwen3 0.6B runs through llama.rn on the phone                                                                | On-device   | One prompt returns valid JSON in 8 seconds or less with thinking off; the time is written here: \_\_\_\_ s                                  |
+| T4  | OCR and QR use the **bundled** ML Kit models                                                                 | On-device   | After a fresh install in airplane mode, OCR reads a test screenshot and the camera reads a QR code; Gradle file checked                     |
+| T5  | Share menu works                                                                                             | Mobile      | Sharing text from the messages app opens OopsScam with that text                                                                            |
+| T6  | Datasets and test set started                                                                                | Data and ML | `data/sources.md` lists each dataset with its license; the plan for a 100-message test set (50 scam, 50 legitimate, team-written) is agreed |
+| T7  | Rules v0 in `src/core` with unit tests                                                                       | Rules       | Tests pass for OTP request, lookalike domain, shortener, APK link and the real-OTP rule                                                     |
 
 **Checkpoint 1 (6:30 PM): go or no-go.** Freeze the test set. Decide fallbacks:
+
 - T3 failed: ship templates-only explanations and keep the LLM as a stretch.
 - T4 failed: paste and share only, no screenshot or QR.
 - T2 failed: use an Expo cloud build (the local EAS build option is not available on Windows, as far as we know) or move the build to a working machine.
 
 ## Phase 2: core flow offline (6:30 PM to 10:30 PM)
 
-| ID | Task | Role | Done when |
-| --- | --- | --- | --- |
-| T8 | Scoring, fusion and Taglish templates in `src/core` | Rules | Tests pass; thresholds 60 (Scam) and 30 (Suspicious) |
-| T9 | Classifier trained, exported to JSON, scored in TypeScript | Data and ML | TypeScript scores match Python on 20 sample messages |
-| T10 | LLM wrapper | On-device | JSON parsed safely, 8-second timeout, template fallback, LLM cannot lower a verdict |
-| T11 | UI: home screen and result screen | Mobile | Text box, Paste, sample messages; result shows verdict word, score, highlighted flags, Taglish reason, next steps, status strip |
-| T12 | Wire it end to end | Mobile + Rules | Share a fake GCash text: verdict within 1 second, explanation after, all in airplane mode |
+| ID  | Task                                                       | Role           | Done when                                                                                                                       |
+| --- | ---------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| T8  | Scoring, fusion and Taglish templates in `src/core`        | Rules          | Tests pass; thresholds 60 (Scam) and 30 (Suspicious)                                                                            |
+| T9  | Classifier trained, exported to JSON, scored in TypeScript | Data and ML    | TypeScript scores match Python on 20 sample messages                                                                            |
+| T10 | LLM wrapper                                                | On-device      | JSON parsed safely, 8-second timeout, template fallback, LLM cannot lower a verdict                                             |
+| T11 | UI: home screen and result screen                          | Mobile         | Text box, Paste, sample messages; result shows verdict word, score, highlighted flags, Taglish reason, next steps, status strip |
+| T12 | Wire it end to end                                         | Mobile + Rules | Share a fake GCash text: verdict within 1 second, explanation after, all in airplane mode                                       |
 
 **Checkpoint 2 (10:30 PM):** core flow works offline on the demo phone. Record a 30-second screen recording as a backup.
 
 ## Phase 3: more inputs and proof (10:30 PM to 3:00 AM)
 
-| ID | Task | Role | Done when |
-| --- | --- | --- | --- |
-| T13 | Screenshot checker | On-device | A picked or shared screenshot becomes editable text and runs the same pipeline |
-| T14 | QR code checker | On-device | A scanned QR code is checked for shortened or lookalike links |
-| T15 | Evaluation script | Data and ML | Prints precision, recall, false-alarm rate and latency on `data/test`; results saved |
-| T16 | Demo build without the INTERNET permission | Mobile | Android app info shows no internet permission and every feature still works |
-| T17 | Practice mode (only if everything above is done) | Mobile | Short quiz works |
+| ID  | Task                                             | Role        | Done when                                                                            |
+| --- | ------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------ |
+| T13 | Screenshot checker                               | On-device   | A picked or shared screenshot becomes editable text and runs the same pipeline       |
+| T14 | QR code checker                                  | On-device   | A scanned QR code is checked for shortened or lookalike links                        |
+| T15 | Evaluation script                                | Data and ML | Prints precision, recall, false-alarm rate and latency on `data/test`; results saved |
+| T16 | Demo build without the INTERNET permission       | Mobile      | Android app info shows no internet permission and every feature still works          |
+| T17 | Practice mode (only if everything above is done) | Mobile      | Short quiz works                                                                     |
 
 **3:00 AM: feature freeze.** Only fixes after this.
 
@@ -68,13 +69,13 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 ## Phase 5: submit (6:00 AM to 9:15 AM; hard deadline 10:00 AM)
 
-| Task | Done when |
-| --- | --- |
-| Record a demo video of about 1 minute | File saved, plus a backup copy |
-| Post the video on X or LinkedIn, tagging Devin / Cognition, with #AppBuildersPH | Post URL copied |
-| Finish `README.md` (see its checklist) | Every disclosure section filled in, no TBD left |
-| Test from a fresh clone | The build steps in the README work on a clean machine |
-| Submit once on the Cerebral Valley event page | Confirmation received by 9:15 AM; repo is public; no commits after 10:00 AM |
+| Task                                                                            | Done when                                                                   |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Record a demo video of about 1 minute                                           | File saved, plus a backup copy                                              |
+| Post the video on X or LinkedIn, tagging Devin / Cognition, with #AppBuildersPH | Post URL copied                                                             |
+| Finish `README.md` (see its checklist)                                          | Every disclosure section filled in, no TBD left                             |
+| Test from a fresh clone                                                         | The build steps in the README work on a clean machine                       |
+| Submit once on the Cerebral Valley event page                                   | Confirmation received by 9:15 AM; repo is public; no commits after 10:00 AM |
 
 ## Phase 6: Demo Day (Oct 10, Cyberzone, SM Makati)
 
@@ -85,13 +86,13 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 ## Targets to measure (report only what we measure)
 
-| Metric | Target |
-| --- | --- |
-| Scams flagged (recall) | 90% or more |
-| Legitimate messages wrongly flagged | 10% or less |
-| Verdict time | 1 second or less |
-| Explanation time | 8 seconds or less on the demo phone |
-| Network access | None: no INTERNET permission in the demo build, airplane mode on stage |
+| Metric                              | Target                                                                 |
+| ----------------------------------- | ---------------------------------------------------------------------- |
+| Scams flagged (recall)              | 90% or more                                                            |
+| Legitimate messages wrongly flagged | 10% or less                                                            |
+| Verdict time                        | 1 second or less                                                       |
+| Explanation time                    | 8 seconds or less on the demo phone                                    |
+| Network access                      | None: no INTERNET permission in the demo build, airplane mode on stage |
 
 ## If we fall behind: cut in this order
 

@@ -1,4 +1,4 @@
-# Scam Guardian
+# OopsScam
 
 An Android app that checks suspicious texts, links, screenshots and QR codes **on the phone itself**, and explains the result in simple Taglish. No message ever leaves the device, and the demo build has no internet permission.
 
@@ -35,18 +35,20 @@ TODO: add the architecture diagram.
 
 ## What runs locally and what needs internet
 
-| Function | Runs locally | Needs internet |
-| --- | --- | --- |
-| Rules, ML classifier, OCR, QR scanning, LLM explanation | Yes | No |
-| Installing the app and putting model files on the phone | No | Yes, once, or copy files from a laptop |
-| Optional scam-pattern update (off by default) | No | Yes; downloads a list, uploads nothing |
+| Function                                                | Runs locally | Needs internet                         |
+| ------------------------------------------------------- | ------------ | -------------------------------------- |
+| Rules, ML classifier, OCR, QR scanning, LLM explanation | Yes          | No                                     |
+| Installing the app and putting model files on the phone | No           | Yes, once, or copy files from a laptop |
+| Optional scam-pattern update (off by default)           | No           | Yes; downloads a list, uploads nothing |
 
 ## Technology and credits (fill in completely)
 
 **Models**
+
 - TODO: Qwen3 0.6B, `bartowski/Qwen_Qwen3-0.6B-GGUF`, `Qwen_Qwen3-0.6B-Q4_K_M.gguf`. License: TODO (confirm on the model card).
 
 **Frameworks and libraries**
+
 - React Native, Expo, TypeScript, Expo Router
 - llama.rn (llama.cpp for React Native)
 - ML Kit text recognition and barcode scanning (bundled models) through TODO: module names
@@ -55,6 +57,7 @@ TODO: add the architecture diagram.
 - TODO: anything else added during the build
 
 **Datasets** (full details and licenses in `data/sources.md`)
+
 - PH Spam + Marketing SMS (Scott Lee Chua), CC BY 4.0, credited
 - UCI SMS Spam Collection, CC BY 4.0, credited
 - Team-written Taglish messages
@@ -77,6 +80,7 @@ npx expo run:android
 ```
 
 TODO: confirm these commands on a clean machine, then add:
+
 - how to copy the model file onto the phone (exact `adb` command and path)
 - how to build the release APK, and where to download it (release link)
 - how to build the demo variant without the INTERNET permission
@@ -87,12 +91,12 @@ Run: TODO exact command.
 
 The test set (`data/test`) has TODO messages (about half scam, half legitimate, including hard cases such as genuine OTP texts). It was written and frozen before any tuning. It is small and partly team-written, so these numbers are a smoke check, not a benchmark.
 
-| Metric | Result (measured) |
-| --- | --- |
-| Scams flagged (recall) | TODO |
-| Legitimate messages wrongly flagged | TODO |
-| Verdict time (demo phone) | TODO |
-| Explanation time (demo phone) | TODO |
+| Metric                              | Result (measured) |
+| ----------------------------------- | ----------------- |
+| Scams flagged (recall)              | TODO              |
+| Legitimate messages wrongly flagged | TODO              |
+| Verdict time (demo phone)           | TODO              |
+| Explanation time (demo phone)       | TODO              |
 
 ## Limitations
 

@@ -2,7 +2,7 @@
 
 Rules for any AI coding tool (Devin, Claude, Copilot, Cursor, ChatGPT) and any teammate working in this repo.
 
-**Project:** Scam Guardian (repo folder: OopsScam). An Android app, built with React Native and Expo in TypeScript, that checks suspicious texts, links, screenshots and QR codes **entirely on the phone** and explains the result in Taglish.
+**Project:** OopsScam (repo folder: OopsScam). An Android app, built with React Native and Expo in TypeScript, that checks suspicious texts, links, screenshots and QR codes **entirely on the phone** and explains the result in Taglish.
 **Event:** AppBuildersPH Hackathon 2026, theme Local AI. Submission deadline **10:00 AM, Oct 10, 2026** (aim to submit by 9:15 AM). One submission only, no edits.
 
 Read these first, in order: `docs/HANDOFF.md`, `docs/PRD.md`, `PLAN.md`.

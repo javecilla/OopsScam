@@ -4,7 +4,7 @@ Written Oct 9, 2026, at the end of the planning phase. The full design is in `do
 
 ## One paragraph
 
-Scam Guardian is an Android app (React Native with Expo, TypeScript) that checks suspicious texts, links, screenshots and QR codes entirely on the phone and explains the verdict in Taglish. It targets seniors, online sellers and e-wallet users. It is our entry for the AppBuildersPH Hackathon 2026, theme **Local AI**: "build an AI product that remains genuinely useful when the cloud disappears."
+OopsScam is an Android app (React Native with Expo, TypeScript) that checks suspicious texts, links, screenshots and QR codes entirely on the phone and explains the verdict in Taglish. It targets seniors, online sellers and e-wallet users. It is our entry for the AppBuildersPH Hackathon 2026, theme **Local AI**: "build an AI product that remains genuinely useful when the cloud disappears."
 
 ## Status
 
@@ -25,19 +25,19 @@ Scam Guardian is an Android app (React Native with Expo, TypeScript) that checks
 
 ## Decisions made, and why
 
-| Decision | Why |
-| --- | --- |
-| Build a scam checker (not the other ideas we explored) | Real problem, simple demo, clear "why local" story, achievable in about 19.5 hours |
-| Android app with React Native and Expo (no iOS) | The team chose Expo; Android sideloading is easy; the phone makes the airplane-mode demo convincing |
-| Development build, not Expo Go | llama.rn, ML Kit and share-intent are native modules Expo Go cannot run |
-| Three layers: rules, ML classifier, local LLM | Verdict in about a second from the first two; the LLM only adds the explanation, so a slow model cannot break the demo |
-| LLM cannot lower a verdict | Prompt-injection safety: a scam text cannot talk the checker into calling it safe |
-| Rules and fusion in one shared TypeScript module | The Node evaluation script and the app run identical code, so reported numbers match the app |
-| LLM: Qwen3 0.6B Q4_K_M (about 0.5 GB), upgrade to 1.7B if Taglish is weak | Proposed by a teammate; small enough for any phone; must be tested for Taglish quality and JSON compliance |
-| OCR and QR use the **bundled** ML Kit models | Adds about 4 MB (OCR) plus 2.4 MB (QR) per CPU architecture, and works offline from the first run with no Google Play Services download |
-| Demo build without the Android INTERNET permission | A verifiable offline proof judges can see in app info |
-| Call mode is **out of scope for now** | Too risky for the time; revisit only after the core flow works. Practice mode is the stretch feature |
-| Verdict labels: Scam, Suspicious, Low risk | Never "safe"; the app flags risk and guarantees nothing |
+| Decision                                                                  | Why                                                                                                                                     |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Build a scam checker (not the other ideas we explored)                    | Real problem, simple demo, clear "why local" story, achievable in about 19.5 hours                                                      |
+| Android app with React Native and Expo (no iOS)                           | The team chose Expo; Android sideloading is easy; the phone makes the airplane-mode demo convincing                                     |
+| Development build, not Expo Go                                            | llama.rn, ML Kit and share-intent are native modules Expo Go cannot run                                                                 |
+| Three layers: rules, ML classifier, local LLM                             | Verdict in about a second from the first two; the LLM only adds the explanation, so a slow model cannot break the demo                  |
+| LLM cannot lower a verdict                                                | Prompt-injection safety: a scam text cannot talk the checker into calling it safe                                                       |
+| Rules and fusion in one shared TypeScript module                          | The Node evaluation script and the app run identical code, so reported numbers match the app                                            |
+| LLM: Qwen3 0.6B Q4_K_M (about 0.5 GB), upgrade to 1.7B if Taglish is weak | Proposed by a teammate; small enough for any phone; must be tested for Taglish quality and JSON compliance                              |
+| OCR and QR use the **bundled** ML Kit models                              | Adds about 4 MB (OCR) plus 2.4 MB (QR) per CPU architecture, and works offline from the first run with no Google Play Services download |
+| Demo build without the Android INTERNET permission                        | A verifiable offline proof judges can see in app info                                                                                   |
+| Call mode is **out of scope for now**                                     | Too risky for the time; revisit only after the core flow works. Practice mode is the stretch feature                                    |
+| Verdict labels: Scam, Suspicious, Low risk                                | Never "safe"; the app flags risk and guarantees nothing                                                                                 |
 
 ## The scoring design (summary; the PRD has the full table)
 
@@ -73,4 +73,4 @@ Each red flag adds points (total capped at 100): asking you to send an OTP, MPIN
 
 ## Prompt to give a new AI assistant
 
-> I am building "Scam Guardian" for the AppBuildersPH Hackathon 2026 (Local AI theme), an Android app using React Native with Expo and TypeScript that checks scam texts, links, screenshots and QR codes fully on-device. Read AGENTS.md, docs/HANDOFF.md, docs/PRD.md and PLAN.md in the repo first. No code exists yet. Help me complete Phase 1 of PLAN.md. Follow the hard rules in AGENTS.md (no network calls, no server, the LLM cannot lower a verdict, never say "safe", no fake benchmarks). The submission deadline is 10:00 AM on Oct 10, 2026. Tell me clearly what you have verified and what you have not.
+> I am building "OopsScamOopsScam" for the AppBuildersPH Hackathon 2026 (Local AI theme), an Android app using React Native with Expo and TypeScript that checks scam texts, links, screenshots and QR codes fully on-device. Read AGENTS.md, docs/HANDOFF.md, docs/PRD.md and PLAN.md in the repo first. No code exists yet. Help me complete Phase 1 of PLAN.md. Follow the hard rules in AGENTS.md (no network calls, no server, the LLM cannot lower a verdict, never say "safe", no fake benchmarks). The submission deadline is 10:00 AM on Oct 10, 2026. Tell me clearly what you have verified and what you have not.
