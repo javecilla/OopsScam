@@ -23,6 +23,8 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ title: APP_NAME }} />
         <Stack.Screen name="result" options={{ title: 'Resulta' }} />
+        <Stack.Screen name="qr" options={{ title: 'I-check ang QR' }} />
+        <Stack.Screen name="screenshot" options={{ title: 'I-check ang screenshot' }} />
       </Stack>
     </ShareIntentProvider>
   );

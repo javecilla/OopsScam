@@ -1,10 +1,10 @@
 # OopsScam
 
-An Android app that checks suspicious texts and links **on the phone itself**, and explains the result in simple Taglish. All analysis runs on the device: the app makes no network requests, so no message ever leaves the phone.
+An Android app that checks suspicious texts, links, screenshots and QR codes **on the phone itself**, and explains the result in simple Taglish. All analysis runs on the device, and the release APK has no internet permission, so no message ever leaves the phone.
 
 Built for the AppBuildersPH Hackathon 2026 (theme: Local AI).
 
-> Status at submission: the text and link checker (rules, ML classifier, local LLM explanation, share menu, paste) is built and tested in code. Screenshot (OCR) and QR checking are planned, not built. Items marked TODO are for the team to fill in.
+> Status at submission: built — text and link checking (rules, ML classifier, local LLM explanation), share menu, paste, screenshot checking (on-device OCR) and QR checking. The release APK bundles the model and has no internet permission. Items marked TODO are for the team to fill in.
 
 ## The problem
 
@@ -19,7 +19,7 @@ Scam messages contain OTPs, account numbers and personal details, so uploading t
 - Paste or share a message (from SMS, Messenger, Viber and more) and get a verdict: **Scam**, **Suspicious** or **Low risk**, with a 0 to 100 score.
 - See the red flags highlighted in the message, a short Taglish reason and what to do next.
 - Never says a message is "safe". It flags risk; it does not guarantee anything.
-- Planned (not in this build): check a screenshot with on-device OCR, or scan a QR code.
+- Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks.
 
 TODO: add 3 screenshots.
 
@@ -43,10 +43,10 @@ message ──> 1. Rules (red flags, link checks) ──┐
 
 | Function                                                | Runs locally | Needs internet                         |
 | ------------------------------------------------------- | ------------ | -------------------------------------- |
-| Rules, ML classifier, LLM explanation                   | Yes          | No                                     |
-| Installing the app and putting model files on the phone | No           | Yes, once, or copy files from a laptop |
+| Rules, ML classifier, OCR, QR scanning, LLM explanation | Yes          | No                                     |
+| Installing the app (the model is inside the APK)        | No           | Yes, once, or copy the APK from a laptop |
 
-The development build still declares Android's default INTERNET permission, which Expo uses to load code from the development server. The app's own code makes no network calls. A demo build without the permission is planned (PLAN.md T16).
+The release APK declares no INTERNET or ACCESS_NETWORK_STATE permission (`blockedPermissions` in `app.json`), so Android itself blocks network access; judges can confirm this in the app info screen. Only debug builds talk to the Metro development server on the laptop.
 
 ## Technology and credits
 
@@ -61,7 +61,10 @@ The development build still declares Android's default INTERNET permission, whic
 - Prettier, ESLint, eslint-config-expo
 - llama.rn 0.12.9 (llama.cpp for React Native), with its Expo config plugin
 - expo-file-system (locates the model file in the app's files folder)
-- expo-share-intent (Android share menu, text)
+- ML Kit text recognition 16.0.1 (bundled Latin model) through the local `modules/oopsscam-vision` Expo module
+- expo-camera (bundled ML Kit barcode scanning, camera and gallery QR decoding)
+- Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
+- expo-share-intent (Android share menu, text and images)
 - expo-clipboard (Paste button; reads the clipboard only when tapped)
 - scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
 - Pillow and qrcode (laptop scripts that generate test images; not in the app)
@@ -89,6 +92,7 @@ The three public datasets above contain real messages published by their authors
 **AI development tools:**
 
 - Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the Home and Result screens and app wiring, the training, evaluation and data scripts (`training/`, `scripts/`), their unit tests, and the data documentation.
+- Codex (OpenAI): implemented the phase 3 screenshot and QR input screens, the bundled OCR Expo module, image cleanup, and native integration.
 - Evaluation and training data: all of our own messages (training examples, dev, test_v2, adversarial and LLM check sets, scam-pattern examples) were generated with Claude Code. TODO: team review of this data before submission.
 - TODO: add any other AI tools the team used (for example Devin) and what they were used for.
 
@@ -97,27 +101,26 @@ The three public datasets above contain real messages published by their authors
 Requirements: Node.js, Java, Android Studio with the Android SDK and NDK, a phone with USB debugging on. Expo Go does **not** work; this app needs a development build.
 
 ```
+git lfs pull
 npm install
 npx expo prebuild --platform android
 npx expo run:android
 ```
 
-Copy the model onto the phone (debug/development build installed first; the app reads `/data/data/com.oopsscam.app/files/Qwen_Qwen3-0.6B-Q4_K_M.gguf`):
-
-```
-bash scripts/push-model.sh models/Qwen_Qwen3-0.6B-Q4_K_M.gguf
-```
+The Android prebuild hook packages `models/Qwen_Qwen3-0.6B-Q4_K_M.gguf` in the APK. It rejects Git LFS pointer files; run `git lfs pull` before prebuild. The app copies the bundled model to its private files folder on first launch. Screenshots and QR images use bundled ML Kit models and do not download models at runtime.
 
 Without the model file the app still works and shows template explanations ("Templates only" in the status strip).
 
-TODO: confirm these commands on a clean machine; add the release APK build steps and download link.
+The Windows SDK/Java setup and standalone release-build command are in [the build handoff](handoff/oopsscam-handoff-2026-10-10-build.md). `app.json` blocks INTERNET, ACCESS_NETWORK_STATE and RECORD_AUDIO on every prebuild. Debug builds need Metro; use `android/app/build/outputs/apk/release/app-release.apk` for offline testing and distribution. Fresh-clone verification remains pending.
+
+TODO: confirm the build on a clean machine and add the release APK download link.
 
 ## Evaluation
 
 Run (Node 22.15+ or 24, from the repo root; results go to `data/results/`):
 
 ```
-node --import ./scripts/ts-hooks.mjs scripts/evaluate.ts
+node --import ./scripts/ts-hooks.mjs scripts/evaluate.ts test_v2
 python scripts/check_leakage.py
 ```
 
@@ -141,7 +144,7 @@ Limits of these numbers: the sets are small. test_v2 was written by an AI tool, 
 
 - Not 100% accurate; it gives a risk level only.
 - It cannot prove a sender or payment is real.
-- Android restricts SMS and call-audio access, so input is paste or share.
+- Android restricts SMS and call-audio access, so input is paste, share, a screenshot or a QR code.
 - Small local models write weaker Taglish than large cloud models.
 - Android only.
 

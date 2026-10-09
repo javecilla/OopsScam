@@ -7,21 +7,27 @@ type ButtonProps = {
   title: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary';
+  disabled?: boolean;
+  testID?: string;
 };
 
 // SRS 4.1: touch targets at least 48 dp tall.
 const MIN_TOUCH_HEIGHT = 48;
 
-export function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
+export function Button({ title, onPress, variant, disabled, testID }: ButtonProps) {
   const secondary = variant === 'secondary';
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={title}
+      testID={testID}
+      disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
         styles.button,
         secondary && styles.secondary,
         pressed && styles.pressed,
+        disabled && styles.pressed,
       ]}
     >
       <Text style={[styles.label, secondary && styles.secondaryLabel]}>{title}</Text>

@@ -16,7 +16,12 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.oopsscam.app"
+      "package": "com.oopsscam.app",
+      "blockedPermissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       "expo-router",
@@ -29,10 +34,12 @@
         }
       ],
       "llama.rn",
+      "./plugins/with-bundled-model.cjs",
+      ["expo-camera", { "recordAudioAndroid": false }],
       [
         "expo-share-intent",
         {
-          "androidIntentFilters": ["text/*"],
+          "androidIntentFilters": ["text/*", "image/*"],
           "disableIOS": true
         }
       ]
