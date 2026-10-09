@@ -72,6 +72,13 @@ Exact npm scripts from `package.json`:
 - `npm run typecheck`: `tsc --noEmit`
 - `npm run lint`: `expo lint`
 - `npm run format`: `prettier --write .`
+- `npm test`: `jest` (unit tests, including Python/TypeScript parity for both classifiers)
+
+Training and evaluation (laptop only):
+- SMS classifier: `python training/train.py` -> `assets/classifier.json`, `training/parity.json`
+- Email classifier: `python training/train_email.py` -> `assets/classifier_email.json` (CC BY-SA 4.0), `training/parity_email.json`
+- Evaluation: `node --import ./scripts/ts-hooks.mjs scripts/evaluate.ts [dev|test_v2|adversarial|email_test]` (writes dated files to `data/results/`); leakage check: `python scripts/check_leakage.py`
+- Known on this setup (before the email feature): `npm run typecheck` reports 3 Expo Router route-type errors from a stale local `.expo/types/router.d.ts`, and `npm run lint` reports `import/no-unresolved` for `expo-camera` (see `data/raw/verification/`).
 
 Native & verification commands:
 - Prebuild: `npx expo prebuild --platform android`

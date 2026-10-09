@@ -5,6 +5,7 @@ export type Verdict = 'scam' | 'suspicious' | 'low_risk';
 export type FlagId =
   | 'credential_request'
   | 'lookalike_domain'
+  | 'sender_lookalike'
   | 'apk_link'
   | 'remote_access'
   | 'brand_link_mismatch'

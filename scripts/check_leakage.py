@@ -1,6 +1,7 @@
 """Fail if any message appears in more than one data group; report near-duplicates and train balance.
 
-Groups: train, dev, test (original frozen set, if present), test_v2, adversarial, llm_eval.
+Groups: train, dev, test (original frozen set, if present), test_v2, adversarial, llm_eval,
+train_email, email_test.
 Text is normalized first: lowercase, digits -> 0, whitespace collapsed.
 
 Run from the repo root (standard library only):
@@ -27,6 +28,8 @@ GROUPS = {
     "test_v2": ["test_v2/*.csv"],
     "adversarial": ["adversarial/*.csv"],
     "llm_eval": ["llm_eval/*.jsonl"],
+    "train_email": ["train_email/*.csv"],
+    "email_test": ["email_test/*.csv"],
 }
 
 

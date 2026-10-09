@@ -1,0 +1,241 @@
+"id","text","label","category","language","channel","source","split","notes"
+"tre-l001","From: UnionBank <estatements@unionbankph.com>
+Subject: Your e-Statement is ready
+
+Hi Liza,
+
+Your UnionBank savings account e-Statement for September 2026 is ready. Open the UnionBank Online app and go to Accounts > Statements to download it.
+
+UnionBank of the Philippines","legit","bank_statement","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l002","From: China Bank <alerts@chinabank.ph>
+Subject: Fund transfer successful
+
+You have successfully transferred PHP 7,800.00 to account ending 2291 on Oct 3, 2026, 11:20 AM. Reference number: CBX20261003-5521. Keep this email for your records.
+
+China Banking Corporation","legit","transaction_receipt","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l003","Dear Mr. Reyes,
+
+Your new Landbank ATM card is ready for pickup at our Cubao branch. Please bring one valid government ID and your claim stub. Cards not claimed within 60 days will be returned to the card center.
+
+Thank you,
+Landbank Cubao Branch","legit","bank_notice","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l004","From: RCBC <cards@rcbc.com>
+Subject: Payment received
+
+We have received your credit card payment of PHP 6,200.00 on Oct 2, 2026. Your available credit limit has been updated. Thank you for banking with RCBC.","legit","transaction_receipt","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l005","From: Maya <receipts@maya.ph>
+Subject: Cash in successful
+
+Hi Mark! You cashed in PHP 2,000.00 via 7-Eleven on Oct 5, 2026. Transaction ID: MY7E-88123. Your wallet balance is now PHP 2,315.50.","legit","transaction_receipt","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l006","From: GCash <gsave@gcash.com>
+Subject: Interest credited to your GSave
+
+Good news! PHP 14.62 interest has been credited to your GSave account for September. Keep saving to grow your money.
+
+GCash","legit","transaction_receipt","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l007","From: PNB <noreply@pnb.com.ph>
+Subject: Login verification code
+
+Your PNB Digital login code is 771045. It expires in 3 minutes. Never share this code with anyone. PNB will never call or email you to ask for it.","legit","otp","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l008","Ang iyong Metrobank verification code ay 238811 para sa pag-register ng bagong device. Huwag ibigay ang code na ito kahit kanino. Mag-e-expire ito sa loob ng 5 minuto.","legit","otp","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l009","From: J&T Express <notify@jtexpress.ph>
+Subject: Parating na bukas ang parcel mo
+
+Hi! Ang parcel mo na may waybill 6600 1122 3344 ay nasa local hub na at ide-deliver bukas. Pakihanda ang eksaktong halaga kung COD ang order mo.
+
+J&T Express Philippines","legit","delivery_notice","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l010","From: Ninja Van <support@ninjavan.co>
+Subject: Delivery attempt unsuccessful
+
+We tried to deliver your parcel today but no one was available to receive it. We will try again on the next business day. You can also reschedule the delivery in the Ninja Van app.","legit","delivery_notice","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l011","Magandang araw!
+
+Ang inyong package ay handa nang i-claim sa Quezon City Central Post Office. Magdala lamang ng isang valid ID at ng notice slip. Bukas ang post office Lunes hanggang Biyernes, 8AM hanggang 5PM.
+
+PHLPost","legit","delivery_notice","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l012","From: Grab <no-reply@grab.com>
+Subject: Your GrabCar receipt
+
+Thanks for riding with Grab! Trip on Oct 6, 2026 from Ortigas to Makati. Fare: PHP 312.00 paid by GCash. Rate your driver in the app.","legit","transaction_receipt","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l013","From: Lalamove <receipts@lalamove.com>
+Subject: Order completed
+
+Your Lalamove order LM-55812 was completed. Pickup: Pasig. Drop-off: Mandaluyong. Total: PHP 245.00. Thank you for choosing Lalamove!","legit","transaction_receipt","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l014","From: Shopee <promo@mail.shopee.ph>
+Subject: Flash deals today only!
+
+Don't miss today's flash deals: up to 70% off on kitchen and home items, plus free shipping vouchers. Open the Shopee app and shop before the deals end at midnight.
+
+Shopee Philippines","legit","promo","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l015","From: Smart <billing@smart.com.ph>
+Subject: Your Smart Postpaid bill
+
+Hi! Your Smart Postpaid bill for account 0917XXXXXXX is PHP 1,299.00, due on Oct 21, 2026. Pay via the Smart app or GCash. A late payment charge applies to unpaid balances after the due date.","legit","bill_reminder","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l016","Dear Subscriber,
+
+This is a reminder that your Globe At Home bill of PHP 1,699.00 is due on Oct 19, 2026. You can pay through the GlobeOne app or accredited payment centers. Please disregard this email if you have already paid.
+
+Thank you,
+Globe At Home","legit","bill_reminder","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l017","From: PhilHealth <info@philhealth.gov.ph>
+Subject: Paalala sa iyong kontribusyon
+
+Magandang araw! Paalala na ang kontribusyon para sa buwan ng Setyembre ay maaaring bayaran hanggang Oct 31. Magbayad sa PhilHealth offices o sa accredited collecting agents.
+
+PhilHealth","legit","gov_announcement","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l018","From: Pag-IBIG Fund <mp2@pagibigfund.gov.ph>
+Subject: Your MP2 savings statement
+
+Dear Member,
+
+Your MP2 savings statement as of September 30, 2026 is now available in Virtual Pag-IBIG. Total savings: PHP 36,000.00. Dividends will be credited after the annual declaration.
+
+Pag-IBIG Fund","legit","gov_announcement","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l019","From: LTO <appointments@lto.gov.ph>
+Subject: Appointment confirmed
+
+Your appointment for driver's license renewal is confirmed for Oct 22, 2026, 9:00 AM at LTO Quezon City Licensing Center. Please bring your old license and medical certificate.","legit","gov_announcement","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l020","From: DFA Passport Appointment <passport@dfa.gov.ph>
+Subject: Appointment confirmation
+
+Dear Applicant,
+
+Your passport appointment is set on Nov 5, 2026, 10:30 AM at DFA Aseana. Bring your confirmation page, a valid ID and the original PSA birth certificate. Arrive 30 minutes early.
+
+Department of Foreign Affairs","legit","gov_announcement","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l021","Magandang hapon, mga magulang!
+
+Paalala po na ang ikalawang hulog ng tuition ay dapat bayaran hanggang Oct 25. Maaari po kayong magbayad sa school cashier o sa partner bank. Para sa mga tanong, tumawag lamang sa accounting office.
+
+Salamat po,
+Accounting Office","legit","school_office","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l022","From: Payroll <payroll@brightworks.example>
+Subject: Your payslip for Oct 1-15 is ready
+
+Hi Jen,
+
+Your payslip for the Oct 1-15 cutoff is now available in the employee portal. Salary will be credited to your payroll account on Oct 15.
+
+Payroll Team","legit","school_office","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l023","Hi team,
+
+May meeting tayo bukas, 10AM sa conference room 2, para i-review ang Q4 targets. Paki-dala ang updated reports ninyo. Kung hindi kayo makakapunta, pakisabi lang sa akin.
+
+Thanks,
+Rina","legit","school_office","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l024","Anak,
+
+Naipadala ko na sa GCash mo ang P3,000 pambayad sa dorm ngayong buwan. Kumain ka nang maayos at mag-ingat ka palagi diyan.
+
+Love,
+Mama","legit","personal_email","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l025","From: Kape Kanto Rewards <rewards@kapekanto.example>
+Subject: Happy birthday from Kape Kanto!
+
+Happy birthday! Enjoy a free regular coffee on us this month. Just show your member QR code at any Kape Kanto branch. Valid until Oct 31.
+
+Kape Kanto","legit","promo","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l026","From: GCash <advisory@gcash.com>
+Subject: Paalala para sa inyong seguridad
+
+Hindi kailanman hihingin ng GCash ang inyong MPIN o OTP sa email, text o tawag. Huwag i-click ang mga link mula sa hindi kilalang sender. I-report ang kahina-hinalang mensahe sa GCash Help Center.","legit","security_notice","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l027","From: LearnPH Academy <certificates@learnph.example>
+Subject: Your certificate is ready
+
+Congratulations on completing Basic Bookkeeping! Your certificate of completion is now available. Download it from your student dashboard.
+
+LearnPH Academy","legit","school_office","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l028","Dear Mrs. Garcia,
+
+This confirms your appointment with Dr. Lim at the Outpatient Department of St. Anne Hospital on Oct 17, 2026, 2:00 PM. Please bring your previous lab results.
+
+Thank you,
+St. Anne Hospital Appointments","legit","booking_confirmation","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l029","From: Bayanihan Life <policies@bayanihanlife.example>
+Subject: Policy renewal reminder
+
+Dear Policyholder,
+
+Your health insurance policy will renew on Nov 1, 2026. The annual premium of PHP 12,500.00 will be charged to your registered card. To make changes, contact your financial advisor.
+
+Bayanihan Life","legit","bill_reminder","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-l030","From: Security Bank <advisory@securitybank.com>
+Subject: Scheduled system maintenance
+
+Online banking will be unavailable on Oct 12, 2026, from 12:00 AM to 4:00 AM for scheduled maintenance. ATM and over-the-counter transactions are not affected. We apologize for the inconvenience.","legit","bank_notice","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s001","From: UnionBank <cardservices@unionbank-card-unlock.example>
+Subject: Your debit card has been blocked
+
+Dear Client,
+
+Your debit card was blocked after several failed PIN attempts. To unblock it, confirm your card number and PIN at unionbank-card-unlock.example within 6 hours.
+
+UnionBank Card Services","scam","account_threat_link","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s002","From: Landbank <dormant@landbank-reactivate.example>
+Subject: Dormant account notice
+
+Your Landbank account has been tagged as dormant. Pay the PHP 350 reactivation fee at landbank-reactivate.example today to avoid closure of your account.","scam","account_threat_link","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s003","Hello,
+
+We detected an unauthorized login to your Maya wallet from Cebu. To stop it, please reply with the OTP we just sent to your registered number.
+
+Maya Security Team","scam","credential_request","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s004","From: Smart SIM Registration <register@smart-sim-reg.example>
+Subject: Incomplete SIM registration
+
+Hindi kumpleto ang SIM registration mo. Ma-dedeactivate ang SIM mo ngayong gabi kung hindi mo ito ia-update sa smart-sim-reg.example gamit ang iyong ID at selfie.","scam","account_threat_link","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s005","From: PhilHealth Refunds <refunds@philhealth-benefit.example>
+Subject: Refund ng sobrang kontribusyon
+
+May refund ka na P6,320 mula sa sobrang kontribusyon. I-type ang iyong bank account at card details sa philhealth-benefit.example/refund para ma-credit ito sa loob ng 24 oras.
+
+PhilHealth Refund Desk","scam","government_impersonation","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s006","Congratulations! Approved ang inyong Pag-IBIG housing loan na P1,200,000. Para ma-release, magbayad muna ng P2,500 processing fee sa account ng aming loan officer.
+
+Pag-IBIG Loan Processing","scam","government_impersonation","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s007","From: LTO Online <violations@lto-online-penalty.example>
+Subject: Unsettled traffic violation
+
+Your vehicle has an unsettled No Contact Apprehension violation. Pay the PHP 2,000 penalty at lto-online-penalty.example within 48 hours or your registration will be suspended.","scam","government_impersonation","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s008","From: J&T Delivery <delivery@jnt-redeliver.example>
+Subject: Address incomplete
+
+Your parcel cannot be delivered because the address is incomplete. Update it and pay the PHP 59 redelivery fee at jnt-redeliver.example/update today.","scam","parcel_fee","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s009","Hi seller!
+
+I already paid for your rice cooker through our secure escrow. To receive the money, confirm the payment and enter your bank login at safe-escrow-payments.example. The courier will pick up the item after you confirm.
+
+Thanks,
+Buyer","scam","marketplace_scam","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s010","My dear,
+
+I sent you a box with gifts and USD 5,000 cash for your birthday. The courier says you must pay the clearance fee of PHP 18,000 first. Please send it today so they can release the box. Do not tell anyone, it is a surprise.
+
+Love,
+Daniel","scam","other_scam","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s011","From: Shopee Seller Centre <verify@shopee-seller-verify.example>
+Subject: Seller account verification
+
+Your seller account will be restricted because your shop failed verification. Log in with your Shopee password at shopee-seller-verify.example to keep selling.","scam","credential_request","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s012","Dear Applicant,
+
+Congratulations, you are hired as a customer service agent with a monthly salary of PHP 45,000! Before your start date, pay the PHP 1,800 medical and ID fee to our HR officer's GCash. Slots are limited.
+
+HR Department","scam","job_loan_investment","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s013","From: Crypto Airdrop PH <airdrop@token-airdrop-claim.example>
+Subject: You won 5,000 USDT
+
+You are one of 100 winners of our token airdrop! Claim your 5,000 USDT now: connect your wallet and enter your seed phrase at token-airdrop-claim.example. Offer expires in 2 hours.","scam","prize_raffle_ayuda","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s014","From: Smart Rewards <points@smart-points-redeem.example>
+Subject: Your points expire today
+
+Your 6,240 Smart Rewards points expire today! Redeem them for a free tablet at smart-points-redeem.example. Pay only the PHP 199 delivery fee.","scam","prize_raffle_ayuda","en","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s015","From: GCash GScore <gscore@gcash-credit-boost.example>
+Subject: Taasan ang credit limit mo
+
+Pwede nang taasan ang GCredit limit mo hanggang P50,000! I-verify lang ang account mo sa gcash-credit-boost.example at ilagay ang iyong MPIN para ma-activate agad.","scam","credential_request","taglish","email","synthetic-ai","train","written by Devin (AI)"
+"tre-s016","Dear Student,
+
+Your student portal password expires today. To keep access to your grades and enrollment, sign in at student-portal-renew.example and confirm your current password.
+
+University IT Office","scam","credential_request","en","email","synthetic-ai","train","written by Devin (AI)"

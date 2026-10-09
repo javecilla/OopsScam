@@ -7,6 +7,7 @@ import { Screen } from '@/components/Screen';
 import { StatusStrip } from '@/components/StatusStrip';
 import { Text } from '@/components/Text';
 import { MAX_INPUT_CHARS } from '@/config';
+import { looksLikeEmail } from '@/core/email';
 import { highlightParts } from '@/core/highlight';
 import type { Verdict } from '@/core/types';
 import type { ExplainOutput } from '@/llm/explain';
@@ -100,6 +101,8 @@ export default function ResultScreen() {
             <Text style={styles.verdictSub}>Itinaas ng local AI mula Low risk.</Text>
           ) : null}
         </View>
+
+        {looksLikeEmail(text) ? <Text style={styles.muted}>Sinuri bilang email.</Text> : null}
 
         {truncated === '1' ? (
           // FR-IN-01

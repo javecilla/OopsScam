@@ -1,0 +1,91 @@
+{
+  "seed": 42,
+  "source_weights": {
+    "team": 3.0,
+    "ph_spam": 3.0,
+    "mendeley": 1.0,
+    "uci": 0.5
+  },
+  "c_grid": [
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0
+  ],
+  "word_params": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_features": 3000
+  },
+  "char_params": {
+    "ngram_range": [
+      3,
+      5
+    ],
+    "min_df": 2,
+    "max_features": 5000
+  },
+  "audit": {
+    "loaded_rows": 20726,
+    "malformed_rows_removed": 2,
+    "invalid_or_ambiguous_rows_removed": 8972,
+    "conflicting_rows_removed": 0,
+    "evaluation_overlap_removed": 0,
+    "duplicates_removed": 5062
+  },
+  "training_rows": 5405,
+  "holdout_rows": 1287,
+  "training_by_source": {
+    "mendeley": {
+      "rows": 4214,
+      "scam": 360
+    },
+    "ph_spam": {
+      "rows": 728,
+      "scam": 0
+    },
+    "team": {
+      "rows": 288,
+      "scam": 142
+    },
+    "uci": {
+      "rows": 175,
+      "scam": 0
+    }
+  },
+  "holdout_by_source": {
+    "mendeley": {
+      "rows": 1075,
+      "scam": 97
+    },
+    "ph_spam": {
+      "rows": 180,
+      "scam": 0
+    },
+    "uci": {
+      "rows": 32,
+      "scam": 0
+    }
+  },
+  "input_hashes": {
+    "data/train/expanded_2026-10.csv": "82ce731f5f314d68d0e704e977defaa925c9ddf0e36dcda3d66c510de68f6790",
+    "data/train/fusion_2026-10.csv": "fb375c0d4055b067a1a5a430090ef3b421d38ea6bf8da284d5285d4df263af89",
+    "data/train/team_written.csv": "7cc6f805aa064f3e248ffce4cdafd76985c34534f12947d58c8431ee57fd7ed7",
+    "data/dev/dev.csv": "9007417c1775aea8bcd1199065e97cfaa7a56584f79ebe79f1e248e723b1f4e6",
+    "data/raw/ph_spam/upstream.csv": "a3724dca065ee8ed23eb18fb6382657e2559f2b0c0364aaf9c14277af1974e32",
+    "data/raw/mendeley/Dataset_5971.zip": "9bbf3188fdad81495d8e82825648b9b63b53fc86841a3d26c02629990b233cc3",
+    "data/raw/uci/SMSSpamCollection": "7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d"
+  },
+  "frozen_test_sha256": "739af670b217dc7bc6081b0eefd81cba78ec05995b91bb34631ad8819fcba3df",
+  "normalization": {
+    "url": "(?:https?://|www\\.)\\S+|\\b[a-z0-9-]+(?:\\.[a-z0-9-]+)*\\.(?:com|net|org|ph|xyz|top|click|online|site|live|link|shop|info|io|co|me|app|icu|buzz|vip|cc|ly|gl|gy|id|at|tk)\\b\\S*",
+    "num": "[0-9]+"
+  },
+  "selection_set": "data/dev",
+  "dev_used_for_fitting": false,
+  "grouping": "normalized-exact text; URL/number masking and collapsed whitespace"
+}

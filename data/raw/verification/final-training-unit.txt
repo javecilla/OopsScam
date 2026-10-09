@@ -1,0 +1,33 @@
+test_conflicting_labels_are_quarantined (test_training.TrainingDataTests) ... ok
+test_dev_and_frozen_overlaps_are_excluded (test_training.TrainingDataTests) ... ok
+test_duplicate_groups_do_not_cross_public_holdout (test_training.TrainingDataTests) ... ok
+test_local_data_never_enters_public_holdout (test_training.TrainingDataTests) ... ok
+test_ph_loader_quarantines_malformed_rows_and_ambiguous_labels (test_training.TrainingDataTests) ... FAIL
+test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) ... ok
+test_spam_is_not_automatically_scam (test_training.TrainingDataTests) ... ok
+test_weighting_keeps_philippine_context (test_training.TrainingDataTests) ... ok
+
+======================================================================
+FAIL: test_ph_loader_quarantines_malformed_rows_and_ambiguous_labels (test_training.TrainingDataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VSC\OopsScam\training\test_training.py", line 87, in test_ph_loader_quarantines_malformed_rows_and_ambiguous_labels
+    self.assertEqual(data["label"].tolist(), ["legit", None, None, "legit"])
+AssertionError: Lists differ: ['legit', nan, nan, 'legit'] != ['legit', None, None, 'legit']
+
+First differing element 1:
+nan
+None
+
+- ['legit', nan, nan, 'legit']
+?            ^  -----
+
++ ['legit', None, None, 'legit']
+?           ++ ^^^^^ +
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.023s
+
+FAILED (failures=1)
+  PH: quarantined 1 malformed CSV rows

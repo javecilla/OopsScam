@@ -1,0 +1,6 @@
+Messages per group: {'train': 288, 'dev': 92, 'test_v2': 81, 'adversarial': 12, 'llm_eval': 20}
+Train balance: 142 scam / 146 legit (49% scam)
+
+No near-duplicates across groups (similarity >= 0.8).
+
+PASS: no message appears in more than one group.

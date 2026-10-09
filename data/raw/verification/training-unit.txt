@@ -1,0 +1,12 @@
+test_conflicting_labels_are_quarantined (test_training.TrainingDataTests) ... ok
+test_dev_and_frozen_overlaps_are_excluded (test_training.TrainingDataTests) ... ok
+test_duplicate_groups_do_not_cross_public_holdout (test_training.TrainingDataTests) ... ok
+test_local_data_never_enters_public_holdout (test_training.TrainingDataTests) ... ok
+test_placeholders_and_missing_text_are_rejected (test_training.TrainingDataTests) ... ok
+test_spam_is_not_automatically_scam (test_training.TrainingDataTests) ... ok
+test_weighting_keeps_philippine_context (test_training.TrainingDataTests) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.022s
+
+OK

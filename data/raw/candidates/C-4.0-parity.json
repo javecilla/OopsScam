@@ -1,0 +1,98 @@
+[
+ {
+  "text": "GCash Advisory: Your wallet is ON HOLD due to a failed security check. Reactivate within 6 hours at gcash-reactivate.example or your balance will be frozen.",
+  "p": 0.9764889429312807
+ },
+ {
+  "text": "BIR: Paalala na ang deadline ng quarterly income tax return ay sa Nov 15.",
+  "p": 0.05351578806095117
+ },
+ {
+  "text": "DFA: Your passport appointment is confirmed for Oct 20, 10:00 AM. Bring your confirmation page and a valid ID.",
+  "p": 0.02423689912029647
+ },
+ {
+  "text": "Pag-IBIG Fund: Your monthly contribution for September has been posted. Thank you.",
+  "p": 0.006739501950313221
+ },
+ {
+  "text": "NDRRMC: May earthquake drill sa Huwebes, 9AM. Makilahok sa inyong opisina o paaralan.",
+  "p": 0.003194159291379397
+ },
+ {
+  "text": "PAGASA: Malakas na ulan ang inaasahan sa Metro Manila ngayong hapon. Mag-ingat sa baha.",
+  "p": 0.0012103765233273354
+ },
+ {
+  "text": "Security Bank Credit Card: Your statement is ready. Total amount due P5,230.00 on Oct 22.",
+  "p": 0.3038674063639368
+ },
+ {
+  "text": "Converge: Paalala, ang P1,500 monthly bill mo ay due sa loob ng 3 araw. Magbayad sa Converge app.",
+  "p": 0.36702831701975813
+ },
+ {
+  "text": "Maynilad: Your water bill for September is P512.80, due Oct 18.",
+  "p": 0.05714183377241675
+ },
+ {
+  "text": "Grab: Your GrabExpress package has been delivered. Thanks for using Grab!",
+  "p": 0.07889774729756172
+ },
+ {
+  "text": "Ninja Van: Darating ang parcel mo bukas sa pagitan ng 9AM at 6PM.",
+  "p": 0.20899794267787472
+ },
+ {
+  "text": "J&T Express: Your parcel 8812004 is out for delivery. Please prepare exact cash for COD.",
+  "p": 0.13891247283880578
+ },
+ {
+  "text": "DITO: Your data promo will expire tomorrow. To renew, use the DITO app.",
+  "p": 0.014900246864693977
+ },
+ {
+  "text": "Smart: Natanggap na ang iyong P50 load. Bagong balance: P63.50.",
+  "p": 0.018036232862498832
+ },
+ {
+  "text": "Globe: You have 1.2GB data left in your GoSURF50. Valid until 10/12/2026.",
+  "p": 0.03717571649145509
+ },
+ {
+  "text": "BDO: Your ATM withdrawal of PHP 2,000.00 on 10/08/2026 was successful. Available balance: PHP 8,412.33.",
+  "p": 0.023996818332224022
+ },
+ {
+  "text": "Natanggap mo ang P800.00 mula kay MA**A R. sa Maya. Ref 33029188.",
+  "p": 0.04009511415820334
+ },
+ {
+  "text": "GCash: You have paid P1,250.00 to PLDT. Ref No. 2219 004 117. Thank you!",
+  "p": 0.02928901485777015
+ },
+ {
+  "text": "GoTyme: 448201 is your OTP. Never share this code, even with GoTyme staff.",
+  "p": 0.03702249368188478
+ },
+ {
+  "text": "Ang Shopee verification code mo ay 6612. Huwag itong ibahagi kahit kanino.",
+  "p": 0.04406515022681508
+ },
+ {
+  "text": "",
+  "p": 0.013657117058155813
+ },
+ {
+  "text": "😀 congrats!!  you   won ₱5,000 ñ señor  a b c",
+  "p": 0.8714316728791133
+ },
+ {
+  "text": "GCASH: I-VERIFY https://gcash-verify.xyz/login?id=12345 ngayon din!!!",
+  "p": 0.99035255258006
+ },
+ {
+  "text": "ok",
+  "p": 0.001314587359971168
+ }
+]

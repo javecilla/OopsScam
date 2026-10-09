@@ -1,0 +1,303 @@
+"id","text","label","category","language","channel","source","split","notes"
+"em-s001","From: BDO Unibank <security@bdo-online-verify.example>
+Subject: Your account access has been limited
+
+Dear Valued Client,
+
+We noticed a sign-in from an unrecognized device. Your online banking access is limited until you confirm your identity. Please verify within 24 hours at https://bdo-online-verify.example/confirm to avoid permanent suspension.
+
+BDO Online Security","scam","account_threat_link","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s002","From: BPI Support <support@bpi-alerts.example>
+Subject: Transaction verification needed
+
+Hello,
+
+A transfer of PHP 24,500.00 to an unfamiliar account is pending. If you did not make this transfer, reply to this email with the 6-digit OTP sent to your phone so we can cancel it.
+
+Regards,
+BPI Fraud Team","scam","credential_request","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s003","From: GCash <noreply@gcash-kyc-update.example>
+Subject: Paalala: I-update ang iyong KYC
+
+Magandang araw!
+
+Kailangan i-update ang iyong GCash KYC bago mag-Oct 15. Kapag hindi na-update, mafe-freeze ang wallet mo. I-click dito: gcash-kyc-update.example/verify
+
+Salamat,
+GCash Team","scam","account_threat_link","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s004","From: Shopee Refunds <refunds@shopee-ph-care.example>
+Subject: Refund of P3,280.00 ready
+
+Hi Buyer,
+
+Your refund for order 2610ABC123 failed because your account details are incomplete. Submit your card number and expiry date at shopee-ph-care.example/refund within 48 hours to receive your money.
+
+Thank you,
+Shopee Customer Care","scam","marketplace_scam","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s005","Dear Customer,
+
+Your parcel from Shenzhen is held at the Manila sorting hub because of an unpaid customs fee of PHP 145.00. Pay the fee today at phl-parcel-release.example to schedule redelivery. Unpaid parcels are returned to the sender after 3 days.
+
+Regards,
+Customs Clearance Desk","scam","parcel_fee","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s006","From: BIR eServices <refund@bir-taxrefund.example>
+Subject: Tax refund approved - action required
+
+Good day,
+
+Our records show you are eligible for a tax refund of PHP 8,940.00 for 2025. To receive it, fill in your bank details and upload a valid ID at bir-taxrefund.example/claim before Oct 20, 2026.
+
+Bureau of Internal Revenue","scam","government_impersonation","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s007","Hi!
+
+Hiring kami ng online encoder, work from home, P1,500 daily sahod. Walang experience needed. Para ma-reserve ang slot mo, magbayad ng P300 registration fee sa GCash 09XX-XXX-XXXX at i-message ang HR sa Telegram.
+
+Salamat po,
+Recruitment Team","scam","job_loan_investment","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s008","From: Prime Yield Partners <invest@primeyield-asia.example>
+Subject: Guaranteed 30% monthly returns
+
+Dear Investor,
+
+Join our private crypto trading pool and earn a guaranteed 30% return every month. Minimum investment is only PHP 10,000. Slots close tonight, so send your deposit now and reply with your GCash number.
+
+Best regards,
+Account Manager","scam","job_loan_investment","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s009","From: Meralco Billing <billing@meralco-payment.example>
+Subject: Final notice: disconnection scheduled
+
+Dear Customer,
+
+Your electricity account has an overdue balance of PHP 4,612.30. Service will be disconnected today at 5 PM unless payment is made through the secure link below.
+
+Pay now: https://meralco-payment.example/pay
+
+Meralco Collections","scam","bill_fee_link","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s010","From: IT Helpdesk <helpdesk@mail-quota-admin.example>
+Subject: Mailbox full - verify to keep receiving emails
+
+Hello,
+
+Your mailbox has reached its storage limit and incoming emails are on hold. Confirm your email password at mail-quota-admin.example/login within 12 hours to restore your mailbox.
+
+Thanks,
+IT Service Desk","scam","credential_request","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s011","Dear Friend,
+
+I am a lawyer handling the estate of a late client who shares your surname. The family fund of USD 2.4 million can be released to you as next of kin. To begin, please send a processing fee of USD 250 and a copy of your passport. Keep this matter confidential.
+
+Yours truly,
+Atty. Richard Moore","scam","other_scam","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s012","From: Windows Security Center <alert@device-protect-support.example>
+Subject: Virus detected on your computer
+
+Your computer is infected with 3 viruses and your bank accounts are at risk. Call our technician at 09XX-XXX-XXXX and install AnyDesk so we can remove the threat immediately.
+
+Device Protection Team","scam","remote_access","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s013","From: Globe Rewards <promo@globe-rewards-claim.example>
+Subject: Congratulations! Nanalo ka
+
+Congratulations! Nanalo ka ng Samsung Galaxy phone sa Globe Rewards anniversary raffle. Para ma-claim, magbayad ng P499 shipping fee sa globe-rewards-claim.example bago matapos ang linggo.
+
+Globe Rewards Team","scam","prize_raffle_ayuda","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s014","Magandang araw po,
+
+Kayo po ay napili para sa SSS calamity assistance na P5,000. Ipadala po ang litrato ng inyong valid ID at ang OTP na matatanggap ninyo para ma-process agad ang claim.
+
+Maraming salamat,
+SSS Benefits Office","scam","government_impersonation","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s015","From: Ramon Villanueva <ramon.villanueva.ceo@gmail-office.example>
+Subject: Quick favor
+
+Hi,
+
+Are you at your desk? I need you to buy six PHP 2,000 gift cards for a client today. Keep this between us for now, I will explain later. Send me the codes by email as soon as you have them.
+
+Ramon
+Sent from my phone","scam","other_scam","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s016","Your Netflix membership is on hold because we could not process your last payment. Update your card details within 24 hours at netflix-billing-update.example or your account will be closed.","scam","account_threat_link","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s017","From: DSWD Ayuda Program <ayuda@dswd-assistance.example>
+Subject: Approved: Educational assistance
+
+Magandang araw! Approved ang inyong educational assistance na P10,000. I-claim ito ngayong linggo sa dswd-assistance.example. May processing fee na P250 bago ma-release ang pondo.
+
+DSWD Region IV-A","scam","prize_raffle_ayuda","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s018","From: Account Security <no-reply@accounts-security-check.example>
+Subject: Unusual sign-in attempt blocked
+
+Someone tried to sign in to your account from a new device in another country. If this wasn't you, secure your account now by entering your password and the verification code at accounts-security-check.example/secure.
+
+Account Security Team","scam","credential_request","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s019","Dear Applicant,
+
+Good news! Your personal loan of PHP 80,000 is approved with 0% interest. Before we release the funds, please pay the insurance fee of PHP 1,200 to our agent's GCash 09XX-XXX-XXXX. Funds will be credited within 1 hour after payment.
+
+Best regards,
+QuickCash Lending Services","scam","job_loan_investment","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-s020","From: Lazada <orders@lazada-ph-orders.example>
+Subject: Problem with your order 4471200
+
+Hello,
+
+We could not confirm the delivery address for your recent order. Please review your order details using the link below so we can ship it.
+
+https://lazada-ph-orders.example/order/4471200
+
+Thank you,
+Lazada Philippines","scam","sender_spoof","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l001","From: BDO Unibank <estatement@bdo.com.ph>
+Subject: Your October 2026 Statement of Account
+
+Dear Juan Dela Cruz,
+
+Your Statement of Account for October 2026 is now available. To view it, log in to BDO Online Banking or the BDO Digital Banking app. Your password-protected PDF uses your birthdate as the password.
+
+BDO will never ask for your OTP, password or card details by email.
+
+BDO Unibank","legit","bank_statement","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l002","From: GCash <no-reply@gcash.com>
+Subject: You sent PHP 1,250.00
+
+Hi Maria,
+
+You have sent PHP 1,250.00 to JU*N D. on Oct 8, 2026 at 6:42 PM. Reference No. 9012 345 678. Your new balance is PHP 3,418.75.
+
+Thank you for using GCash!","legit","transaction_receipt","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l003","From: BPI <notifications@bpi.com.ph>
+Subject: Your one-time PIN
+
+Your BPI one-time PIN is 504219. It is valid for 5 minutes. Do not share this PIN with anyone, including BPI employees.
+
+If you did not request this, please call the BPI Contact Center.","legit","otp","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l004","From: Shopee <info@mail.shopee.ph>
+Subject: Your order has been shipped
+
+Hi juandc_23,
+
+Good news! Your order 261008XYZ has been shipped via SPX Express. Tracking number: SPXPH0123456789. You can track your parcel in the Shopee app under My Purchases.
+
+Happy shopping!
+Shopee Philippines","legit","order_update","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l005","From: Lazada Philippines <noreply@lazada.com.ph>
+Subject: Delivered: your package
+
+Hello,
+
+Your package for order 5520031 was delivered on Oct 9, 2026. If you have an issue with your item, you may request a return within 7 days in the Lazada app.
+
+Rate your purchase and help other shoppers!
+
+Lazada Philippines","legit","order_update","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l006","From: Meralco <ebill@meralco.com.ph>
+Subject: Your Meralco bill for October 2026
+
+Dear Customer,
+
+Your bill for service ID ending 4471 is PHP 2,986.40, due on Oct 24, 2026. Pay through the Meralco Mobile App or any accredited payment partner. A late payment charge may apply after the due date.
+
+Thank you,
+Meralco","legit","bill_reminder","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l007","Your Metrobank credit card statement is ready. Total amount due: PHP 15,430.20. Minimum amount due: PHP 850.00. Payment due date: Oct 28, 2026. A late payment fee applies to payments made after the due date. View your statement in the Metrobank app.","legit","bill_reminder","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l008","From: Maya <hello@maya.ph>
+Subject: Password reset request
+
+Hi,
+
+We received a request to reset your Maya account password. If you made this request, open the Maya app and follow the steps in Account Settings. If you did not request a reset, you can ignore this email; your password will not change.
+
+Maya Philippines","legit","security_notice","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l009","From: GoTyme Bank <alerts@gotyme.com.ph>
+Subject: New sign-in to your account
+
+Hi Ana,
+
+Your GoTyme Bank account was accessed from a new device (Samsung Galaxy A54) on Oct 9, 2026, 8:15 PM. If this was you, no action is needed. If not, call our hotline at the number on the back of your card.
+
+GoTyme Bank","legit","security_notice","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l010","From: Registrar's Office <registrar@stmarycollege.example>
+Subject: Paalala: Enrollment para sa 2nd semester
+
+Magandang araw, mga estudyante!
+
+Bukas na ang enrollment para sa 2nd semester mula Oct 13 hanggang Oct 24. Mag-log in sa student portal para pumili ng subjects. Ang tuition ay maaaring bayaran sa cashier o sa partner banks.
+
+Salamat,
+Registrar's Office","legit","school_office","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l011","From: HR Department <hr@pacificlogistics.example>
+Subject: Office closure on Oct 31
+
+Hi team,
+
+Please be informed that the office will be closed on Friday, Oct 31, in observance of the holiday. Payroll will be released on Oct 30 instead. Kindly file your leave requests in the HR portal before Oct 24.
+
+Thank you,
+HR Department","legit","school_office","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l012","Magandang araw po sa lahat!
+
+Libreng flu at pneumonia vaccine para sa mga senior citizen sa barangay hall ngayong Sabado, Oct 18, 8AM hanggang 12NN. Magdala lamang ng senior citizen ID. Walang bayad.
+
+Maraming salamat po,
+Barangay Health Office","legit","gov_announcement","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l013","From: SSS <noreply@sss.gov.ph>
+Subject: Contribution payment posted
+
+Dear Member,
+
+Your contribution payment of PHP 1,140.00 for September 2026 has been posted to your SSS record. You may view your contributions in My.SSS or the SSS Mobile App.
+
+Social Security System","legit","gov_announcement","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l014","From: Talent Acquisition <careers@northwindsolutions.example>
+Subject: We received your application
+
+Dear Maria Santos,
+
+Thank you for applying for the Junior Accountant position. Our recruitment team is reviewing applications and will contact shortlisted candidates for an interview within two weeks. We never charge applicants any fee during hiring.
+
+Best regards,
+Talent Acquisition Team","legit","job_application","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l015","From: Lazada <promos@lazada.com.ph>
+Subject: 10.10 Sale ends tonight!
+
+Last chance! Get up to 90% off on gadgets, home and beauty during our 10.10 sale. Free shipping on orders above PHP 499. Shop now in the Lazada app before midnight.
+
+Lazada Philippines","legit","promo","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l016","From: Island Air Reservations <booking@islandair.example>
+Subject: Booking confirmed: MNL to CEB
+
+Hi Jose,
+
+Your flight is confirmed. Booking reference: QX7P2L. Manila (MNL) to Cebu (CEB) on Nov 14, 2026, 6:05 AM. Please arrive at the airport at least 2 hours before departure and bring a valid ID.
+
+Have a great trip!
+Island Air","legit","booking_confirmation","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l017","Hi Carlo,
+
+Kumusta! Para sa outing natin sa Batangas, P1,500 per head ang share sa resort. Paki-send na lang sa GCash ko bago mag-Friday para ma-reserve na natin. Kita-kits!
+
+Salamat,
+Bea","legit","personal_email","taglish","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l018","From: LBC Express <notifications@lbcexpress.com>
+Subject: Your package is out for delivery
+
+Hello,
+
+Your package with tracking number 1209 4455 6610 is out for delivery today. Our rider will contact you before arrival. Track your shipment at lbcexpress.com.
+
+LBC Express","legit","delivery_notice","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l019","From: Security Bank <advisory@securitybank.com>
+Subject: Protect yourself from phishing
+
+Dear Client,
+
+Scammers may pretend to be Security Bank employees. Remember: we will never ask you to share your OTP, PIN or password through email, text or calls. If you receive a suspicious message, report it to our hotline.
+
+Stay vigilant,
+Security Bank","legit","security_notice","en","email","synthetic-ai","email_test","written by Devin (AI)"
+"em-l020","From: StreamFlix <billing@streamflix.example>
+Subject: Payment received - thank you
+
+Hi Paolo,
+
+We received your payment of PHP 549.00 for your StreamFlix Premium plan. Your next billing date is Nov 10, 2026. You can manage your plan anytime in the app under Account.
+
+The StreamFlix Team","legit","transaction_receipt","en","email","synthetic-ai","email_test","written by Devin (AI)"
