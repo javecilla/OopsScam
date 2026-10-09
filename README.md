@@ -19,7 +19,7 @@ Scam messages contain OTPs, account numbers and personal details, so uploading t
 - Paste or share a message (from SMS, Messenger, Viber and more) and get a verdict: **Scam**, **Suspicious** or **Low risk**, with a 0 to 100 score.
 - See the red flags highlighted in the message, a short Taglish reason and what to do next.
 - Never says a message is "safe". It flags risk; it does not guarantee anything.
-- Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks.
+- Check a screenshot (on-device OCR turns it into editable text) or scan a QR code; both go through the same checks. A QR Ph payment code (GCash, Maya, banks) is not given a verdict; the app shows who receives the money and the amount, and reminds you to check the receiver before paying.
 - Optional SMS auto-check (stretch, **off by default**): when you turn on "Auto-check new texts", each new incoming text is checked in the background with the rules and classifier only (no LLM). A notification appears only for Suspicious or Scam, and the lock screen shows only "OopsScam: possible scam text". Tapping it opens the full result with the Taglish explanation. Texts are checked in memory and never stored; the inbox is never read.
 
 TODO: add 3 screenshots.
@@ -97,7 +97,7 @@ The three public datasets above contain real messages published by their authors
 
 - Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the Home and Result screens and app wiring, the training, evaluation and data scripts (`training/`, `scripts/`), their unit tests, and the data documentation.
 - Codex (OpenAI): implemented the phase 3 screenshot and QR input screens, the bundled OCR Expo module, image cleanup, and native integration.
-- Claude Code (Anthropic): wrote the optional SMS auto-check (`modules/sms-watch`, `src/sms`, the Home screen toggle and its unit test).
+- Claude Code (Anthropic): wrote the optional SMS auto-check (`modules/sms-watch`, `src/sms`, the Home screen toggle and its unit test) and the payment-QR recognition (`src/core/paymentQr.ts`, the QR screen card and its unit test).
 - Evaluation and training data: all of our own messages (training examples, dev, test_v2, adversarial and LLM check sets, scam-pattern examples) were generated with Claude Code. TODO: team review of this data before submission.
 - TODO: add any other AI tools the team used (for example Devin) and what they were used for.
 
