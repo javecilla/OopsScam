@@ -7,9 +7,12 @@ import emailClassifierWeights from '@/assets/classifier_email.json';
 import { analyze } from './core/analyze';
 import { looksLikeEmail } from './core/email';
 import type { AnalysisResult } from './core/types';
+import type { QwenAnalysisResult } from './core/qwen';
 import { loadClassifier } from './ml/classifier';
-import { explain, type ExplainOutput } from './llm/explain';
+import { explain, explainQwenVerdict, LLM_TIMEOUT_MS, type ExplainOutput } from './llm/explain';
 import { getLlmEngine, getLlmStatus, type LlmStatus } from './llm/llama';
+import { runQwenAnalysis as analyzeWithQwen } from './llm/analysis';
+import { loadVerifiedQwenRuntime, type QwenLoadStage, type QwenRuntime } from './llm/qwen-runtime';
 
 // FR-ML-03: invalid weights -> null -> rules only.
 const classifier = loadClassifier(classifierWeights);
@@ -66,4 +69,96 @@ export function formatTimings(t: AnalysisResult['timingsMs']): string {
   if (t.ml !== null) parts.push(`ML ${ms(t.ml)}`);
   if (t.llm !== null) parts.push(`Explanation ${(t.llm / 1000).toFixed(1)} s`);
   return parts.join(' · ');
+}
+
+// ─── Qwen production pipeline ────────────────────────────────────────────────
+
+export type { QwenLoadStage, QwenRuntime, QwenAnalysisResult };
+
+/** Combines the load stages with 'classifying' for UI progress reporting. */
+export type QwenStage = QwenLoadStage | 'classifying';
+
+export const QWEN_CLASSIFY_TIMEOUT_MS = 8_000;
+
+export const QWEN_STAGE_LABEL: Record<QwenStage, string> = {
+  checking_manifest: 'Sinusuri ang manifest…',
+  checking_model: 'Sinusuri ang modelo…',
+  copying_model: 'Kina-copy ang modelo… (unang pagkakataon)',
+  loading: 'Ino-load ang Qwen AI…',
+  ready: 'Handa na ang Qwen AI',
+  classifying: 'Inaanalisa ng Qwen…',
+};
+
+/**
+ * Loads the verified fine-tuned Qwen runtime and classifies the message with rules floor.
+ * Returns the result and the live runtime — the caller MUST release() it after use.
+ * Throws with a user-readable message if the validated model is not yet packaged (AGENTS rule 3).
+ */
+export async function runQwenPipeline(
+  text: string,
+  onStage: (stage: QwenStage) => void,
+  signal?: AbortSignal,
+): Promise<{ result: QwenAnalysisResult; runtime: QwenRuntime }> {
+  let runtime: QwenRuntime | null = null;
+  try {
+    runtime = await loadVerifiedQwenRuntime((stage) => {
+      if (signal?.aborted) {
+        throw Object.assign(new Error('Qwen analysis cancelled'), { name: 'AbortError' });
+      }
+      onStage(stage);
+    });
+    if (signal?.aborted) {
+      await runtime.release().catch(() => {});
+      throw Object.assign(new Error('Qwen analysis cancelled'), { name: 'AbortError' });
+    }
+    onStage('classifying');
+    const result = await analyzeWithQwen(text, runtime.classification, QWEN_CLASSIFY_TIMEOUT_MS);
+    return { result, runtime };
+  } catch (err) {
+    await runtime?.release().catch(() => {});
+    throw err;
+  }
+}
+
+/**
+ * Gets the Taglish explanation for a Qwen result using the same runtime context.
+ * The explanation verdict is locked to the Qwen verdict and cannot raise or lower it (AGENTS rule 3).
+ */
+export async function runQwenExplanation(
+  text: string,
+  result: QwenAnalysisResult,
+  runtime: QwenRuntime,
+): Promise<ExplainOutput> {
+  return explainQwenVerdict(
+    { message: text, flags: result.flags, verdict: result.verdict },
+    runtime.explanation,
+    LLM_TIMEOUT_MS,
+  );
+}
+
+/** Timing string for Qwen-based results, labelling classification and explanation separately. */
+export function formatQwenTimings(
+  rulesMs: number,
+  classifyMs: number | null,
+  explainMs: number | null,
+): string {
+  const parts = [`Rules ${Math.round(rulesMs)} ms`];
+  if (classifyMs !== null) parts.push(`Qwen ${Math.round(classifyMs)} ms`);
+  if (explainMs !== null) parts.push(`Explanation ${(explainMs / 1000).toFixed(1)} s`);
+  return parts.join(' · ');
+}
+
+/** Status strip labels for the Qwen production path. */
+export function qwenStatusLabels(
+  stage: QwenStage | null,
+  error: string | null,
+): { llmLabel: string; classifierLabel: string } {
+  return {
+    llmLabel: error
+      ? 'Qwen: hindi available'
+      : stage
+        ? QWEN_STAGE_LABEL[stage]
+        : 'Qwen3 0.6B fine-tuned',
+    classifierLabel: error ? 'Rules lang (Qwen error)' : 'Qwen AI classification',
+  };
 }

@@ -1,6 +1,6 @@
 # Requirements and model audit
 
-Current inspected revision: `c20120a` on `main`. This audit distinguishes implemented code from measured acceptance; it does not certify submission readiness. Track the requested Qwen work in [PLAN.md](../PLAN.md#current-task-qwen-scamphishing-classification).
+Current inspected revision: `310a612` on `jerome`, including the three developers' merges and uncommitted Qwen/history work. This audit distinguishes implemented code from measured acceptance; it does not certify submission readiness. Track the requested Qwen work in [PLAN.md](../PLAN.md#current-task-qwen-scamphishing-classification); exact continuation state and commands are in the [Qwen handoff](../handoff/oopsscam-handoff-2026-10-10-qwen.md). Findings below about the SMS training export were established at `c20120a` and still apply; email/history additions are covered in the continuation handoff.
 
 ## Which model was trained?
 

@@ -95,10 +95,11 @@ def validated_metrics(run: Path, integrity: RunIntegrity) -> tuple[float, float]
             raise ValueError(f"Qwen validation provenance mismatch: field={field}, run={run}")
     report = read_object(report_path)
     recall = require_probability(report.get("flagged_recall"), "flagged_recall", report_path)
+    scam_recall = require_probability(report.get("scam_flagged_recall"), "scam_flagged_recall", report_path)
     false_alarm = require_probability(report.get("false_alarm_rate"), "false_alarm_rate", report_path)
-    if recall < 0.9 or false_alarm > 0.1:
+    if recall < 0.9 or scam_recall < 0.9 or false_alarm > 0.1:
         raise ValueError(f"Qwen validation targets not met; do not package: recall={recall:.3f}, "
-                         f"false_alarm_rate={false_alarm:.3f}, run={run}")
+                         f"scam_flagged_recall={scam_recall:.3f}, false_alarm_rate={false_alarm:.3f}, run={run}")
     return recall, false_alarm
 
 

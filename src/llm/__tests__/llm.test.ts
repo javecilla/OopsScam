@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 
 import { analyze } from '../../core/analyze';
-import { explain, type LlmEngine } from '../explain';
+import { explain, fixedVerdictExplanation, type LlmEngine } from '../explain';
 import { parseLlmOutput } from '../parse';
 import { buildMessages } from '../prompt';
 
@@ -13,7 +13,7 @@ const VALID = {
   action_tl: 'Huwag ibigay ang OTP. I-block ang sender.',
 };
 
-const engine = (reply: string | Promise<string>, stop = jest.fn()): LlmEngine => ({
+const engine = (reply: string | Promise<string>, stop = jest.fn<() => void>()): LlmEngine => ({
   model: 'fake',
   complete: () => (typeof reply === 'string' ? Promise.resolve(reply) : reply),
   stop,
@@ -91,7 +91,7 @@ describe('explain (FR-LM-05, FR-FU-05)', () => {
   });
 
   it('falls back to templates and stops the model on timeout', async () => {
-    const stop = jest.fn();
+    const stop = jest.fn<() => void>();
     const out = await explain(SCAM_INPUT, engine(new Promise<string>(() => {}), stop), 20);
     expect(out.explanation.source).toBe('template');
     expect(stop).toHaveBeenCalled();
@@ -118,4 +118,41 @@ describe('explain (FR-LM-05, FR-FU-05)', () => {
     expect(out.verdict).toBe('suspicious');
     expect(out.llmRaised).toBe(true);
   });
+});
+
+describe('fixed Qwen verdict explanations', () => {
+  it.each(['scam', 'suspicious', 'low_risk'] as const)(
+    'retains %s when the explanation agrees',
+    (verdict) => {
+      const opinion = parseLlmOutput(json({ ...VALID, verdict }));
+      const out = fixedVerdictExplanation(
+        { message: 'Fictional example', flags: [], verdict },
+        opinion,
+        'qwen',
+        50,
+      );
+      expect(out.verdict).toBe(verdict);
+      expect(out.explanation.source).toBe('llm');
+      expect(out.llmRaised).toBe(false);
+    },
+  );
+
+  it.each([
+    { verdict: 'low_risk', proposed: 'scam' },
+    { verdict: 'scam', proposed: 'low_risk' },
+  ] as const)(
+    'retains $verdict if the explanation argues for $proposed',
+    ({ verdict, proposed }) => {
+      const opinion = parseLlmOutput(json({ ...VALID, verdict: proposed }));
+      const out = fixedVerdictExplanation(
+        { message: 'Fictional example', flags: [], verdict },
+        opinion,
+        'qwen',
+        50,
+      );
+      expect(out.verdict).toBe(verdict);
+      expect(out.explanation.source).toBe('template');
+      expect(out.llmRaised).toBe(false);
+    },
+  );
 });
