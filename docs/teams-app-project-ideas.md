@@ -1,7 +1,7 @@
 GWYN IDEA:
 
 25%  
-\- problem: yung mga hirap mag salita madeliver nila yung gusto nilang sabihin   
+\- problem: yung mga hirap mag salita madeliver nila yung gusto nilang sabihin  
 \- solution: and mabilis ma intindihan ng normal people yung gusto iparating ni user na hirap mag salita  
 \- target audience: helps mga ngongo, mga stroke, pwd nag sobrang hirap mag salita, stuttering  
 \- ehancer for those speech dificiency  
@@ -40,10 +40,10 @@ TECH STACK:
 ---
 
 JOHNREY IDEA:  
-Scam guardian
+OopsScam
 
 25%  
-\- problem: araw araw nakakareceive tayo ng Gcash o bank alert, sms phishing, or otps dahil dito marami din nasscam dahil yung ibang messages na ito mukhang totoo that results lost of money 
+\- problem: araw araw nakakareceive tayo ng Gcash o bank alert, sms phishing, or otps dahil dito marami din nasscam dahil yung ibang messages na ito mukhang totoo that results lost of money
 
 \-solution : Isang scam checker na tumatakbo sa mismong device, kaya private, mabilis, at gumagana kahit offline. Ang user ay maglalagay ng text o link, o mag-uupload ng larawan (screenshot o QR code).
 
@@ -76,21 +76,21 @@ Two network uses exist and both are optional: a one-time model download before u
 RAI IDEA:
 
 25%  
-Problem:   
-\- fresh graduates and first-time minimum wage job seekers ay madalas sabik at desperadong magka-trabaho, kaya pumipirma agad nang hindi binabasa o naiintindihan ang kontrata.- 
+Problem:  
+\- fresh graduates and first-time minimum wage job seekers ay madalas sabik at desperadong magka-trabaho, kaya pumipirma agad nang hindi binabasa o naiintindihan ang kontrata.-
 
-Solution:   
+Solution:  
 \- "Scan Before You Sign" (Preventative Contract Auditor): Isang on-device AI scanner na agad nagfa-flag ng mga dehado at ilegal na clauses sa Job Offer o Kontrata bago ito pirmahan ng aplikante.
 
-Target Audience:   
-    \- Fresh college at vocational graduates na papasok sa corporate/BPO/tech.  
-    \- Entry-level service crew, cashiers, promodisers, at contractual minimum wage workers.
+Target Audience:  
+ \- Fresh college at vocational graduates na papasok sa corporate/BPO/tech.  
+ \- Entry-level service crew, cashiers, promodisers, at contractual minimum wage workers.
 
-Goal:   
+Goal:  
 \- Translate the confusing legal terms or jargons into Simple Terms (e.g., "Red Flag: May 2-year bond na may 100k penalty kahit entry level lang ang salary)  
 \- A polite counter-offer script guide para alam kung paano kakausapin ang HR nang maayos to adjust the contract
 
-Limitation:   
+Limitation:  
 \- Philippine labor laws and private employement contracts only (overseas/OFW contracts are not covered)
 
 25%  
@@ -144,7 +144,7 @@ Limitation: Nakasalalay ang linaw ng text extraction sa kalidad ng litrato o sca
 
 Local Inference Pipeline:  
 On-Device OCR Engine: Tesseract.js o PaddleOCR-Lite na tumatakbo nang buo sa local CPU para kunin ang raw text mula sa uploaded image o dokumento nang zero GPU overhead.  
-Quantized Local SLM: Llama 3.2 3B Instruct o Qwen 2.5 1.5B (4-bit quantized, Q4\_K\_M) na tumatakbo gamit ang Ollama o llama.cpp para sa analysis at translation sa Taglish.  
+Quantized Local SLM: Llama 3.2 3B Instruct o Qwen 2.5 1.5B (4-bit quantized, Q4_K_M) na tumatakbo gamit ang Ollama o llama.cpp para sa analysis at translation sa Taglish.  
 Bakit Local AI at Hindi Cloud (The Edge Advantage):  
 Non-Negotiable PII Privacy: Ang mga kontrata ay may valid ID numbers, buong tirahan, pirma, at salary figures; sa local execution, zero bytes ang umaalis sa laptop o device.  
 Zero Cloud Inference Cost: Walang babayarang per-token pricing o subscription sa mga third-party APIs kahit magbasa ng mahahabang kontrata.  
@@ -173,4 +173,4 @@ Clear 3-Card Summary View:
 Card 1: Real Financial Cost (e.g., "Sinasabi 3% lang, pero sa totoo ay 36% kada taon").  
 Card 2: Red Flags (e.g., "Bawal mag-resign nang walang 60-day penalty fee").  
 Card 3: Taglish Advice (Simpleng payo kung ano ang dapat linawin bago pumirma).  
-Live Demo Reliability: Dahil lightweight OCR at 1.5B/3B model lang ang gamit, mabilis ang execution time at hindi magla-lag ang makina sa mismong harap ng mga hurado  
+Live Demo Reliability: Dahil lightweight OCR at 1.5B/3B model lang ang gamit, mabilis ang execution time at hindi magla-lag ang makina sa mismong harap ng mga hurado
