@@ -5,9 +5,11 @@ Source of truth for scope and design: `docs/OopsScam — Product Requirements Do
 
 ## Current task: Qwen scam/phishing classification
 
-**Current step:** Qwen LoRA fine-tuning. The app is at Phase 3 validation, moving into Phase 4 polish. The requested Qwen classification change is not implemented. The shipped architecture still uses rules + ML for verdicts and pretrained Qwen for explanations.
+**Current step:** Qwen LoRA fine-tuning and merged-app integration checks on `jerome` at `310a612`. The app is at Phase 3 validation, moving into Phase 4 polish. Qwen classification helpers and verified model loading are prepared but are not connected to the app. The shipped architecture still uses rules + SMS/email ML for verdicts and pretrained Qwen for explanations.
 
 Audit details and remaining requirement gaps: [requirements audit](docs/REQUIREMENTS-AUDIT.md). Update the checklist below as work is verified; a downloaded model, successful conversion, or passing ML evaluation does not prove Qwen was fine-tuned.
+
+**Next-agent continuation:** [Qwen handoff: complete goal, done/pending work, live training, owners and commands](handoff/oopsscam-handoff-2026-10-10-qwen.md). Read it before resuming; do not start a duplicate training run.
 
 - [x] Inspect the pulled `main` at `c20120a` and preserve the team's dataset and training changes.
 - [x] Identify which model was trained: `training/train.py` exports the TF-IDF/logistic-regression classifier; it does not train Qwen.
@@ -20,6 +22,10 @@ Audit details and remaining requirement gaps: [requirements audit](docs/REQUIREM
 - [x] Reserve separate data by normalized message family: 7,467 train candidates, 1,000 tuning, 973 validation. No message family crosses splits or overlaps existing evaluation cases; the frozen `data/test_v2` hash is unchanged. Near-duplicate leakage beyond this family normalization is not certified.
 - [x] Obtain approval for the new Qwen training dependencies, as required by AGENTS.md. Approved by the user; dependencies are declared separately in `training/qwen/requirements.txt`.
 - [x] Set up `training/.qwen-venv` and measure actual CPU training: median 2.86 seconds per update over seven post-warmup samples; about 2.66 GB process memory. Estimated two-epoch training time is 2.3 hours, excluding evaluation/conversion. Dependency check passes; versions are recorded in `training/qwen/environment.lock.txt`.
+- [x] Inspect the three developers' merged changes; install the declared SQLite dependency locally and exclude downloaded llama.cpp tooling from app checks.
+- [x] Prepare strict Qwen output/rule safeguards and tests; 182 tests in 10 suites pass. Prepare provenance-bound GGUF evaluation, explicit Scam recall gates, and verified native model loading. App wiring and actual model validation remain pending.
+- [x] Implement metadata-only scan history and verify migration/persistence/cleanup with real laptop SQLite; native migration and manual phone acceptance remain pending.
+- [x] Verify the current merged code and history changes: typecheck, lint without stale cache, all 182 tests, Python compilation, and Android Metro export pass. No new release APK or automated phone tests.
 - [ ] Fine-tune `Qwen/Qwen3-0.6B` on the prepared classification data; save the adapter, dataset hashes, configuration and actual training logs.
 - [ ] Evaluate Qwen classification before and after fine-tuning on validation data; report failures and measured precision, recall and false alarms. Existing ML results do not measure Qwen.
 - [ ] Merge the trained adapter, convert the trained checkpoint to GGUF, quantize to Q4_K_M and verify classification after quantization.

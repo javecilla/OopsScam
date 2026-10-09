@@ -6,12 +6,7 @@ import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import type { Verdict } from '@/core/types';
-import {
-  clearScanHistory,
-  getRecentScans,
-  getScanStats,
-  type ScanRecord,
-} from '@/storage/history';
+import { clearScanHistory, getRecentScans, getScanStats, type ScanRecord } from '@/storage/history';
 import { colors, fontSize, spacing } from '@/theme';
 
 const VERDICT_BADGE: Record<Verdict, { label: string; color: string }> = {
@@ -33,15 +28,25 @@ function formatDate(timestamp: number): string {
 export default function HistoryScreen() {
   const router = useRouter();
   const [scans, setScans] = useState<ScanRecord[]>([]);
-  const [stats, setStats] = useState({ total: 0, scamCount: 0, suspiciousCount: 0, lowRiskCount: 0 });
+  const [stats, setStats] = useState({
+    total: 0,
+    scamCount: 0,
+    suspiciousCount: 0,
+    lowRiskCount: 0,
+  });
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       const [records, currentStats] = await Promise.all([getRecentScans(50), getScanStats()]);
       setScans(records);
       setStats(currentStats);
+    } catch {
+      // Do not display database errors: legacy error details may contain message content.
+      setLoadError(true);
     } finally {
       setLoading(false);
     }
@@ -63,8 +68,19 @@ export default function HistoryScreen() {
           text: 'Burahin',
           style: 'destructive',
           onPress: async () => {
-            await clearScanHistory();
-            void loadData();
+            setLoading(true);
+            try {
+              await clearScanHistory();
+              await loadData();
+            } catch {
+              setLoadError(true);
+              Alert.alert(
+                'Hindi natapos ang pagbura',
+                'Hindi natapos ang database cleanup. Subukang burahin muli ang kasaysayan.',
+              );
+            } finally {
+              setLoading(false);
+            }
           },
         },
       ],
@@ -73,45 +89,69 @@ export default function HistoryScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <View style={styles.statsCard}>
-          <View style={styles.statBox}>
-            <Text style={styles.statNumber}>{stats.total}</Text>
-            <Text style={styles.statLabel}>Total</Text>
-          </View>
-          <View style={styles.statBox}>
-            <Text style={[styles.statNumber, { color: colors.scam }]}>{stats.scamCount}</Text>
-            <Text style={styles.statLabel}>Scam</Text>
-          </View>
-          <View style={styles.statBox}>
-            <Text style={[styles.statNumber, { color: colors.suspicious }]}>
-              {stats.suspiciousCount}
-            </Text>
-            <Text style={styles.statLabel}>Suspicious</Text>
-          </View>
-          <View style={styles.statBox}>
-            <Text style={[styles.statNumber, { color: colors.lowRisk }]}>{stats.lowRiskCount}</Text>
-            <Text style={styles.statLabel}>Low risk</Text>
+      {!loadError ? (
+        <View style={styles.header}>
+          <View style={styles.statsCard}>
+            <View style={styles.statBox}>
+              <Text style={styles.statNumber}>{stats.total}</Text>
+              <Text style={styles.statLabel}>Total</Text>
+            </View>
+            <View style={styles.statBox}>
+              <Text style={[styles.statNumber, { color: colors.scam }]}>{stats.scamCount}</Text>
+              <Text style={styles.statLabel}>Scam</Text>
+            </View>
+            <View style={styles.statBox}>
+              <Text style={[styles.statNumber, { color: colors.suspicious }]}>
+                {stats.suspiciousCount}
+              </Text>
+              <Text style={styles.statLabel}>Suspicious</Text>
+            </View>
+            <View style={styles.statBox}>
+              <Text style={[styles.statNumber, { color: colors.lowRisk }]}>
+                {stats.lowRiskCount}
+              </Text>
+              <Text style={styles.statLabel}>Low risk</Text>
+            </View>
           </View>
         </View>
-      </View>
+      ) : null}
+
+      {loadError ? (
+        <View
+          style={styles.emptyContainer}
+          accessibilityLiveRegion="polite"
+          testID="history-load-error"
+        >
+          <Text style={styles.emptyTitle}>Hindi mabuksan ang kasaysayan</Text>
+          <Text style={styles.emptySubtitle}>
+            Hindi nabasa ang lokal na database. Subukang muli.
+          </Text>
+          <Button
+            title="Subukang muli"
+            onPress={() => void loadData()}
+            testID="history-retry"
+            disabled={loading}
+          />
+        </View>
+      ) : null}
 
       <FlatList
-        data={scans}
+        data={loadError ? [] : scans}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
-          loading ? null : (
+          loading || loadError ? null : (
             <View style={styles.emptyContainer}>
               <Text style={styles.emptyTitle}>Wala pang naitalang scan</Text>
               <Text style={styles.emptySubtitle}>
-                Lahat ng susuriing text, screenshot, at QR ay ligtas na itatala rito offline.
+                Oras, verdict, score, uri ng input, at bilang ng red flags lang ang itinatala. Hindi
+                sine-save ang message, larawan, o detalye ng red flags.
               </Text>
             </View>
           )
         }
         renderItem={({ item }) => {
-          const badge = VERDICT_BADGE[item.verdict] ?? VERDICT_BADGE.low_risk;
+          const badge = VERDICT_BADGE[item.verdict];
           return (
             <View style={styles.itemCard}>
               <View style={styles.itemHeader}>
@@ -124,27 +164,20 @@ export default function HistoryScreen() {
 
               <Text style={styles.scoreText}>Score: {item.score}/100</Text>
 
-              {item.snippet ? (
-                <View style={styles.snippetBox}>
-                  <Text style={styles.snippetText} numberOfLines={2}>
-                    {item.snippet}
-                  </Text>
-                </View>
-              ) : null}
-
-              {item.flags_summary ? (
-                <Text style={styles.flagsText} numberOfLines={1}>
-                  Red flags: {item.flags_summary}
-                </Text>
-              ) : null}
+              <Text style={styles.flagsText}>Red flags: {item.flag_count}</Text>
             </View>
           );
         }}
       />
 
       <View style={styles.footer}>
-        {scans.length > 0 ? (
-          <Button title="Burahin ang Kasaysayan" variant="secondary" onPress={handleClear} />
+        {scans.length > 0 || loadError ? (
+          <Button
+            title="Burahin ang Kasaysayan"
+            variant="secondary"
+            onPress={handleClear}
+            disabled={loading}
+          />
         ) : null}
         <Button title="Bumalik sa Home" variant="secondary" onPress={() => router.back()} />
       </View>
@@ -233,16 +266,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: fontSize.small,
     marginTop: 2,
-  },
-  snippetBox: {
-    backgroundColor: colors.background,
-    borderRadius: spacing.xs,
-    padding: spacing.sm,
-    marginTop: 2,
-  },
-  snippetText: {
-    fontSize: fontSize.small,
-    color: colors.text,
   },
   flagsText: {
     fontSize: fontSize.small,

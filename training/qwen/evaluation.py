@@ -41,6 +41,7 @@ class EvaluationReport(TypedDict):
     accuracy: float
     macro_f1: float
     flagged_recall: float | None
+    scam_flagged_recall: float | None
     flagged_precision: float | None
     false_alarm_rate: float | None
     confusion: dict[Verdict, dict[Verdict, int]]
@@ -92,6 +93,8 @@ def evaluate(model: Qwen3ForCausalLM | PeftModel, tokenizer: PreTrainedTokenizer
               "accuracy": sum(confusion[verdict][verdict] for verdict in VERDICTS) / len(rows),
               "macro_f1": sum(value for value in f1_values if value is not None) / len(VERDICTS),
               "flagged_recall": ratio(true_positive, positives),
+              "scam_flagged_recall": ratio(confusion["scam"]["scam"] + confusion["scam"]["suspicious"],
+                                            sum(confusion["scam"].values())),
               "flagged_precision": ratio(true_positive, true_positive + false_positive),
               "false_alarm_rate": ratio(false_positive, low_risk_total),
               "confusion": confusion, "per_class": per_class,

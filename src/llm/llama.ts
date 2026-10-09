@@ -105,8 +105,13 @@ export async function getLlmEngine(): Promise<LlmEngine | null> {
   contextPromise ??= loadContext();
   const context = await contextPromise;
   if (!context) return null;
+  return createExplanationEngine(context, LLM_MODEL_FILENAME);
+}
+
+/** Share explanation settings with the verified fine-tuned Qwen runtime. */
+export function createExplanationEngine(context: LlamaContext, model: string): LlmEngine {
   return {
-    model: LLM_MODEL_FILENAME,
+    model,
     complete: async (messages: ChatMessage[]) => {
       const result = await context.completion({
         messages,
@@ -115,9 +120,7 @@ export async function getLlmEngine(): Promise<LlmEngine | null> {
       });
       return result.content || result.text;
     },
-    stop: () => {
-      context.stopCompletion().catch(() => {});
-    },
+    stop: (): Promise<void> => context.stopCompletion(),
   };
 }
 
