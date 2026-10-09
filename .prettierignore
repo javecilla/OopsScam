@@ -1,0 +1,3 @@
+# Keep `npm run format` from rewriting the existing project docs.
+docs/
+*.md

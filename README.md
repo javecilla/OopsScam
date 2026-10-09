@@ -50,6 +50,7 @@ TODO: add the architecture diagram.
 **Frameworks and libraries**
 
 - React Native, Expo, TypeScript, Expo Router
+- Prettier, ESLint, eslint-config-expo
 - llama.rn (llama.cpp for React Native)
 - ML Kit text recognition and barcode scanning (bundled models) through TODO: module names
 - expo-share-intent (or expo-sharing)
