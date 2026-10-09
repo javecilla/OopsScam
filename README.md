@@ -10,6 +10,33 @@ OopsScam is an on-device scam detection and analysis mobile app tailored for Fil
 
 ---
 
+## Team
+
+**TERMINAL LARPERS** — AppBuildersPH Hackathon 2026
+
+| Member | Branch |
+|---|---|
+| Jerome Avecilla | `jerome` |
+| Gwyn Barte | `gwyn` |
+| Johnrey Gabon | `johnrey` |
+| Raizel Sablan | `raizel` |
+
+---
+
+## Branch Structure
+
+| Branch | Purpose |
+|---|---|
+| `main` | Stable, submission-ready code. Protected — no direct pushes. |
+| `jerome` | Jerome's working branch |
+| `gwyn` | Gwyn's working branch |
+| `johnrey` | Johnrey's working branch |
+| `raizel` | Raizel's working branch |
+
+Each member works on their own branch and opens a pull request into `main`. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
+
+---
+
 ## The Problem
 
 Every day, Filipinos receive fake GCash alerts, bank warnings, telco smishing, and OTP scams. Many fall victim because these messages look convincingly real.
