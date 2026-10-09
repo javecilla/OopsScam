@@ -1,0 +1,3 @@
+# Laptop-only tools for scripts/ (never bundled in the app).
+pillow>=10.1
+qrcode>=7.4

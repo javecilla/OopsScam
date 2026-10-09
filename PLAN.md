@@ -28,7 +28,7 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 | T4  | OCR and QR use the **bundled** ML Kit models                                                                 | On-device   | After a fresh install in airplane mode, OCR reads a test screenshot and the camera reads a QR code; Gradle file checked                     |
 | T5  | Share menu works                                                                                             | Mobile      | Sharing text from the messages app opens OopsScam with that text                                                                            |
 | T6  | Datasets and test set started                                                                                | Data and ML | `data/sources.md` lists each dataset with its license; the plan for a 100-message test set (50 scam, 50 legitimate, team-written) is agreed |
-| T7  | Rules v0 in `src/core` with unit tests                                                                       | Rules       | Tests pass for OTP request, lookalike domain, shortener, APK link and the real-OTP rule                                                     |
+| T7  | Rules v0 in `src/core` with unit tests                                                                       | Rules       | Tests pass for OTP request, lookalike domain, shortener, APK link and the real-OTP rule **Done: src/core, Jest tests pass.**                                                     |
 
 **Checkpoint 1 (6:30 PM): go or no-go.** Freeze the test set. Decide fallbacks:
 
@@ -40,11 +40,11 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 | ID  | Task                                                       | Role           | Done when                                                                                                                       |
 | --- | ---------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| T8  | Scoring, fusion and Taglish templates in `src/core`        | Rules          | Tests pass; thresholds 60 (Scam) and 30 (Suspicious)                                                                            |
-| T9  | Classifier trained, exported to JSON, scored in TypeScript | Data and ML    | TypeScript scores match Python on 20 sample messages                                                                            |
-| T10 | LLM wrapper                                                | On-device      | JSON parsed safely, 8-second timeout, template fallback, LLM cannot lower a verdict                                             |
-| T11 | UI: home screen and result screen                          | Mobile         | Text box, Paste, sample messages; result shows verdict word, score, highlighted flags, Taglish reason, next steps, status strip |
-| T12 | Wire it end to end                                         | Mobile + Rules | Share a fake GCash text: verdict within 1 second, explanation after, all in airplane mode                                       |
+| T8  | Scoring, fusion and Taglish templates in `src/core`        | Rules          | Tests pass; thresholds 60 (Scam) and 30 (Suspicious) **Done: src/core, Jest tests pass.**                                                                            |
+| T9  | Classifier trained, exported to JSON, scored in TypeScript | Data and ML    | TypeScript scores match Python on 20 sample messages **Done: 24 samples, max difference 6e-8. Trained without PH Spam (not downloaded).**                                                                            |
+| T10 | LLM wrapper                                                | On-device      | JSON parsed safely, 8-second timeout, template fallback, LLM cannot lower a verdict **Done in code and Jest; not yet run on the phone.**                                             |
+| T11 | UI: home screen and result screen                          | Mobile         | Text box, Paste, sample messages; result shows verdict word, score, highlighted flags, Taglish reason, next steps, status strip **Done in code (typecheck, lint, Metro bundle); not yet run on the phone.** |
+| T12 | Wire it end to end                                         | Mobile + Rules | Share a fake GCash text: verdict within 1 second, explanation after, all in airplane mode **Wired in code; airplane-mode test on the phone still to do.**                                       |
 
 **Checkpoint 2 (10:30 PM):** core flow works offline on the demo phone. Record a 30-second screen recording as a backup.
 
@@ -52,11 +52,11 @@ Source of truth for scope and design: `docs/PRD.md`. Update this file as tasks f
 
 | ID  | Task                                             | Role        | Done when                                                                            |
 | --- | ------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------ |
-| T13 | Screenshot checker                               | On-device   | A picked or shared screenshot becomes editable text and runs the same pipeline       |
-| T14 | QR code checker                                  | On-device   | A scanned QR code is checked for shortened or lookalike links                        |
-| T15 | Evaluation script                                | Data and ML | Prints precision, recall, false-alarm rate and latency on `data/test`; results saved |
-| T16 | Demo build without the INTERNET permission       | Mobile      | Android app info shows no internet permission and every feature still works          |
-| T17 | Practice mode (only if everything above is done) | Mobile      | Short quiz works                                                                     |
+| T13 | Screenshot checker                               | On-device   | **Done:** picked/shared images become editable OCR text and use the existing pipeline. Shared-image OCR, editing, analysis and blank-image errors verified on the Samsung A72. Picked screenshot read in 0.9 seconds and returned Scam (score 80); app-cache copies are deleted after decoding. |
+| T14 | QR code checker                                  | On-device   | Implemented: camera and gallery QR decoding use the existing pipeline. Live camera scan confirmed by the user; a lookalike GCash link produced Scam. Gallery decoding retest pending. |
+| T15 | Evaluation script                                | Data and ML | **Done:** prints precision, recall, false-alarm rate and laptop latency on the frozen `data/test_v2` set (the original `data/test` was never created). Results: [evaluation report](data/results/2026-10-09_test_v2.md); frozen hash and leakage checks pass. |
+| T16 | Demo build without the INTERNET permission       | Mobile      | **Done:** standalone release APK rebuilt with bundled models; APK permission inspection confirms INTERNET and ACCESS_NETWORK_STATE are absent. `app.json` preserves these exclusions on prebuild. Shared OCR and camera QR exercised on the phone. |
+| T17 | Practice mode (only if everything above is done) | Mobile      | Deferred: optional quiz stays out of the build while manual gallery QR verification is pending. |
 
 **3:00 AM: feature freeze.** Only fixes after this.
 

@@ -51,17 +51,22 @@ TODO: add the architecture diagram.
 
 - React Native, Expo, TypeScript, Expo Router
 - Prettier, ESLint, eslint-config-expo
-- llama.rn (llama.cpp for React Native)
-- ML Kit text recognition and barcode scanning (bundled models) through TODO: module names
-- expo-share-intent (or expo-sharing)
-- scikit-learn (training only), Jest
+- llama.rn 0.12.9 (llama.cpp for React Native), with its Expo config plugin
+- expo-file-system (locates the model file in the app's files folder)
+- ML Kit text recognition 16.0.1 (bundled Latin model) through the local `modules/oopsscam-vision` Expo module
+- expo-camera (bundled ML Kit barcode scanning, camera and gallery QR decoding)
+- Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
+- expo-share-intent (Android share menu, text and images)
+- expo-clipboard (Paste button; reads the clipboard only when tapped)
+- scikit-learn, pandas, NumPy, SciPy (training on a laptop only; not in the app)
+- Jest with jest-expo (unit tests)
 - TODO: anything else added during the build
 
 **Datasets** (full details and licenses in `data/sources.md`)
 
-- PH Spam + Marketing SMS (Scott Lee Chua), CC BY 4.0, credited
-- UCI SMS Spam Collection, CC BY 4.0, credited
-- Team-written Taglish messages
+- PH Spam + Marketing SMS (Scott Lee Chua), CC BY 4.0, credited (used only if downloaded into `data/raw/ph_spam/`; the current `assets/classifier.json` was trained without it)
+- UCI SMS Spam Collection (Almeida & Hidalgo), CC BY 4.0, credited
+- Team-written Taglish messages (`data/train/team_written.csv`, fictional, AI-assisted)
 - TODO: any others, with confirmed licenses
 
 **APIs and cloud services:** none used by the app. TODO: confirm.
@@ -70,32 +75,42 @@ TODO: add the architecture diagram.
 
 **AI development tools:** TODO: list the tools used (for example Devin, Claude, others) and what they were used for.
 
+- Claude Code (Anthropic): wrote the rules engine, link checks, scoring and fusion (`src/core`), the classifier scorer (`src/ml`), the LLM wrapper (`src/llm`), the training scripts (`training/`), their unit tests, and the synthetic training messages in `data/train/team_written.csv`.
+- Codex (OpenAI): implemented the phase 3 screenshot and QR input screens, the bundled OCR Expo module, image cleanup, and native integration.
+- Evaluation and training data: part of the evaluation data (dev, test_v2, adversarial and LLM check sets, scam-pattern examples and brand-domain checks) was generated with an AI tool (Claude Code) and reviewed by the team. Details and counts: `data/sources.md`.
+
 ## Build and install
 
 Requirements: Node.js, Java, Android Studio with the Android SDK and NDK, a phone with USB debugging on. Expo Go does **not** work; this app needs a development build.
 
 ```
+git lfs pull
 npm install
 npx expo prebuild --platform android
 npx expo run:android
 ```
 
-TODO: confirm these commands on a clean machine, then add:
+The Android prebuild hook packages `models/Qwen_Qwen3-0.6B-Q4_K_M.gguf` in the APK. It rejects Git LFS pointer files; run `git lfs pull` before prebuild. The app copies the bundled model to its private files folder on first launch. Screenshots and QR images use bundled ML Kit models and do not download models at runtime.
 
-- how to copy the model file onto the phone (exact `adb` command and path)
-- how to build the release APK, and where to download it (release link)
-- how to build the demo variant without the INTERNET permission
+Without the model file the app still works and shows template explanations ("Templates only" in the status strip).
+
+The Windows SDK/Java setup and standalone release-build command are in [the build handoff](handoff/oopsscam-handoff-2026-10-10-build.md). `app.json` blocks INTERNET, ACCESS_NETWORK_STATE and RECORD_AUDIO on every prebuild. Debug builds need Metro; use `android/app/build/outputs/apk/release/app-release.apk` for offline testing and distribution. Fresh-clone verification remains pending.
 
 ## Evaluation
 
-Run: TODO exact command.
+Run (Node 22.15+ or 24, from the repo root; results go to `data/results/`):
 
-The test set (`data/test`) has TODO messages (about half scam, half legitimate, including hard cases such as genuine OTP texts). It was written and frozen before any tuning. It is small and partly team-written, so these numbers are a smoke check, not a benchmark.
+```
+node --import ./scripts/ts-hooks.mjs scripts/evaluate.ts test_v2
+python scripts/check_leakage.py
+```
+
+The frozen test set is `data/test_v2/test_v2.csv`: 81 messages (41 scam, 40 legitimate). Its hash is recorded in `data/test_v2.FROZEN.md`; the original `data/test` directory was never created. Results and laptop-only latency measurements are saved in [the evaluation report](data/results/2026-10-09_test_v2.md). This small, AI-written set is a smoke check, not a benchmark.
 
 | Metric                              | Result (measured) |
 | ----------------------------------- | ----------------- |
-| Scams flagged (recall)              | TODO              |
-| Legitimate messages wrongly flagged | TODO              |
+| Scams flagged (recall)              | 97.6%             |
+| Legitimate messages wrongly flagged | 7.5%              |
 | Verdict time (demo phone)           | TODO              |
 | Explanation time (demo phone)       | TODO              |
 

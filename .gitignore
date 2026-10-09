@@ -41,3 +41,10 @@ example
 # generated native folders
 /ios
 /android
+/modules/*/android/build/
+/modules/*/android/.gradle/
+
+# training (public datasets are downloaded locally, never committed)
+data/raw/
+training/.venv/
+__pycache__/

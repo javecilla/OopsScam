@@ -2,6 +2,8 @@
 
 Standing instructions for any AI coding tool (Devin, Cursor, Claude, Copilot, ChatGPT, Gemini) and teammate working in this repo.
 
+For software tasks, first consult `.agents/skills/sdlc-router/SKILL.md` to select available skills by task and scope; briefly state the selection and use normal Codex capabilities when no skill fits.
+
 **Project:** OopsScam (repo folder: OopsScam). An Android app, built with React Native and Expo in TypeScript, that checks suspicious texts, links, screenshots, and QR codes **entirely on the phone** and explains the result in Taglish.
 **Event:** AppBuildersPH Hackathon 2026, theme Local AI. Submission deadline **10:00 AM, Oct 10, 2026** (aim to submit by 9:15 AM). One submission only, no edits.
 **Status:** Boilerplate shell is implemented (Expo Router Stack, UI primitives, theme, config, strict TypeScript, lint, format). Core detection rules, ML classifier, OCR/QR, and local LLM modules are up next.

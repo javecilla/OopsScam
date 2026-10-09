@@ -3,7 +3,10 @@ export const colors = {
   text: '#1A1A1A',
   primary: '#1E5EFF',
   border: '#D0D5DD',
-  // Verdict colors, used later by the Result screen.
+  muted: '#5F6B7A',
+  surface: '#F4F6F8',
+  highlight: '#FFE08A',
+  // Verdict colors, used by the Result screen.
   scam: '#C62828',
   suspicious: '#B26A00',
   lowRisk: '#2E7D32',
@@ -19,4 +22,6 @@ export const spacing = {
 export const fontSize = {
   // SRS 4.1 minimum body size.
   body: 16,
+  small: 13,
+  verdict: 40,
 } as const;
