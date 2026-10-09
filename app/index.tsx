@@ -193,6 +193,12 @@ export default function HomeScreen() {
           onPress={() => router.push('/qr')}
           testID="open-qr"
         />
+        <Button
+          title="Tingnan ang Scan History"
+          variant="secondary"
+          onPress={() => router.push('/history' as any)}
+          testID="open-history"
+        />
 
         {autoCheckAvailable ? (
           <View style={styles.toggleRow}>

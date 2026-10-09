@@ -7,7 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "oopsscam",
     "userInterfaceStyle": "automatic",
-    "platforms": ["android"],
+    "platforms": [
+      "android"
+    ],
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -35,14 +37,23 @@
       ],
       "llama.rn",
       "./plugins/with-bundled-model.cjs",
-      ["expo-camera", { "recordAudioAndroid": false }],
+      [
+        "expo-camera",
+        {
+          "recordAudioAndroid": false
+        }
+      ],
       [
         "expo-share-intent",
         {
-          "androidIntentFilters": ["text/*", "image/*"],
+          "androidIntentFilters": [
+            "text/*",
+            "image/*"
+          ],
           "disableIOS": true
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,

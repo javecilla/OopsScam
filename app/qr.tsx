@@ -26,6 +26,7 @@ export default function QrScreen() {
       params: {
         text: data.slice(0, MAX_INPUT_CHARS),
         truncated: data.length > MAX_INPUT_CHARS ? '1' : '0',
+        inputType: 'qr',
       },
     });
   };

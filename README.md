@@ -70,6 +70,7 @@ The optional SMS auto-check (`modules/sms-watch`) adds only `RECEIVE_SMS` (new i
 - expo-share-intent (Android share menu, text and images)
 - Local `modules/sms-watch` Expo module for the optional SMS auto-check: an Android SMS receiver, a React Native Headless JS task and native AndroidX notifications (no expo-notifications or Firebase; no new npm dependencies)
 - expo-clipboard (Paste button; reads the clipboard only when tapped)
+- expo-sqlite (on-device SQLite database for local scan history)
 - scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
 - PyTorch, Transformers, PEFT, Safetensors, Hugging Face Hub, psutil and Requests (`training/qwen/requirements.txt`): approved laptop-only Qwen fine-tuning tooling. Training and validation are in progress; these packages are not app dependencies.
 - llama.cpp build b11429, commit `d81235049384534c167caea52b85a694f6103d14`: laptop-only GGUF conversion, quantization and offline evaluation tools. Conversion dependencies are declared in `training/qwen/conversion-requirements.txt` and installed separately from training.
