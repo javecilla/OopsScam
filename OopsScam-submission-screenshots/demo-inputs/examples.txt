@@ -1,0 +1,14 @@
+﻿Fictional examples for submission screenshots. Do not open the example links.
+
+Text scam:
+GCash: Your wallet will be suspended in 1 hour. Verify your account at https://gcash-login-verify.example and send your OTP to avoid losing access.
+
+Low-risk text:
+Ma, nasa bahay na ako. May dala akong pandesal. Kita tayo mamaya.
+
+Email phishing:
+From: alerts@bdo-account-verify.example
+Subject: Urgent account verification
+Dear customer, your account will be suspended today. Verify your password at https://bdo-account-verify.example/login immediately.
+
+Image inputs are existing fictional repository fixtures, not actual user messages.

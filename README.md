@@ -6,6 +6,10 @@ Built for the AppBuildersPH Hackathon 2026 (theme: Local AI).
 
 > Status at submission: built — text and link checking (rules, ML classifier, local LLM explanation), email checking (email classifier and sender-address check), share menu, paste, screenshot checking (on-device OCR) and QR checking. The release APK bundles the model and has no internet permission. Items marked TODO are for the team to fill in.
 
+## Demo
+
+[Watch the OopsScam demo on LinkedIn](https://lnkd.in/p/gkDnqnwz).
+
 ## The problem
 
 Araw-araw nakakatanggap tayo ng pekeng GCash o bank alert, SMS phishing, at mga humihingi ng OTP. Marami ang nasscam dahil mukhang totoo ang mga mensaheng ito. A cloud scam checker would need you to upload the very OTP or account details you are trying to protect, and it needs data or signal.
@@ -23,7 +27,13 @@ Scam messages contain OTPs, account numbers and personal details, so uploading t
 - Optional SMS auto-check (stretch, **off by default**): when you turn on "Auto-check new texts", each new incoming text is checked in the background with the rules and classifier only (no LLM). A notification appears only for Suspicious or Scam, and the lock screen shows only "OopsScam: possible scam text". Tapping it opens the full result with the Taglish explanation. Texts are checked in memory and never stored; the inbox is never read.
 - Paste an email, with or without its From and Subject lines: it is scored by a separate email classifier, and a sender address that imitates a brand (for example `alerts@bdo-secure-login.example`) is flagged.
 
-TODO: add 3 screenshots.
+## Screenshots
+
+| Home | Scam result | Low risk result |
+| --- | --- | --- |
+| <img src="OopsScam-submission-screenshots/01-home.png" alt="OopsScam home screen" width="240"> | <img src="OopsScam-submission-screenshots/04-scam-result.png" alt="Scam verdict and explanation" width="240"> | <img src="OopsScam-submission-screenshots/05-low-risk-result.png" alt="Low risk verdict and explanation" width="240"> |
+
+More screenshots: [scan history](OopsScam-submission-screenshots/02-scan-history.png), [QR scanner](OopsScam-submission-screenshots/03-qr-scanner.png), [email phishing result](OopsScam-submission-screenshots/06-email-phishing-result.png), and [screenshot OCR review](OopsScam-submission-screenshots/07-screenshot-ocr-review.png).
 
 ## How it works
 
