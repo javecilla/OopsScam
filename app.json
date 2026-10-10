@@ -4,14 +4,14 @@
     "slug": "oopsscam",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/oopsscam-logo-LIGHT NO BG.png",
+    "icon": "./assets/images/oopsscam-icon-square.png",
     "scheme": "oopsscam",
     "userInterfaceStyle": "light",
     "platforms": ["android"],
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
-        "foregroundImage": "./assets/images/oopsscam-logo-LIGHT NO BG.png"
+        "foregroundImage": "./assets/images/oopsscam-icon-square.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.oopsscam.app",
