@@ -4,6 +4,7 @@ import { MAX_EXPLANATION_CHARS } from '../core/templates';
 import type { LlmOpinion, Verdict } from '../core/types';
 
 const VERDICTS: readonly Verdict[] = ['scam', 'suspicious', 'low_risk'];
+const PROMPT_ECHO_RE = /\b1\s*[-\u2013\u2014]\s*2\s+short\s+taglish\b/i;
 
 // FR-LM-06 / AGENTS rule 4: never display text that calls the message safe.
 export const SAFE_WORDING_RE = /\bsafe\b|ligtas/i;
@@ -41,6 +42,7 @@ export function parseLlmOutput(raw: string): LlmOpinion | null {
   const explanationTl = cleanText(obj.explanation_tl);
   const actionTl = cleanText(obj.action_tl);
   if (!explanationTl || !actionTl) return null;
+  if (PROMPT_ECHO_RE.test(explanationTl) || PROMPT_ECHO_RE.test(actionTl)) return null;
   if (SAFE_WORDING_RE.test(explanationTl) || SAFE_WORDING_RE.test(actionTl)) return null;
 
   return { verdict: verdict as Verdict, confidence, explanationTl, actionTl };
