@@ -7,6 +7,8 @@ import { clearSessions, getSession } from '../session';
 import { runAnalysis } from '../pipeline';
 import { analyze } from '../core/analyze';
 import { Button } from '../components/Button';
+import { useCameraPermissions } from 'expo-camera';
+import { decodeQrImage, deleteTemporaryImage, pickImage } from '../vision/images';
 
 jest.mock('expo-router', () => ({ useRouter: jest.fn() }));
 jest.mock('../useReadiness', () => ({
@@ -15,7 +17,7 @@ jest.mock('../useReadiness', () => ({
 }));
 jest.mock('expo-camera', () => ({
   CameraView: 'CameraView',
-  useCameraPermissions: () => [{ granted: true, canAskAgain: true }, jest.fn()],
+  useCameraPermissions: jest.fn(),
 }));
 jest.mock('../components/Screen', () => ({ Screen: 'Screen' }));
 jest.mock('../pipeline', () => ({ runAnalysis: jest.fn(), runReadyExplanation: jest.fn() }));
@@ -26,6 +28,7 @@ jest.mock('../vision/images', () => ({
 }));
 
 const push = jest.fn();
+const requestPermission = jest.fn<() => Promise<never>>();
 // React Native's renderer initialization can contend with the concurrent native build.
 jest.setTimeout(30000);
 let screen: ReactTestRenderer;
@@ -34,6 +37,13 @@ beforeEach(() => {
   clearSessions();
   jest.clearAllMocks();
   jest.mocked(useAppActive).mockReturnValue(true);
+  jest
+    .mocked(useCameraPermissions)
+    .mockReturnValue([
+      { granted: true, canAskAgain: true },
+      requestPermission,
+      jest.fn(),
+    ] as unknown as ReturnType<typeof useCameraPermissions>);
   jest
     .mocked(useRouter)
     .mockReturnValue({ push, dismissTo: jest.fn() } as unknown as ReturnType<typeof useRouter>);
@@ -80,4 +90,71 @@ test('camera is absent while its screen is unfocused or backgrounded', async () 
     screen = create(<QrScreen />);
   });
   expect(screen.root.findAllByProps({ testID: 'qr-camera' })).toHaveLength(0);
+});
+
+test('image decoding failure clears loading, deletes the copy, and allows a retry', async () => {
+  jest
+    .mocked(useCameraPermissions)
+    .mockReturnValue([
+      { granted: false, canAskAgain: true },
+      requestPermission,
+      jest.fn(),
+    ] as unknown as ReturnType<typeof useCameraPermissions>);
+  jest.mocked(pickImage).mockResolvedValue('file:///app/cache/qr.image');
+  let rejectDecode!: (error: Error) => void;
+  jest.mocked(decodeQrImage).mockReturnValue(
+    new Promise((_, reject) => {
+      rejectDecode = reject;
+    }),
+  );
+  await act(() => {
+    screen = create(<QrScreen />);
+  });
+  const button = (id: string) =>
+    screen.root.findAllByType(Button).find((item) => item.props.testID === id)!;
+  let picking!: Promise<void>;
+  await act(async () => {
+    picking = button('qr-pick-image').props.onPress();
+  });
+  expect(button('qr-pick-image').props.busy).toBe(true);
+  expect(button('qr-enable-camera').props.busy).toBe(false);
+  expect(button('qr-enable-camera').props.disabled).toBe(true);
+  await act(async () => {
+    rejectDecode(new Error('Image processing took too long.'));
+    await picking;
+  });
+  expect(button('qr-pick-image').props.busy).toBe(false);
+  expect(deleteTemporaryImage).toHaveBeenCalledWith('file:///app/cache/qr.image');
+  jest.mocked(decodeQrImage).mockResolvedValue('https://example.com/check');
+  await act(async () => {
+    await button('qr-pick-image').props.onPress();
+  });
+  expect(screen.root.findAllByProps({ testID: 'qr-preview' }).length).toBeGreaterThan(0);
+});
+
+test('a missing permission callback times out and unlocks image selection', async () => {
+  jest.useFakeTimers();
+  requestPermission.mockReturnValue(new Promise(() => {}));
+  jest
+    .mocked(useCameraPermissions)
+    .mockReturnValue([
+      { granted: false, canAskAgain: true },
+      requestPermission,
+      jest.fn(),
+    ] as unknown as ReturnType<typeof useCameraPermissions>);
+  await act(() => {
+    screen = create(<QrScreen />);
+  });
+  const button = (id: string) =>
+    screen.root.findAllByType(Button).find((item) => item.props.testID === id)!;
+  await act(() => {
+    button('qr-enable-camera').props.onPress();
+  });
+  expect(button('qr-enable-camera').props.busy).toBe(true);
+  expect(button('qr-pick-image').props.busy).toBe(false);
+  await act(async () => {
+    await jest.advanceTimersByTimeAsync(30000);
+  });
+  expect(button('qr-enable-camera').props.busy).toBe(false);
+  expect(button('qr-pick-image').props.disabled).toBe(false);
 });

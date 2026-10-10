@@ -88,10 +88,22 @@ Input (Text / Link / Screenshot / QR / Email)
 - **Storage:** `expo-sqlite` (local SQLite database).
 - **Native Integration:** `expo-share-intent`, `expo-clipboard`, custom local module `modules/sms-watch` (Kotlin SMS receiver, Headless JS task, AndroidX notifications).
 
-### Models
-- **Qwen3 0.6B** by the Qwen team (Alibaba Cloud), Apache 2.0 (`bartowski/Qwen_Qwen3-0.6B-GGUF`). Shipped quantized GGUF model bundled in the APK.
-- **SMS Fraud Classifier** (`assets/classifier.json`), trained by us on public Philippine SMS datasets.
-- **Email Fraud Classifier** (`assets/classifier_email.json`), trained by us on public and generated email corpora (CC BY-SA 4.0).
+- React Native, Expo, TypeScript, Expo Router
+- Prettier, ESLint, eslint-config-expo
+- llama.rn 0.12.9 (llama.cpp for React Native), with its Expo config plugin
+- expo-file-system (locates the model file in the app's files folder)
+- ML Kit text recognition 16.0.1 (bundled Latin model) through the local `modules/oopsscam-vision` Expo module
+- expo-camera (live QR camera scanning); ML Kit barcode scanning 17.3.0 (bundled model) through `modules/oopsscam-vision` for QR images
+- Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
+- expo-share-intent (Android share menu, text and images)
+- Local `modules/sms-watch` Expo module for the optional SMS auto-check: an Android SMS receiver, a React Native Headless JS task and native AndroidX notifications (no expo-notifications or Firebase; no new npm dependencies)
+- expo-clipboard (Paste button; reads the clipboard only when tapped)
+- expo-sqlite (on-device SQLite database for local scan history)
+- scikit-learn, pandas, NumPy, SciPy, openpyxl (training on a laptop only; not in the app)
+- PyTorch, Transformers, PEFT, Safetensors, Hugging Face Hub, psutil and Requests (`training/qwen/requirements.txt`): approved laptop-only Qwen fine-tuning tooling. Training and validation are in progress; these packages are not app dependencies.
+- llama.cpp build b11429, commit `d81235049384534c167caea52b85a694f6103d14`: laptop-only GGUF conversion, quantization and offline evaluation tools. Conversion dependencies are declared in `training/qwen/conversion-requirements.txt` and installed separately from training.
+- Pillow and qrcode (laptop scripts that generate test images; not in the app)
+- Jest with jest-expo (unit tests)
 
 ### Datasets (Full details in `data/sources.md`)
 - **PH Spam + Marketing SMS** (Scott Lee Chua, Kaggle), CC BY 4.0
