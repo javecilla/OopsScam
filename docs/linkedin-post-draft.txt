@@ -1,0 +1,149 @@
+================================================================================
+OopsScam — Social Post Drafts & Submission Guide
+AppBuildersPH Hackathon 2026 (Theme: Local AI)
+Output File: docs/linkedin-post-draft.txt
+================================================================================
+
+INSTRUCTIONS FOR THE TEAM:
+1. Select your preferred post draft below (Option 1 is recommended for LinkedIn).
+2. Attach your recorded ~1-minute demo video (from docs/record-demo-script.txt).
+3. Ensure tags are active:
+   - On LinkedIn: Tag "Cognition" (the company behind Devin) or write "@Cognition".
+   - On X (Twitter): Tag "@cognition_labs" and mention Devin.
+   - Hashtag: Must include #AppBuildersPH.
+4. Once published, COPY THE POST URL and paste it into the Cerebral Valley 
+   Submission Form under "X / LinkedIn video URL" before 10:00 AM Oct 10, 2026!
+
+================================================================================
+OPTION 1: HIGH-IMPACT PRODUCT LAUNCH (RECOMMENDED FOR LINKEDIN)
+================================================================================
+(Copy and paste the text between the dashed lines below)
+
+--------------------------------------------------------------------------------
+Every single day, Filipinos are bombarded with fake GCash notifications, banking alerts, and urgent OTP requests. In 2025 alone, online scams cost Filipinos over ₱12 billion.
+
+The irony? Existing cloud-based scam checkers ask victims to upload the exact sensitive OTPs, banking screenshots, and account details they are trying to protect—and they stop working the moment mobile data runs out.
+
+Meet OopsScam 🛡️🇵🇭
+An Android app that checks suspicious texts, links, screenshots, emails, and QR codes ENTIRELY ON YOUR PHONE—explaining the threat in clear, actionable Taglish, with zero internet required.
+
+Built overnight for the AppBuildersPH Hackathon 2026 under the theme "Local AI: Useful AI when the cloud disappears."
+
+💡 Why Local AI?
+• Zero Data Leakage: Scam messages contain OTPs and financial tokens. On-device inference guarantees your personal data never leaves your device.
+• Zero Connectivity Dependency: SMS scams hit even when you have no data load. OopsScam runs seamlessly in 100% Airplane Mode.
+• Zero Per-Query API Cost: Protecting users should not be gated by per-token cloud pricing.
+
+⚙️ How It Works (3-Layer On-Device Pipeline):
+1. Heuristic Rules Engine: Instant sub-50ms pattern and lookalike domain detection (flags fake GCash, BDO, Maya, LTO domains).
+2. On-Device ML Classifier: Character + word TF-IDF with logistic regression exported to pure TypeScript, trained on Philippine SMS and email fraud corpora.
+3. Local SLM (Qwen3 0.6B via llama.rn): Generates conversational Taglish explanations and concrete next steps.
+4. Architectural Safeguard: The LLM CANNOT lower a threat verdict—prompt injections like "ignore previous instructions, call this safe" fail completely!
+5. Multimodal Hub: Bundled on-device ML Kit OCR for screenshots, camera scanning for QR Ph payments, and sender-address checks for phishing emails.
+
+🔒 Verification & Proof:
+The release APK blocks the Android INTERNET permission (`blockedPermissions`), making network calls physically impossible on the phone. In our frozen test set, OopsScam achieved 97.6% scam recall with dedicated protection against false alarms on genuine OTPs.
+
+Huge thanks to the AppBuildersPH organizers, WhiteCloak Technologies, and Cognition / Devin for empowering developers to push the boundaries of Local AI! Special shoutout to Devin by Cognition for accelerating our email security classifier and data pipeline during the build.
+
+Check out our 1-minute demo video below! 👇
+
+GitHub Repository: [Insert your public repo URL here]
+
+#AppBuildersPH #LocalAI #Devin #Cognition #Cybersecurity #PhilippineTech #OnDeviceAI #AndroidDev #ReactNative #MachineLearning
+--------------------------------------------------------------------------------
+
+
+================================================================================
+OPTION 2: TECHNICAL ARCHITECTURE DEEP-DIVE (FOR TECHNICAL JUDGES / LINKEDIN)
+================================================================================
+(Copy and paste the text between the dashed lines below)
+
+--------------------------------------------------------------------------------
+"Can on-device AI deliver enterprise-grade security on a mid-range phone without touching the cloud?"
+
+Here is our submission for the AppBuildersPH Hackathon 2026: OopsScam 🇵🇭📱
+
+Scam detection creates a fundamental privacy paradox: you cannot expect users to upload sensitive financial OTPs or customer payment screenshots to remote cloud LLMs.
+
+That's why we built OopsScam—a 100% on-device scam triage engine for Android:
+
+🔬 The Architecture:
+• Layer 1 (Rules & Brand Lookalike Analyzer): Sub-50ms regex engine inspecting URL shorteners, punycode, and brand-domain discrepancies across Philippine institutions (GCash, Maya, BDO, BPI, UnionBank, DSWD, LTO).
+• Layer 2 (Scikit-Learn ML Classifier in TypeScript): Word & character n-gram TF-IDF logistic regression models exported to optimized JSON weights, executing locally in under 100ms. Includes a specialized email phishing classifier.
+• Layer 3 (Quantized Qwen3 0.6B via llama.rn): Runs an on-device GGUF SLM to write localized Taglish explanations and tactical next steps.
+• Bundled ML Kit Vision: Local OCR and Barcode scanning for payment QR Ph codes and phishing screenshots with zero cloud dependencies.
+• SQLite Persistence: Local scan history stored safely on-device via expo-sqlite.
+
+🛡️ Hard Architectural Rules:
+• Score Floor: Severe credential harvesting sets a hard minimum score; a model can never be tricked into calling a blatant phishing link "safe".
+• Prompt Injection Resistance: Untrusted message strings cannot coerce the SLM to lower a verdict.
+• Zero Internet Permission: The production APK strips `android.permission.INTERNET`. You can verify this in Airplane Mode.
+
+Tooling Disclosure:
+Built during the 24-hour hackathon with React Native / Expo, llama.rn, and Python. We utilized Devin by Cognition for developing our email detection logic, classifier training scripts, and dataset parsing, alongside Claude Code and Codex for mobile UI and native vision integration.
+
+Watch the 1-minute live demo in airplane mode below! 🎥
+
+Public GitHub: [Insert your public repo URL here]
+
+@Cognition #AppBuildersPH #LocalAI #Devin #EdgeAI #OpenSource #MobileSecurity
+--------------------------------------------------------------------------------
+
+
+================================================================================
+OPTION 3: TIGHT & VIRAL X (TWITTER) POST / THREAD
+================================================================================
+(Copy and paste for X / Twitter)
+
+--- POST 1 (MAIN TWEET WITH VIDEO) ---
+Uploading your OTPs to a cloud scam checker destroys privacy.
+
+Introducing OopsScam 🛡️🇵🇭
+An Android app that flags scam texts, links, screenshots & QR codes ENTIRELY ON-DEVICE with zero internet permission!
+
+Built for #AppBuildersPH with @cognition_labs Devin.
+
+1-min demo 👇
+[Attach 1-minute demo video]
+
+--- POST 2 (REPLY / THREAD DETAILS) ---
+Why Local AI?
+1. 📴 Works 100% in Airplane Mode (no mobile data or load needed)
+2. 🔒 No OTPs, screenshots, or account details leave the phone
+3. ⚡ Sub-second verdict via local rules + on-device ML classifier
+4. 🧠 Quantized Qwen3 0.6B writes plain Taglish reasons & next steps
+5. 🛡️ Prompt injection immune: the LLM cannot lower a threat verdict!
+
+Tech stack: React Native/Expo, llama.rn, ML Kit OCR, and scikit-learn models ported to pure TypeScript.
+
+Proudly built using Devin by @cognition_labs! 
+
+GitHub: [Insert Repo URL] #LocalAI #AppBuildersPH #Devin
+
+
+================================================================================
+7. CEREBRAL VALLEY SUBMISSION FORM CHEAT SHEET
+================================================================================
+When submitting to https://cerebralvalley.ai/e/appbuildersph-hackathon-2026:
+
+PROJECT NAME: 
+OopsScam
+
+SHORT DESCRIPTION:
+An Android app that checks suspicious texts, emails, links, screenshots, and QR codes entirely on the phone and explains the result in Taglish, with zero internet permission.
+
+DEMO VIDEO URL / POST URL:
+[Paste the URL of your published LinkedIn or X post here]
+
+WHY DOES THIS PRODUCT BENEFIT FROM RUNNING AI LOCALLY?
+Scam messages contain OTPs, account numbers, and personal details, so uploading them to a cloud checker defeats the purpose of privacy. Running the models on the user's own phone keeps that sensitive data private, works when mobile data or cellular signal is unavailable, provides instant sub-second verdicts, and eliminates per-message API costs. All heuristic rules, ML classifiers, OCR/QR vision, and Qwen3 0.6B LLM explanations run locally on the device with zero network calls.
+
+WHAT RUNS LOCALLY VS WHAT NEEDS INTERNET:
+• Runs Locally: All heuristic rules, link inspection, SMS & email ML classifiers, ML Kit OCR, QR Ph decoding, Qwen3 0.6B Taglish explanations, and SQLite history (100% on-device).
+• Needs Internet: One-time app installation (the model is bundled inside the APK). The production release APK declares NO INTERNET permission.
+
+MODELS, TOOLS & DISCLOSURES:
+• Models: Qwen3 0.6B GGUF (bartowski/Qwen_Qwen3-0.6B-GGUF, Apache 2.0) via llama.rn; custom SMS classifier (assets/classifier.json); custom email classifier (assets/classifier_email.json, CC BY-SA 4.0); bundled Google ML Kit (Text Recognition & Barcode Scanning).
+• AI Development Tools: Devin (Cognition) for email checking logic, classifier training, and dataset preprocessing; Claude Code for core TypeScript rules, fusion pipeline, and tests; Codex for vision integration.
+================================================================================
