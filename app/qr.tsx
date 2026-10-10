@@ -36,7 +36,7 @@ export default function QrScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [previewId, setPreviewId] = useState<string | undefined>();
   const [cameraFailed, setCameraFailed] = useState(false);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<'permission' | 'image' | null>(null);
   const [payment, setPayment] = useState<PaymentQr | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const session = useSession(previewId);
@@ -89,9 +89,18 @@ export default function QrScreen() {
   const enableCamera = async () => {
     if (lock.current) return;
     lock.current = true;
-    setBusy(true);
+    setBusy('permission');
+    let timer: ReturnType<typeof setTimeout> | undefined;
     try {
-      const response = await requestPermission();
+      const response = await Promise.race([
+        requestPermission(),
+        new Promise<never>((_, reject) => {
+          timer = setTimeout(
+            () => reject(new Error('Camera permission request timed out.')),
+            30000,
+          );
+        }),
+      ]);
       if (!alive.current) return;
       setCameraFailed(false);
       if (!response.granted)
@@ -100,15 +109,16 @@ export default function QrScreen() {
       if (alive.current)
         setNotice('Unable to open camera. Please choose a QR image or paste text in Home.');
     } finally {
+      if (timer) clearTimeout(timer);
       if (!decoded.current) lock.current = false;
-      if (alive.current) setBusy(false);
+      if (alive.current) setBusy(null);
     }
   };
 
   const pickQr = async () => {
     if (lock.current) return;
     lock.current = true;
-    setBusy(true);
+    setBusy('image');
     setNotice(null);
     try {
       const uri = await pickImage();
@@ -120,12 +130,16 @@ export default function QrScreen() {
         deleteTemporaryImage(uri);
       }
       if (alive.current) preview(data);
-    } catch {
+    } catch (error) {
       if (alive.current)
-        setNotice('Could not read QR code. Please choose an image with a single, clear QR code.');
+        setNotice(
+          error instanceof Error
+            ? error.message
+            : 'Could not read QR code. Please choose an image with a single, clear QR code.',
+        );
     } finally {
       if (!decoded.current) lock.current = false;
-      if (alive.current) setBusy(false);
+      if (alive.current) setBusy(null);
     }
   };
 
@@ -161,9 +175,7 @@ export default function QrScreen() {
             <Text role="label" style={styles.heading}>
               Payment Recipient:
             </Text>
-            <Text style={styles.receiver}>
-              {payment.merchantName ?? 'No name specified'}
-            </Text>
+            <Text style={styles.receiver}>{payment.merchantName ?? 'No name specified'}</Text>
             {payment.city ? <Text style={styles.city}>{payment.city}</Text> : null}
             {amount ? (
               <Text style={styles.receiver}>
@@ -173,17 +185,15 @@ export default function QrScreen() {
             ) : null}
           </View>
           <Text style={styles.warningText}>
-            OopsScam cannot verify if this recipient is legitimate. Make sure the name matches the business or person you intend to pay before sending money. Never send money to a QR code sent by an unknown contact.
+            OopsScam cannot verify if this recipient is legitimate. Make sure the name matches the
+            business or person you intend to pay before sending money. Never send money to a QR code
+            sent by an unknown contact.
           </Text>
           {payment.networkId ? (
             <Text style={styles.muted}>Network ID: {payment.networkId}</Text>
           ) : null}
           <Button title="Scan Again" onPress={scanAgain} testID="qr-scan-again" />
-          <Button
-            title="Back to Home"
-            variant="secondary"
-            onPress={() => router.dismissTo('/')}
-          />
+          <Button title="Back to Home" variant="secondary" onPress={() => router.dismissTo('/')} />
           <StatusStrip llmLabel={labels.llmLabel} classifierLabel={labels.classifierLabel} />
         </ScrollView>
       </Screen>
@@ -271,11 +281,7 @@ export default function QrScreen() {
                   Camera access is only needed for live scanning. Not required for QR images.
                 </Text>
                 <Button
-                  title={
-                    permission && !permission.canAskAgain
-                      ? 'Open Settings'
-                      : 'Allow Camera'
-                  }
+                  title={permission && !permission.canAskAgain ? 'Open Settings' : 'Allow Camera'}
                   onPress={() => {
                     if (permission && !permission.canAskAgain)
                       void Linking.openSettings().catch(() =>
@@ -284,7 +290,8 @@ export default function QrScreen() {
                     else void enableCamera();
                   }}
                   testID="qr-enable-camera"
-                  busy={busy}
+                  busy={busy === 'permission'}
+                  disabled={busy === 'image'}
                 />
               </>
             )}
@@ -293,7 +300,8 @@ export default function QrScreen() {
               variant="secondary"
               onPress={pickQr}
               testID="qr-pick-image"
-              busy={busy}
+              busy={busy === 'image'}
+              disabled={busy === 'permission'}
             />
           </>
         )}

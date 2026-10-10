@@ -67,7 +67,7 @@ The optional SMS auto-check (`modules/sms-watch`) adds only `RECEIVE_SMS` (new i
 - llama.rn 0.12.9 (llama.cpp for React Native), with its Expo config plugin
 - expo-file-system (locates the model file in the app's files folder)
 - ML Kit text recognition 16.0.1 (bundled Latin model) through the local `modules/oopsscam-vision` Expo module
-- expo-camera (bundled ML Kit barcode scanning, camera and gallery QR decoding)
+- expo-camera (live QR camera scanning); ML Kit barcode scanning 17.3.0 (bundled model) through `modules/oopsscam-vision` for QR images
 - Android document picker through `modules/oopsscam-vision` (no broad gallery permissions; temporary app-cache copies are deleted after decoding)
 - expo-share-intent (Android share menu, text and images)
 - Local `modules/sms-watch` Expo module for the optional SMS auto-check: an Android SMS receiver, a React Native Headless JS task and native AndroidX notifications (no expo-notifications or Firebase; no new npm dependencies)

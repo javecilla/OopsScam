@@ -1,13 +1,13 @@
-import { beforeEach, expect, jest, test } from '@jest/globals';
+import { afterEach, beforeEach, expect, jest, test } from '@jest/globals';
 import {
   cleanupAbandonedImages,
   decodeQrImage,
   deleteTemporaryImage,
   recognizeScreenshot,
 } from '../images';
-import { Camera } from 'expo-camera';
+import { requireNativeModule } from 'expo';
 jest.mock('expo', () => ({ requireNativeModule: jest.fn() }));
-jest.mock('expo-camera', () => ({ Camera: { scanFromURLAsync: jest.fn() } }));
+jest.mock('expo-camera', () => ({ Camera: { scanFromURLAsync: jest.fn(async () => []) } }));
 jest.mock('expo-file-system', () => {
   let paths: string[] = [];
   let deleted: string[] = [];
@@ -43,9 +43,15 @@ jest.mock('expo-file-system', () => {
 const fs = jest.requireMock<{ setEntries: (paths: string[]) => void; deleted: () => string[] }>(
   'expo-file-system',
 );
+const decodeQr = jest.fn<() => Promise<string[]>>();
+const recognizeText = jest.fn<() => Promise<string>>();
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.mocked(requireNativeModule).mockReturnValue({ decodeQr, recognizeText });
   fs.setEntries([]);
+});
+afterEach(() => {
+  jest.useRealTimers();
 });
 test('cleanup preserves original images and similarly named cache siblings', () => {
   deleteTemporaryImage('content://photos/original');
@@ -69,6 +75,28 @@ test('vision rejects remote image URIs before reaching native code', async () =>
   expect(() => deleteTemporaryImage('https://example.com/image.png')).toThrow('local image');
 });
 test('ambiguous QR images never become a guessed payload', async () => {
-  jest.mocked(Camera.scanFromURLAsync).mockResolvedValue([]);
+  decodeQr.mockResolvedValue(['https://one.example', 'https://two.example']);
   await expect(decodeQrImage('file:///app/cache/image.png')).rejects.toThrow('isang malinaw');
+});
+test('QR images use the native bundled decoder and preserve the payload', async () => {
+  decodeQr.mockResolvedValue(['https://example.com/check']);
+  await expect(decodeQrImage('content://photos/qr')).resolves.toBe('https://example.com/check');
+  expect(decodeQr).toHaveBeenCalledWith('content://photos/qr');
+});
+test.each([{ codes: [] }, { codes: [''] }])(
+  'unreadable QR results are rejected: $codes',
+  async ({ codes }) => {
+    decodeQr.mockResolvedValue(codes);
+    await expect(decodeQrImage('file:///app/cache/image.png')).rejects.toThrow();
+  },
+);
+test.each(['qr', 'ocr'])('a stuck %s bridge rejects instead of loading forever', async (kind) => {
+  jest.useFakeTimers();
+  decodeQr.mockReturnValue(new Promise(() => {}));
+  recognizeText.mockReturnValue(new Promise(() => {}));
+  const operation = kind === 'qr' ? decodeQrImage : recognizeScreenshot;
+  const assertion = expect(operation('file:///app/cache/image.png')).rejects.toThrow('too long');
+  await jest.advanceTimersByTimeAsync(20000);
+  await assertion;
+  expect(jest.getTimerCount()).toBe(0);
 });

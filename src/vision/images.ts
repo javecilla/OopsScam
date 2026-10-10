@@ -1,10 +1,27 @@
 import { requireNativeModule } from 'expo';
-import { Camera } from 'expo-camera';
 import { Directory, File, Paths } from 'expo-file-system';
 
 interface VisionModule {
   pickImage(): Promise<string | null>;
   recognizeText(imageUri: string): Promise<string>;
+  decodeQr(imageUri: string): Promise<string[]>;
+}
+
+async function withProcessingTimeout<T>(operation: Promise<T>): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      operation,
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(
+          () => reject(new Error('Image processing took too long. Try a smaller, clearer image.')),
+          20000,
+        );
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
 }
 
 function validateImageUri(uri: string): void {
@@ -26,7 +43,7 @@ export async function pickImage(): Promise<string | null> {
 export async function recognizeScreenshot(uri: string): Promise<string> {
   validateImageUri(uri);
   const vision = requireNativeModule<VisionModule>('OopsScamVision');
-  const text = await vision.recognizeText(uri);
+  const text = await withProcessingTimeout(vision.recognizeText(uri));
   if (typeof text !== 'string') {
     throw new TypeError('OCR returned invalid text. Rebuild the native app and try again.');
   }
@@ -41,11 +58,12 @@ export async function recognizeScreenshot(uri: string): Promise<string> {
 /** Decodes QR images locally; ambiguous images must be cropped by the user. */
 export async function decodeQrImage(uri: string): Promise<string> {
   validateImageUri(uri);
-  const codes = await Camera.scanFromURLAsync(uri, ['qr']);
+  const vision = requireNativeModule<VisionModule>('OopsScamVision');
+  const codes = await withProcessingTimeout(vision.decodeQr(uri));
   if (!Array.isArray(codes) || codes.length !== 1) {
     throw new Error('Pumili ng image na may isang malinaw na QR code.');
   }
-  const data = codes[0]?.data;
+  const data = codes[0];
   if (typeof data !== 'string' || !data.trim()) {
     throw new TypeError('Walang laman ang QR code. Pumili ng ibang QR image.');
   }
