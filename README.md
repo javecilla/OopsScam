@@ -1,3 +1,5 @@
+![Logo](https://jerome-avecilla.infinityfreeapp.com/assets/images/oopsscam.jpg)
+
 # OopsScam
 An on-device scam and phishing triage app for Android, explained in Taglish.
 
